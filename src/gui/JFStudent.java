@@ -5,6 +5,11 @@
  */
 package gui;
 
+import java.awt.MouseInfo;
+import java.awt.Point;
+import java.awt.PointerInfo;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author duyet
@@ -37,6 +42,8 @@ public class JFStudent extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JSeparator();
         btnFindPoint = new javax.swing.JButton();
         btnStartEx = new javax.swing.JButton();
+        btnInfSt = new javax.swing.JButton();
+        btnExit = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -47,6 +54,11 @@ public class JFStudent extends javax.swing.JFrame {
         jPanel2.setOpaque(false);
 
         lblAvatar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/user.png"))); // NOI18N
+        lblAvatar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblAvatarMouseClicked(evt);
+            }
+        });
 
         lblNameSt.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         lblNameSt.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -85,15 +97,25 @@ public class JFStudent extends javax.swing.JFrame {
         btnFindPoint.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         btnFindPoint.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/find.png"))); // NOI18N
         btnFindPoint.setText("TRA CỨU ĐIỂM");
+        btnFindPoint.setToolTipText("Tra cứu điểm");
 
         btnStartEx.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         btnStartEx.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/exam.png"))); // NOI18N
         btnStartEx.setText("LÀM BÀI THI");
+        btnStartEx.setToolTipText("Làm bài thi");
         btnStartEx.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnStartExActionPerformed(evt);
             }
         });
+
+        btnInfSt.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        btnInfSt.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/card-identity.png"))); // NOI18N
+        btnInfSt.setText("THÔNG TIN CÁ NHÂN");
+        btnInfSt.setToolTipText("Thông tin cá nhân");
+
+        btnExit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Users-Exit-icon.png"))); // NOI18N
+        btnExit.setToolTipText("Đăng xuất");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -103,15 +125,23 @@ public class JFStudent extends javax.swing.JFrame {
                 .addContainerGap(277, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(btnStartEx, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(111, 111, 111)
+                                .addComponent(btnFindPoint, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(btnInfSt)
+                                .addGap(144, 144, 144)))
+                        .addGap(139, 139, 139))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jSeparator1)
-                            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(89, 89, 89))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(btnStartEx, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(111, 111, 111)
-                        .addComponent(btnFindPoint, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(140, 140, 140))))
+                            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(btnExit, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(8, 8, 8)))
+                        .addGap(89, 89, 89))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -120,11 +150,15 @@ public class JFStudent extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(104, 104, 104)
+                .addGap(42, 42, 42)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnFindPoint, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnStartEx, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(318, Short.MAX_VALUE))
+                .addGap(69, 69, 69)
+                .addComponent(btnInfSt, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 111, Short.MAX_VALUE)
+                .addComponent(btnExit)
+                .addGap(53, 53, 53))
         );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -149,6 +183,10 @@ public class JFStudent extends javax.swing.JFrame {
 
         
     }//GEN-LAST:event_btnStartExActionPerformed
+
+    private void lblAvatarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblAvatarMouseClicked
+        
+    }//GEN-LAST:event_lblAvatarMouseClicked
 
     /**
      * @param args the command line arguments
@@ -188,7 +226,9 @@ public class JFStudent extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnExit;
     private javax.swing.JButton btnFindPoint;
+    private javax.swing.JButton btnInfSt;
     private javax.swing.JButton btnStartEx;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
