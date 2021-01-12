@@ -1,9 +1,10 @@
+package contrain;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -17,7 +18,7 @@ import java.util.logging.Logger;
  */
 public class DatabaseConnections {
     private static String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
-    private static String url = "jdbc:sqlserver://localhost:1433;databseName=E_SMART";
+    private static String url = "jdbc:sqlserver://localhost:1433;databaseName=E_SMART";
     private static String user = "sa";
     private static String password = "123123";
     
