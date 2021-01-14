@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package daoImp;
+package DAOimpl;
 
 import dao.MonHocDAO;
 import entity.Mon;
@@ -19,7 +19,7 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author duyet
+ * @author Laptophaidang.com
  */
 public class MonImplDAO implements MonHocDAO {
 
@@ -102,10 +102,11 @@ public class MonImplDAO implements MonHocDAO {
     public void delete(int id) {
         try {
             PreparedStatement pst = con.prepareStatement("DELETE FROM tbl_mon WHERE id = ?");
-            pst.setInt(1, id);
+            pst.setInt(1,id);
             pst.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(MonImplDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
 }

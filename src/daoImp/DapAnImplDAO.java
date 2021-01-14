@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package daoImp;
+package DAOimpl;
 
 import dao.DapAnDAO;
 import entity.DapAn;
@@ -18,9 +18,10 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author duyet
+ * @author Laptophaidang.com
  */
-public class DapAnImplDAO implements DapAnDAO{
+public class DapAnImplDAO implements DapAnDAO {
+
     private Connection con;
 
     public DapAnImplDAO() {
@@ -101,4 +102,5 @@ public class DapAnImplDAO implements DapAnDAO{
             Logger.getLogger(DapAnImplDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
 }

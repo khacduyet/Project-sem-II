@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package daoImp;
+package DAOimpl;
 
 import dao.PhanQuyenDAO;
 import entity.PhanQuyen;
@@ -18,7 +18,7 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author duyet
+ * @author Laptophaidang.com
  */
 public class PhanQuyenImplDAO implements PhanQuyenDAO {
 

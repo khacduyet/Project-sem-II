@@ -8,10 +8,6 @@ package dao;
 import entity.GiaoVien;
 import java.util.List;
 
-/**
- *
- * @author duyet
- */
 public interface GiaoVienDAO {
 
     public List<GiaoVien> getAll();

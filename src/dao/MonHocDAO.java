@@ -8,11 +8,8 @@ package dao;
 import entity.Mon;
 import java.util.List;
 
-/**
- *
- * @author duyet
- */
 public interface MonHocDAO {
+
     public List<Mon> getAll();
 
     public Mon getById(int key);

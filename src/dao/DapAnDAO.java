@@ -8,11 +8,8 @@ package dao;
 import entity.DapAn;
 import java.util.List;
 
-/**
- *
- * @author duyet
- */
 public interface DapAnDAO {
+
     public List<DapAn> getAll();
 
     public DapAn getById(int id);
