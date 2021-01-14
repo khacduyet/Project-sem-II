@@ -12,6 +12,7 @@ import java.util.Date;
  * @author Laptophaidang.com
  */
 public class SinhVien {
+
     private int id;
     private String ma_sv;
     private int id_lop;
@@ -31,6 +32,11 @@ public class SinhVien {
     private boolean trang_thai;
 
     public SinhVien() {
+    }
+
+    public SinhVien(String username, String password) {
+        this.username = username;
+        this.password = password;
     }
 
     public SinhVien(int id, String ma_sv, int id_lop, String ho_ten, boolean gioi_Tinh, Date ngay_sinh, Date ngay_nhap_hoc, Date ngay_cap_nhat, String di_dong, String dt_gia_dinh, String email, String dia_chi, String avatar, String username, String password, String ghi_chu, boolean trang_thai) {
@@ -188,6 +194,5 @@ public class SinhVien {
     public void setTrang_thai(boolean trang_thai) {
         this.trang_thai = trang_thai;
     }
-    
-    
+
 }
