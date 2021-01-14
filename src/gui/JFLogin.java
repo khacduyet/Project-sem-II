@@ -5,18 +5,53 @@
  */
 package gui;
 
+import daoImp.StudentImplDAO;
+import contrain.DatabaseConnections;
+import dao.StudentDAO;
+import entity.SinhVien;
+import java.sql.Connection;
+import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author duyet
  */
 public class JFLogin extends javax.swing.JFrame {
 
+    int login;
+    Connection con;
+    StudentImplDAO sdao;
+    private String username;
+    private String password;
+
     /**
      * Creates new form JFLogin
      */
-    public JFLogin() {
+    public JFLogin(int checkRole) {
         initComponents();
         setLocationRelativeTo(null);
+        con = DatabaseConnections.getConnect();
+        sdao = new StudentImplDAO(con);
+        setUsername(username);
+        setPassword(password);
+        login = checkRole;
+    }
+
+    public void setUsername(String username) {
+        this.username = this.txtUser.getText();
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setPassword(String password) {
+        this.password = new String(this.txtPass.getPassword());
+    }
+
+    public String getPassword() {
+        return password;
     }
 
     /**
@@ -37,11 +72,12 @@ public class JFLogin extends javax.swing.JFrame {
         txtPass = new javax.swing.JPasswordField();
         btnLogin = new javax.swing.JButton();
         chxRmb = new javax.swing.JCheckBox();
-        btnReset = new javax.swing.JButton();
+        btnExit = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Đăng nhập hệ thống e-Smart");
+        setUndecorated(true);
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
         jPanel1.setOpaque(false);
@@ -51,7 +87,7 @@ public class JFLogin extends javax.swing.JFrame {
         jLabel2.setText("Tên đăng nhập: ");
 
         txtUser.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        txtUser.setText("duyet@gmail.com");
+        txtUser.setText("thang");
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(51, 255, 0));
@@ -66,16 +102,21 @@ public class JFLogin extends javax.swing.JFrame {
 
         btnLogin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/enter.png"))); // NOI18N
         btnLogin.setText("Đăng nhập");
+        btnLogin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLoginActionPerformed(evt);
+            }
+        });
 
         chxRmb.setForeground(new java.awt.Color(102, 255, 0));
         chxRmb.setText("Ghi nhớ");
         chxRmb.setOpaque(false);
 
-        btnReset.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/reset.png"))); // NOI18N
-        btnReset.setText("Nhập lại");
-        btnReset.addActionListener(new java.awt.event.ActionListener() {
+        btnExit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/remove-button.png"))); // NOI18N
+        btnExit.setText("Thoát");
+        btnExit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnResetActionPerformed(evt);
+                btnExitActionPerformed(evt);
             }
         });
 
@@ -90,7 +131,7 @@ public class JFLogin extends javax.swing.JFrame {
                         .addComponent(jLabel3)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap(78, Short.MAX_VALUE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel2)
@@ -102,7 +143,7 @@ public class JFLogin extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(btnLogin)
                                 .addGap(57, 57, 57)
-                                .addComponent(btnReset))
+                                .addComponent(btnExit))
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addComponent(chxRmb, javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(txtUser, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 254, Short.MAX_VALUE)
@@ -127,8 +168,8 @@ public class JFLogin extends javax.swing.JFrame {
                 .addGap(39, 39, 39)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnLogin)
-                    .addComponent(btnReset))
-                .addContainerGap(103, Short.MAX_VALUE))
+                    .addComponent(btnExit))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -147,50 +188,36 @@ public class JFLogin extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed
-        txtUser.setText("");
-        txtPass.setText("");
-        txtUser.requestFocus();
-    }//GEN-LAST:event_btnResetActionPerformed
+    private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
+        this.dispose();
+        new JFIndex(ERROR).setVisible(true);
+    }//GEN-LAST:event_btnExitActionPerformed
+
+    private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
+        StudentDAO stud = sdao;
+            
+        if (login == 1) {
+            
+        } else if (login == 2) {
+            SinhVien sv = sdao.getAccount(txtUser.getText(), new String(txtPass.getPassword()));
+            if (sv == null) {
+                JOptionPane.showMessageDialog(this, "Sai tên tài khoản hoặc mật khẩu!", "Thông báo!", JOptionPane.QUESTION_MESSAGE, new ImageIcon("src/img/exit-48px.png"));
+            } else {
+                JOptionPane.showMessageDialog(this, "Đăng nhập thành công!", "Thông báo!", JOptionPane.QUESTION_MESSAGE, new ImageIcon("src/img/tick.png"));
+                this.dispose();
+                new JFStudent().setVisible(true);
+            }
+        }
+
+    }//GEN-LAST:event_btnLoginActionPerformed
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(JFLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(JFLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(JFLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(JFLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new JFLogin().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnExit;
     private javax.swing.JButton btnLogin;
-    private javax.swing.JButton btnReset;
     private javax.swing.JCheckBox chxRmb;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
