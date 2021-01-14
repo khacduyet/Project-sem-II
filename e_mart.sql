@@ -236,8 +236,51 @@ GO
  @trang_thai bit,
  @username varchar(100),
  @password varchar(100)*/
-CREATE PROCEDURE tbl_GiaoVien
-
+CREATE PROCEDURE getAllGV
 AS
 	SELECT * FROM tbl_GiaoVien
 GO;
+EXEC sp_HelpText '[dbo].[getAllGV]'
+-- insert data bang giao vien
+CREATE PROCEDURE insertGv
+ @id int,
+ @ma_gv varchar(10),
+ @ho_ten nvarchar(100),
+ @gioi_tinh bit,
+ @ngay_sinh date,
+ @dien_thoai nvarchar(11),
+ @dia_chi nvarchar(200),
+ @email varchar(100),
+ @ngay_tao date,
+ @ngay_cap_nhat date,
+ @trang_thai bit,
+ @username varchar(100),
+ @password varchar(100)
+AS
+ INSERT INTO tbl_GiaoVien VALUES (@ma_gv,@ho_ten,@gioi_tinh,@ngay_sinh,@dien_thoai,@dia_chi,@email,@ngay_tao,@ngay_cap_nhat,@trang_thai,@username,@password);
+ GO;
+ --update data giao vien
+ CREATE PROCEDURE updateGiaoVien
+ @id int,
+ @ma_gv varchar(10),
+ @ho_ten nvarchar(100),
+ @gioi_tinh bit,
+ @ngay_sinh date,
+ @dien_thoai nvarchar(11),
+ @dia_chi nvarchar(200),
+ @email varchar(100),
+ @ngay_tao date,
+ @ngay_cap_nhat date,
+ @trang_thai bit,
+ @username varchar(100),
+ @password varchar(100)
+ AS
+	UPDATE tbl_GiaoVien SET ho_ten = @ho_ten, gioi_tinh = @gioi_tinh ,ngay_sinh = @ngay_sinh, dien_thoai = @dien_thoai, dia_chi = @dia_chi,
+	email = @email , ngay_cap_nhat = @ngay_cap_nhat, trang_thai = @trang_thai , username = @username ,password = @password
+GO
+ -- xoa giao vien
+  CREATE PROCEDURE deleteGiaoVien
+  @id int
+AS
+	DELETE FROM tbl_GiaoVien WHERE id = @id
+GO
