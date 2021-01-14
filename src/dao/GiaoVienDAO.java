@@ -5,17 +5,22 @@
  */
 package dao;
 
-import entity.SinhVien;
+import entity.GiaoVien;
 import java.util.List;
 
 /**
  *
  * @author Laptophaidang.com
  */
-public interface StudentDAO {
-    public List<SinhVien> getAll();
-    public SinhVien getById(int id);
-    public void insert(SinhVien sv);
-    public void update(SinhVien sv);
+public interface GiaoVienDAO {
+
+    public List<GiaoVien> getAll();
+
+    public GiaoVien getById(int id);
+
+    public void insert(GiaoVien gv);
+
+    public void update(GiaoVien gv);
+
     public void delete(int id);
 }

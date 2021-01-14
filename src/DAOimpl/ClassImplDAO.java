@@ -98,7 +98,13 @@ public class ClassImplDAO implements ClassDAO {
 
     @Override
     public void delete(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            PreparedStatement pst = con.prepareStatement("DELETE FROM tbl_LopHoc WHERE id = ?");
+            pst.setInt(1, id);
+            pst.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(ClassImplDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
 }
