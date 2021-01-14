@@ -14,7 +14,7 @@ import java.util.List;
  */
 public interface StudentDAO {
     public List<SinhVien> getAll();
-//    public SinhVien getById(int id);
+    public SinhVien getById(int id);
     public void insert(SinhVien sv);
     public void update(SinhVien sv);
     public void delete(int id);
