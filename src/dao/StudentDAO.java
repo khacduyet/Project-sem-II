@@ -18,4 +18,8 @@ public interface StudentDAO {
     public void insert(SinhVien sv);
     public void update(SinhVien sv);
     public void delete(int id);
+    
+    // duyệt thêm phương thức
+    public SinhVien getAccount(String username, String password);
+    
 }

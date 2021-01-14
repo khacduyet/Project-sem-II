@@ -8,10 +8,6 @@ package dao;
 import entity.DapAn;
 import java.util.List;
 
-/**
- *
- * @author Laptophaidang.com
- */
 public interface DapAnDAO {
 
     public List<DapAn> getAll();

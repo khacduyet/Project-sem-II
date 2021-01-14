@@ -8,10 +8,6 @@ package dao;
 import entity.GiaoVien;
 import java.util.List;
 
-/**
- *
- * @author Laptophaidang.com
- */
 public interface GiaoVienDAO {
 
     public List<GiaoVien> getAll();

@@ -8,10 +8,6 @@ package dao;
 import entity.Mon;
 import java.util.List;
 
-/**
- *
- * @author Laptophaidang.com
- */
 public interface MonHocDAO {
 
     public List<Mon> getAll();

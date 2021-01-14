@@ -5,7 +5,7 @@
  */
 package gui;
 
-import DAOimpl.ClassImplDAO;
+import daoImp.ClassImplDAO;
 import dao.ClassDAO;
 import contrain.DatabaseConnections;
 import entity.LopHoc;

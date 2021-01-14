@@ -8,12 +8,7 @@ package dao;
 import entity.PhanQuyen;
 import java.util.List;
 
-/**
- *
- * @author Laptophaidang.com
- */
 public interface PhanQuyenDAO {
-
     public List<PhanQuyen> getAll();
 
     public PhanQuyen getById(int id);
