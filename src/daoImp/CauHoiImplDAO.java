@@ -9,6 +9,7 @@ import dao.CauHoiDAO;
 import entity.CauHoi;
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -20,7 +21,8 @@ import java.util.logging.Logger;
  *
  * @author Laptophaidang.com
  */
-public class CauHoiImplDAO implements CauHoiDAO{
+public class CauHoiImplDAO implements CauHoiDAO {
+
     private Connection con;
 
     public CauHoiImplDAO() {
@@ -29,15 +31,17 @@ public class CauHoiImplDAO implements CauHoiDAO{
     public CauHoiImplDAO(Connection con) {
         this.con = con;
     }
-    
+
     @Override
     public List<CauHoi> getAll() {
         List<CauHoi> results = new ArrayList<>();
         try {
             CallableStatement cs = con.prepareCall("{CALL getAllCauHoi}");
             ResultSet rs = cs.executeQuery();
-            while (rs.next()) {                
-                CauHoi ch = new CauHoi();
+            while (rs.next()) {
+                CauHoi ch = new CauHoi(rs.getInt("id"), rs.getInt("id_mon"), rs.getInt("id_hang"), rs.getInt("loai_cau"),
+                        rs.getString("noi_dung"), rs.getDate("ngay_tao"), rs.getDate("ngay_cap_nhat"), rs.getString("ghi_chu"), rs.getBoolean("trang_thai"));
+                results.add(ch);
             }
         } catch (SQLException ex) {
             Logger.getLogger(CauHoiImplDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -47,22 +51,67 @@ public class CauHoiImplDAO implements CauHoiDAO{
 
     @Override
     public CauHoi getById(int key) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        CauHoi ch = null;
+        try {
+            CallableStatement cs = con.prepareCall("{CALL getByIdCauHoi(?)}");
+            cs.setInt(1, key);
+            ResultSet rs = cs.executeQuery();
+            while (rs.next()) {
+                ch = new CauHoi(rs.getInt("id"), rs.getInt("id_mon"), rs.getInt("id_hang"), rs.getInt("loai_cau"),
+                        rs.getString("noi_dung"), rs.getDate("ngay_tao"), rs.getDate("ngay_cap_nhat"), rs.getString("ghi_chu"), rs.getBoolean("trang_thai"));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(CauHoiImplDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return ch;
     }
 
     @Override
     public void insert(CauHoi lp) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            CallableStatement cs = con.prepareCall("{CALL insertCauHoi(?,?,?,?,?,?,?,?)}");
+            cs.setInt(1, lp.getId_mon());
+            cs.setInt(2, lp.getId_hang());
+            cs.setInt(3, lp.getLoai_cau());
+            cs.setString(4, lp.getNoi_dung());
+            cs.setDate(5, (Date) lp.getNgay_tao());
+            cs.setDate(6, (Date) lp.getNgay_cap_nhat());
+            cs.setString(7, lp.getGhi_chu());
+            cs.setBoolean(8, lp.isTrang_thai());
+            cs.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(CauHoiImplDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override
     public void update(CauHoi lp) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        CallableStatement cs;
+        try {
+            cs = con.prepareCall("{CALL updateCauHoi(?,?,?,?,?,?,?,?)}");
+            cs.setInt(1, lp.getId_mon());
+            cs.setInt(2, lp.getId_hang());
+            cs.setInt(3, lp.getLoai_cau());
+            cs.setString(4, lp.getNoi_dung());
+            cs.setDate(5, (Date) lp.getNgay_cap_nhat());
+            cs.setString(6, lp.getGhi_chu());
+            cs.setBoolean(7, lp.isTrang_thai());
+            cs.setInt(8, lp.getId());
+            cs.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(CauHoiImplDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override
     public void delete(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            CallableStatement cs = con.prepareCall("{CALL deleteCauHoi(?)}");
+            cs.setInt(1, id);
+            cs.executeQuery();
+        } catch (SQLException ex) {
+            Logger.getLogger(CauHoiImplDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
-    
+
 }

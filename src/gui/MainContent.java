@@ -491,8 +491,8 @@ public class MainContent extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 MainContent main = new MainContent();
-                Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-                main.setBounds(100, 100, (int) dim.getWidth(), (int) dim.getHeight());
+//                Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+//                main.setBounds(100, 100, (int) dim.getWidth(), (int) dim.getHeight());
                 main.setVisible(true);
                 main.setLocationRelativeTo(null);
             }
@@ -546,8 +546,8 @@ public class MainContent extends javax.swing.JFrame {
 
     private void loadBanner() {
         ImageIcon img = new ImageIcon("src\\img\\banner.png"); //full path of image
-        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        lbImageBanner.setBounds(100, 100, (int) dim.getWidth(), 100);
+//        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+//        lbImageBanner.setBounds(100, 100, (int) dim.getWidth(), 100);
         Image img2 = img.getImage().getScaledInstance(lbImageBanner.getWidth(), 100, 1);
         ImageIcon img3 = new ImageIcon(img2);
         lbImageBanner.setIcon(img3);

@@ -108,5 +108,4 @@ public class BoDeImplDAO implements BoDeDAO {
             Logger.getLogger(BoDeImplDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
 }
