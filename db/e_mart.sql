@@ -240,3 +240,199 @@ GO
 SELECT * FROM tbl_LopHoc
 GO
 SELECT * FROM tbl_GiaoVien
+
+go
+-- CREATE PROCEDURE BY THANG
+
+CREATE PROCEDURE getAllGV
+AS
+	SELECT * FROM tbl_GiaoVien
+GO;
+
+EXEC sp_HelpText '[dbo].[getAllGV]'
+go
+-- insert data bang giao vien
+CREATE PROCEDURE insertGv
+ @id int,
+ @ma_gv varchar(10),
+ @ho_ten nvarchar(100),
+ @gioi_tinh bit,
+ @ngay_sinh date,
+ @dien_thoai nvarchar(11),
+ @dia_chi nvarchar(200),
+ @email varchar(100),
+ @ngay_tao date,
+ @ngay_cap_nhat date,
+ @trang_thai bit,
+ @username varchar(100),
+ @password varchar(100)
+AS
+ INSERT INTO tbl_GiaoVien VALUES (@ma_gv,@ho_ten,@gioi_tinh,@ngay_sinh,@dien_thoai,@dia_chi,@email,@ngay_tao,@ngay_cap_nhat,@trang_thai,@username,@password);
+ GO;
+ --update data giao vien
+
+ CREATE PROCEDURE updateGiaoVien
+ @id int,
+ @ma_gv varchar(10),
+ @ho_ten nvarchar(100),
+ @gioi_tinh bit,
+ @ngay_sinh date,
+ @dien_thoai nvarchar(11),
+ @dia_chi nvarchar(200),
+ @email varchar(100),
+ @ngay_tao date,
+ @ngay_cap_nhat date,
+ @trang_thai bit,
+ @username varchar(100),
+ @password varchar(100)
+ AS
+	UPDATE tbl_GiaoVien SET ho_ten = @ho_ten, gioi_tinh = @gioi_tinh ,ngay_sinh = @ngay_sinh, dien_thoai = @dien_thoai, dia_chi = @dia_chi,
+	email = @email , ngay_cap_nhat = @ngay_cap_nhat, trang_thai = @trang_thai , username = @username ,password = @password WHERE id = @id
+GO
+ -- xoa giao vien
+  CREATE PROCEDURE deleteGiaoVien
+  @id int
+AS
+	DELETE FROM tbl_GiaoVien WHERE id = @id
+GO
+--======= proc bo de ==========
+-------insert bode----------
+ CREATE PROCEDURE getAllBoDe
+ AS
+	SELECT * FROM tbl_BoDe
+ GO
+ -------insert bo de--------
+  CREATE PROCEDURE insertBoDe
+	@id_GiangVien int,
+	@noi_dung nvarchar(200),
+	@ngay_tao date,
+	@ngay_cap_nhat date,
+	@mo_ta nvarchar(200),
+	@trang_thai bit
+  AS
+	INSERT INTO tbl_BoDe VALUES(@id_GiangVien,@noi_dung,@ngay_tao,@ngay_cap_nhat,@mo_ta,@trang_thai)
+  GO
+  -- getbyid bo de
+CREATE PROCEDURE getByIdBoDe
+@id int
+AS
+	SELECT * FROM tbl_BoDe WHERE id = @id
+GO
+
+  -----update bo de ------------
+CREATE PROCEDURE updateBoDe
+@id int,
+@id_GiangVien int,
+@noi_dung nvarchar(200),
+@ngay_tao date,
+@ngay_cap_nhat date,
+@mo_ta nvarchar(200),
+@trang_thai bit
+AS
+	UPDATE tbl_BoDe SET id_GiangVien = @id_GiangVien , noi_dung = @noi_dung ,ngay_cap_nhat = @ngay_cap_nhat, mo_ta = @mo_ta,trang_thai = @trang_thai WHERE id = @id
+GO
+-----delete bo de ----------
+CREATE PROCEDURE deleteBoDe
+@id int
+AS 
+	DELETE FROM tbl_BoDe WHERE id = @id
+GO
+--======================ket qua ================
+-- select bang ket qua
+CREATE PROCEDURE getAllKetQua
+AS
+	SELECT * FROM tbl_KetQua
+GO
+-- insert bang ket qua
+CREATE PROCEDURE insertKetQua
+@id_SinhVien int,
+@id_BoDe int,
+@ngay_thi date,
+@tong_diem float
+AS
+	INSERT INTO tbl_KetQua VALUES (@id_SinhVien,@id_BoDe,@ngay_thi,@tong_diem)
+GO
+-- update bang ket qua
+CREATE PROCEDURE updateKetQua
+@id_SinhVien int,
+@id_BoDe int,
+@ngay_thi date,
+@tong_diem float
+AS
+	UPDATE tbl_KetQua SET tong_diem = @tong_diem WHERE id_SinhVien = @id_SinhVien AND id_BoDe = @id_BoDe
+GO
+/*====================Proc bo de chi tiet=====================*/
+-- lay du lieu bo de chi tiet
+CREATE PROCEDURE getAllBoDeChiTiet
+AS
+	SELECT * FROM tbl_BoDeChiTiet
+GO
+-- insert 
+CREATE PROCEDURE insertBoDeChiTiet
+@id_de int,
+@id_cau_hoi int,
+@diem float
+AS
+	INSERT INTO tbl_BoDeChiTiet VALUES (@id_de,@id_cau_hoi,@diem)
+GO
+--update 
+CREATE PROCEDURE updateBoDeChiTiet
+@id_BoDe int,
+@id_CauHoi int,
+@diem float
+AS
+	UPDATE tbl_BoDeChiTiet SET diem = @diem WHERE id_BoDe = @id_BoDe AND id_CauHoi = @id_CauHoi
+GO
+--delete 
+CREATE PROCEDURE deleteBoDeChiTiet
+@id_BoDe int,
+@id_CauHoi int
+AS
+	DELETE FROM tbl_BoDeChiTiet WHERE id_BoDe = @id_BoDe AND id_CauHoi = @id_CauHoi
+GO
+/*==============PROC CAU HOI================*/
+--get tat ca du lieu bang cau hoi
+CREATE PROCEDURE getAllCauHoi
+AS
+	SELECT * FROM tbl_CauHoi
+GO
+-- insert du lieu vao bang cau hoi
+CREATE PROCEDURE insertCauHoi
+@id_mon int,
+@id_hang int,
+@loai_cau int,
+@noi_dung nvarchar(200),
+@ngay_tao date,
+@ngay_cap_nhat date,
+@ghi_chu nvarchar(200),
+@trang_thai bit
+AS
+	INSERT INTO tbl_CauHoi VALUES(@id_mon,@id_hang,@loai_cau,@noi_dung,@ngay_tao,@ngay_cap_nhat,@ghi_chu,@trang_thai)
+GO
+--update du lieu bang cau hoi
+CREATE PROCEDURE updateCauHoi
+@id int,
+@id_mon int,
+@id_hang int,
+@loai_cau int,
+@noi_dung nvarchar(200),
+@ngay_tao date,
+@ngay_cap_nhat date,
+@ghi_chu nvarchar(200),
+@trang_thai bit
+AS
+	UPDATE tbl_CauHoi SET id_mon = @id_mon, id_hang = @id_hang, loai_cau = @loai_cau,noi_dung = @noi_dung , ngay_cap_nhat = @ngay_cap_nhat,ghi_chu = @ghi_chu,trang_thai = @trang_thai WHERE id = @id
+GO
+-- delte record bang cau hoi
+CREATE PROCEDURE deleteCauHoi
+@id int
+AS
+	DELETE FROM tbl_CauHoi WHERE id = @id
+GO
+-- selete data theo id
+CREATE PROCEDURE getByIdCauHoi
+@id int
+AS
+	SELECT * FROM tbl_CauHoi WHERE id = @id
+GO
+/*==============PROC CAU HOI================*/
