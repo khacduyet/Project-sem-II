@@ -24,7 +24,6 @@ public class MainContent extends javax.swing.JFrame {
         initComponents();
         loadBanner();
         loadMnStudent();
-        loadQLStudent();
         loadClass();
     }
 
@@ -72,6 +71,12 @@ public class MainContent extends javax.swing.JFrame {
         jplQuanLySinhVien = new javax.swing.JPanel();
         icon_tong_quan1 = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
+        jplQuanLyGiaoVien = new javax.swing.JPanel();
+        icon_tong_quan2 = new javax.swing.JLabel();
+        jLabel19 = new javax.swing.JLabel();
+        jplQuanLyDeThi = new javax.swing.JPanel();
+        icon_tong_quan3 = new javax.swing.JLabel();
+        jLabel20 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -231,7 +236,7 @@ public class MainContent extends javax.swing.JFrame {
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(29, 29, 29)
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(184, Short.MAX_VALUE))
+                .addContainerGap(610, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -289,6 +294,7 @@ public class MainContent extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jplMainContent.setMaximumSize(new java.awt.Dimension(1000, 1000));
         jplMainContent.setLayout(new java.awt.BorderLayout());
 
         jPanel8.setBackground(new java.awt.Color(102, 153, 255));
@@ -311,7 +317,7 @@ public class MainContent extends javax.swing.JFrame {
             .addComponent(txtMenu, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
         );
 
-        tong_quan.setBackground(new java.awt.Color(102, 102, 255));
+        tong_quan.setBackground(new java.awt.Color(255, 255, 51));
         tong_quan.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tong_quanMouseClicked(evt);
@@ -339,7 +345,7 @@ public class MainContent extends javax.swing.JFrame {
             .addComponent(jLabel17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        jplQuanLySinhVien.setBackground(new java.awt.Color(102, 102, 255));
+        jplQuanLySinhVien.setBackground(new java.awt.Color(255, 255, 51));
         jplQuanLySinhVien.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jplQuanLySinhVienMouseClicked(evt);
@@ -349,7 +355,7 @@ public class MainContent extends javax.swing.JFrame {
         icon_tong_quan1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Student-3-icon.png"))); // NOI18N
 
         jLabel18.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel18.setText("Quản lý sinh viên");
+        jLabel18.setText("Sinh Viên");
 
         javax.swing.GroupLayout jplQuanLySinhVienLayout = new javax.swing.GroupLayout(jplQuanLySinhVien);
         jplQuanLySinhVien.setLayout(jplQuanLySinhVienLayout);
@@ -367,6 +373,62 @@ public class MainContent extends javax.swing.JFrame {
             .addComponent(jLabel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
+        jplQuanLyGiaoVien.setBackground(new java.awt.Color(255, 255, 51));
+        jplQuanLyGiaoVien.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jplQuanLyGiaoVienMouseClicked(evt);
+            }
+        });
+
+        icon_tong_quan2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/speech.png"))); // NOI18N
+
+        jLabel19.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel19.setText("Giáo Viên");
+
+        javax.swing.GroupLayout jplQuanLyGiaoVienLayout = new javax.swing.GroupLayout(jplQuanLyGiaoVien);
+        jplQuanLyGiaoVien.setLayout(jplQuanLyGiaoVienLayout);
+        jplQuanLyGiaoVienLayout.setHorizontalGroup(
+            jplQuanLyGiaoVienLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jplQuanLyGiaoVienLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(icon_tong_quan2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel19, javax.swing.GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE))
+        );
+        jplQuanLyGiaoVienLayout.setVerticalGroup(
+            jplQuanLyGiaoVienLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(icon_tong_quan2, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
+            .addComponent(jLabel19, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
+        jplQuanLyDeThi.setBackground(new java.awt.Color(255, 255, 51));
+        jplQuanLyDeThi.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jplQuanLyDeThiMouseClicked(evt);
+            }
+        });
+
+        icon_tong_quan3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/test.png"))); // NOI18N
+
+        jLabel20.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel20.setText("Đề thi");
+
+        javax.swing.GroupLayout jplQuanLyDeThiLayout = new javax.swing.GroupLayout(jplQuanLyDeThi);
+        jplQuanLyDeThi.setLayout(jplQuanLyDeThiLayout);
+        jplQuanLyDeThiLayout.setHorizontalGroup(
+            jplQuanLyDeThiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jplQuanLyDeThiLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(icon_tong_quan3, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel20, javax.swing.GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE))
+        );
+        jplQuanLyDeThiLayout.setVerticalGroup(
+            jplQuanLyDeThiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(icon_tong_quan3, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
+            .addComponent(jLabel20, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
         jPanel8Layout.setHorizontalGroup(
@@ -374,6 +436,8 @@ public class MainContent extends javax.swing.JFrame {
             .addComponent(jplMenu, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(tong_quan, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jplQuanLySinhVien, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jplQuanLyGiaoVien, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jplQuanLyDeThi, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -383,7 +447,11 @@ public class MainContent extends javax.swing.JFrame {
                 .addComponent(tong_quan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jplQuanLySinhVien, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 263, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jplQuanLyGiaoVien, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jplQuanLyDeThi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 406, Short.MAX_VALUE))
         );
 
         jMenu1.setText("File");
@@ -453,12 +521,20 @@ public class MainContent extends javax.swing.JFrame {
     }//GEN-LAST:event_tong_quanMouseClicked
 
     private void jplQuanLySinhVienMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jplQuanLySinhVienMouseClicked
-        loadQLStudent();
+        loadMnStudent();
     }//GEN-LAST:event_jplQuanLySinhVienMouseClicked
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         loadClass();
     }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jplQuanLyGiaoVienMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jplQuanLyGiaoVienMouseClicked
+        loadTeacher();
+    }//GEN-LAST:event_jplQuanLyGiaoVienMouseClicked
+
+    private void jplQuanLyDeThiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jplQuanLyDeThiMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jplQuanLyDeThiMouseClicked
 
     /**
      * @param args the command line arguments
@@ -491,8 +567,8 @@ public class MainContent extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 MainContent main = new MainContent();
-//                Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-//                main.setBounds(100, 100, (int) dim.getWidth(), (int) dim.getHeight());
+                Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+                main.setBounds(100, 100, (int) dim.getWidth(), (int) dim.getHeight());
                 main.setVisible(true);
                 main.setLocationRelativeTo(null);
             }
@@ -502,6 +578,8 @@ public class MainContent extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel icon_tong_quan;
     private javax.swing.JLabel icon_tong_quan1;
+    private javax.swing.JLabel icon_tong_quan2;
+    private javax.swing.JLabel icon_tong_quan3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -512,7 +590,9 @@ public class MainContent extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -537,6 +617,8 @@ public class MainContent extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jplMainContent;
     private javax.swing.JPanel jplMenu;
+    private javax.swing.JPanel jplQuanLyDeThi;
+    private javax.swing.JPanel jplQuanLyGiaoVien;
     private javax.swing.JPanel jplQuanLySinhVien;
     private javax.swing.JLabel lbImageBanner;
     private javax.swing.JPanel pnlSystem;
@@ -546,8 +628,8 @@ public class MainContent extends javax.swing.JFrame {
 
     private void loadBanner() {
         ImageIcon img = new ImageIcon("src\\img\\banner.png"); //full path of image
-//        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-//        lbImageBanner.setBounds(100, 100, (int) dim.getWidth(), 100);
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        lbImageBanner.setBounds(100, 100, (int) dim.getWidth(), 100);
         Image img2 = img.getImage().getScaledInstance(lbImageBanner.getWidth(), 100, 1);
         ImageIcon img3 = new ImageIcon(img2);
         lbImageBanner.setIcon(img3);
@@ -561,18 +643,18 @@ public class MainContent extends javax.swing.JFrame {
         jplMainContent.validate();
     }
 
-    private void loadQLStudent() {
-        QLStudent qLStudent = new QLStudent();
+    private void loadClass() {
+        JFClass jfc = new JFClass();
         jplMainContent.removeAll();
-        jplMainContent.add(qLStudent);
+        jplMainContent.add(jfc);
         jplMainContent.repaint();
         jplMainContent.validate();
     }
 
-    private void loadClass() {
-        MnClass mnClass = new MnClass();
+    private void loadTeacher() {
+        MnTeacher mtc = new MnTeacher();
         jplMainContent.removeAll();
-        jplMainContent.add(mnClass);
+        jplMainContent.add(mtc);
         jplMainContent.repaint();
         jplMainContent.validate();
     }

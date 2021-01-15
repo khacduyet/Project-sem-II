@@ -71,11 +71,13 @@ public class MnStudent extends javax.swing.JPanel {
         jLabel19 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
 
+        listStudent.setPreferredSize(new java.awt.Dimension(1052, 600));
+
         javax.swing.GroupLayout listStudentLayout = new javax.swing.GroupLayout(listStudent);
         listStudent.setLayout(listStudentLayout);
         listStudentLayout.setHorizontalGroup(
             listStudentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 991, Short.MAX_VALUE)
+            .addGap(0, 1052, Short.MAX_VALUE)
         );
         listStudentLayout.setVerticalGroup(
             listStudentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -83,6 +85,8 @@ public class MnStudent extends javax.swing.JPanel {
         );
 
         QLSinhVien.addTab("Danh sách sinh viên", listStudent);
+
+        AddStudent.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel1.setText("Thêm mới sinh viên");
@@ -348,16 +352,16 @@ public class MnStudent extends javax.swing.JPanel {
                         .addGroup(AddStudentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnReset, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(bntSave, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(37, Short.MAX_VALUE))
+                .addContainerGap(34, Short.MAX_VALUE))
         );
 
-        QLSinhVien.addTab("Thêm mới thông tin sinh viên", AddStudent);
+        QLSinhVien.addTab("Thêm mới sinh viên", AddStudent);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 991, Short.MAX_VALUE)
+            .addGap(0, 1052, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
