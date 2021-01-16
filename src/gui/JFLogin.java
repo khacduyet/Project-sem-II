@@ -39,15 +39,15 @@ public class JFLogin extends javax.swing.JFrame {
         tdao = new TeacherImplDAO(con);
         login = checkRole;
     }
-    
-    public JFLogin(SinhVien sv){
+
+    public JFLogin(SinhVien sv) {
         initComponents();
     }
-    
-    public JFLogin(GiaoVien gv){
+
+    public JFLogin(GiaoVien gv) {
         initComponents();
     }
-    
+
     public void setUsername(String username) {
         this.username = this.txtUser.getText();
     }
@@ -98,6 +98,11 @@ public class JFLogin extends javax.swing.JFrame {
 
         txtUser.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         txtUser.setText("thang");
+        txtUser.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtUserKeyPressed(evt);
+            }
+        });
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(51, 255, 0));
@@ -109,6 +114,11 @@ public class JFLogin extends javax.swing.JFrame {
 
         txtPass.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         txtPass.setText("12345");
+        txtPass.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtPassKeyPressed(evt);
+            }
+        });
 
         btnLogin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/enter.png"))); // NOI18N
         btnLogin.setText("Đăng nhập");
@@ -204,6 +214,22 @@ public class JFLogin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnExitActionPerformed
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
+        checkLogin();
+    }//GEN-LAST:event_btnLoginActionPerformed
+
+    private void txtUserKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtUserKeyPressed
+        if (evt.getKeyCode() == evt.VK_ENTER) {
+            checkLogin();
+        }
+    }//GEN-LAST:event_txtUserKeyPressed
+
+    private void txtPassKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPassKeyPressed
+        if (evt.getKeyCode() == evt.VK_ENTER) {
+            checkLogin();
+        }
+    }//GEN-LAST:event_txtPassKeyPressed
+
+    private void checkLogin() {
         if (login == 1) {
             GiaoVien gv = tdao.getAccountGiaoVien(txtUser.getText(), new String(txtPass.getPassword()));
             if (gv == null) {
@@ -223,8 +249,7 @@ public class JFLogin extends javax.swing.JFrame {
                 new JFStudent(sv).setVisible(true);
             }
         }
-
-    }//GEN-LAST:event_btnLoginActionPerformed
+    }
 
     /**
      * @param args the command line arguments
