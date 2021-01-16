@@ -35,7 +35,7 @@ public class MainContent extends javax.swing.JFrame {
         new Thread() {
             public void run() {
                 while (true) {
-                    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+                    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd - MM - yyyy");
                     LocalDateTime now = LocalDateTime.now();
                     lblToday.setText(dtf.format(now));
                 }
@@ -667,7 +667,7 @@ public class MainContent extends javax.swing.JFrame {
     }
 
     private void loadClass() {
-        JFClass jfc = new JFClass();
+        MnClass jfc = new MnClass();
         loadDisplay(jfc);
     }
 

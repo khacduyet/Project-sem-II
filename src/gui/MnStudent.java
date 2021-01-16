@@ -89,6 +89,7 @@ public class MnStudent extends javax.swing.JPanel {
         AddStudent.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(204, 0, 204));
         jLabel1.setText("Thêm mới sinh viên");
 
         jLabel2.setText("Mã Sinh Viên:");
