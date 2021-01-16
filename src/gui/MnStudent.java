@@ -368,7 +368,7 @@ public class MnStudent extends javax.swing.JPanel {
             .addGap(0, 575, Short.MAX_VALUE)
         );
 
-        QLSinhVien.addTab("Thêm mới thông tin", jPanel1);
+        QLSinhVien.addTab("Khiếu nại", jPanel1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);

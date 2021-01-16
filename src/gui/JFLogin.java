@@ -8,6 +8,8 @@ package gui;
 import daoImp.StudentImplDAO;
 import contrain.DatabaseConnections;
 import dao.StudentDAO;
+import daoImp.TeacherImplDAO;
+import entity.GiaoVien;
 import entity.SinhVien;
 import java.sql.Connection;
 import javax.swing.ImageIcon;
@@ -22,6 +24,7 @@ public class JFLogin extends javax.swing.JFrame {
     int login;
     Connection con;
     StudentImplDAO sdao;
+    TeacherImplDAO tdao;
     private String username;
     private String password;
 
@@ -33,11 +36,18 @@ public class JFLogin extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         con = DatabaseConnections.getConnect();
         sdao = new StudentImplDAO(con);
-        setUsername(username);
-        setPassword(password);
+        tdao = new TeacherImplDAO(con);
         login = checkRole;
     }
-
+    
+    public JFLogin(SinhVien sv){
+        initComponents();
+    }
+    
+    public JFLogin(GiaoVien gv){
+        initComponents();
+    }
+    
     public void setUsername(String username) {
         this.username = this.txtUser.getText();
     }
@@ -194,10 +204,15 @@ public class JFLogin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnExitActionPerformed
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
-        StudentDAO stud = sdao;
-            
         if (login == 1) {
-            
+            GiaoVien gv = tdao.getAccountGiaoVien(txtUser.getText(), new String(txtPass.getPassword()));
+            if (gv == null) {
+                JOptionPane.showMessageDialog(this, "Sai tên tài khoản hoặc mật khẩu!", "Thông báo!", JOptionPane.QUESTION_MESSAGE, new ImageIcon("src/img/exit-48px.png"));
+            } else {
+                JOptionPane.showMessageDialog(this, "Đăng nhập thành công!", "Thông báo!", JOptionPane.QUESTION_MESSAGE, new ImageIcon("src/img/tick.png"));
+                this.dispose();
+                new MainContent(gv).setVisible(true);
+            }
         } else if (login == 2) {
             SinhVien sv = sdao.getAccount(txtUser.getText(), new String(txtPass.getPassword()));
             if (sv == null) {
@@ -205,7 +220,7 @@ public class JFLogin extends javax.swing.JFrame {
             } else {
                 JOptionPane.showMessageDialog(this, "Đăng nhập thành công!", "Thông báo!", JOptionPane.QUESTION_MESSAGE, new ImageIcon("src/img/tick.png"));
                 this.dispose();
-                new JFStudent().setVisible(true);
+                new JFStudent(sv).setVisible(true);
             }
         }
 

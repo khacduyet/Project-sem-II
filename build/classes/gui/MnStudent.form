@@ -539,8 +539,8 @@
         <Container class="javax.swing.JPanel" name="jPanel1">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-              <JTabbedPaneConstraints tabName="Th&#xea;m m&#x1edb;i th&#xf4;ng tin">
-                <Property name="tabTitle" type="java.lang.String" value="Th&#xea;m m&#x1edb;i th&#xf4;ng tin"/>
+              <JTabbedPaneConstraints tabName="Khi&#x1ebf;u n&#x1ea1;i">
+                <Property name="tabTitle" type="java.lang.String" value="Khi&#x1ebf;u n&#x1ea1;i"/>
               </JTabbedPaneConstraints>
             </Constraint>
           </Constraints>

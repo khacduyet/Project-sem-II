@@ -5,26 +5,44 @@
  */
 package gui;
 
+import entity.GiaoVien;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 /**
  *
  * @author Laptophaidang.com
  */
 public class MainContent extends javax.swing.JFrame {
-
     /**
      * Creates new form MainContent
      */
-    public MainContent() {
+    public MainContent(GiaoVien gv) {
         initComponents();
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
         loadBanner();
         loadMnStudent();
         loadClass();
+
+        //Tạo ngày hôm nay
+        new Thread() {
+            public void run() {
+                while (true) {
+                    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+                    LocalDateTime now = LocalDateTime.now();
+                    lblToday.setText(dtf.format(now));
+                }
+            }
+        }.start();
+        // Set tên giáo viên
+        lblNameTeacher.setText(gv.getHo_ten());
     }
 
     /**
@@ -57,26 +75,24 @@ public class MainContent extends javax.swing.JFrame {
         jLabel12 = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
         jLabel13 = new javax.swing.JLabel();
-        jLabel14 = new javax.swing.JLabel();
+        lblNameTeacher = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
-        jLabel16 = new javax.swing.JLabel();
+        lblToday = new javax.swing.JLabel();
         lbImageBanner = new javax.swing.JLabel();
         jplMainContent = new javax.swing.JPanel();
         jPanel8 = new javax.swing.JPanel();
         jplMenu = new javax.swing.JPanel();
         txtMenu = new javax.swing.JLabel();
         tong_quan = new javax.swing.JPanel();
-        icon_tong_quan = new javax.swing.JLabel();
-        jLabel17 = new javax.swing.JLabel();
+        btn_Home = new javax.swing.JButton();
         jplQuanLySinhVien = new javax.swing.JPanel();
-        icon_tong_quan1 = new javax.swing.JLabel();
-        jLabel18 = new javax.swing.JLabel();
+        btn_Student = new javax.swing.JButton();
         jplQuanLyGiaoVien = new javax.swing.JPanel();
-        icon_tong_quan2 = new javax.swing.JLabel();
-        jLabel19 = new javax.swing.JLabel();
+        btn_Teacher = new javax.swing.JButton();
         jplQuanLyDeThi = new javax.swing.JPanel();
-        icon_tong_quan3 = new javax.swing.JLabel();
-        jLabel20 = new javax.swing.JLabel();
+        btn_Exam = new javax.swing.JButton();
+        jplQuanLyDeThi1 = new javax.swing.JPanel();
+        btn_diagram = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -258,11 +274,11 @@ public class MainContent extends javax.swing.JFrame {
 
         jLabel13.setText("User :");
 
-        jLabel14.setText("Admin");
+        lblNameTeacher.setText("Admin");
 
         jLabel15.setText("Today:");
 
-        jLabel16.setText("20-08-2001");
+        lblToday.setText("20-08-2001");
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
@@ -274,11 +290,11 @@ public class MainContent extends javax.swing.JFrame {
                     .addGroup(jPanel7Layout.createSequentialGroup()
                         .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(lblNameTeacher, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel7Layout.createSequentialGroup()
                         .addComponent(jLabel15)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addComponent(lblToday, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -286,10 +302,10 @@ public class MainContent extends javax.swing.JFrame {
                 .addGap(25, 25, 25)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblNameTeacher, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblToday, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel15))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -317,116 +333,119 @@ public class MainContent extends javax.swing.JFrame {
             .addComponent(txtMenu, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
         );
 
-        tong_quan.setBackground(new java.awt.Color(255, 255, 51));
-        tong_quan.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tong_quanMouseClicked(evt);
+        tong_quan.setBackground(new java.awt.Color(102, 153, 255));
+
+        btn_Home.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
+        btn_Home.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/home-icon.png"))); // NOI18N
+        btn_Home.setText("Tổng Quan");
+        btn_Home.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btn_Home.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_HomeActionPerformed(evt);
             }
         });
-
-        icon_tong_quan.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/home-icon.png"))); // NOI18N
-
-        jLabel17.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel17.setText("Tổng Quan");
 
         javax.swing.GroupLayout tong_quanLayout = new javax.swing.GroupLayout(tong_quan);
         tong_quan.setLayout(tong_quanLayout);
         tong_quanLayout.setHorizontalGroup(
             tong_quanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(tong_quanLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(icon_tong_quan, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(btn_Home, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         tong_quanLayout.setVerticalGroup(
             tong_quanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(icon_tong_quan, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
-            .addComponent(jLabel17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btn_Home, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        jplQuanLySinhVien.setBackground(new java.awt.Color(255, 255, 51));
-        jplQuanLySinhVien.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jplQuanLySinhVienMouseClicked(evt);
+        jplQuanLySinhVien.setBackground(new java.awt.Color(102, 153, 255));
+
+        btn_Student.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
+        btn_Student.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Student-3-icon.png"))); // NOI18N
+        btn_Student.setText("Sinh Viên");
+        btn_Student.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btn_Student.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_StudentActionPerformed(evt);
             }
         });
-
-        icon_tong_quan1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Student-3-icon.png"))); // NOI18N
-
-        jLabel18.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel18.setText("Sinh Viên");
 
         javax.swing.GroupLayout jplQuanLySinhVienLayout = new javax.swing.GroupLayout(jplQuanLySinhVien);
         jplQuanLySinhVien.setLayout(jplQuanLySinhVienLayout);
         jplQuanLySinhVienLayout.setHorizontalGroup(
             jplQuanLySinhVienLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jplQuanLySinhVienLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(icon_tong_quan1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel18, javax.swing.GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE))
+            .addComponent(btn_Student, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jplQuanLySinhVienLayout.setVerticalGroup(
             jplQuanLySinhVienLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(icon_tong_quan1, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
-            .addComponent(jLabel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btn_Student, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        jplQuanLyGiaoVien.setBackground(new java.awt.Color(255, 255, 51));
-        jplQuanLyGiaoVien.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jplQuanLyGiaoVienMouseClicked(evt);
+        jplQuanLyGiaoVien.setBackground(new java.awt.Color(102, 153, 255));
+
+        btn_Teacher.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
+        btn_Teacher.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/speech.png"))); // NOI18N
+        btn_Teacher.setText("Giáo Viên");
+        btn_Teacher.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btn_Teacher.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_TeacherActionPerformed(evt);
             }
         });
-
-        icon_tong_quan2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/speech.png"))); // NOI18N
-
-        jLabel19.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel19.setText("Giáo Viên");
 
         javax.swing.GroupLayout jplQuanLyGiaoVienLayout = new javax.swing.GroupLayout(jplQuanLyGiaoVien);
         jplQuanLyGiaoVien.setLayout(jplQuanLyGiaoVienLayout);
         jplQuanLyGiaoVienLayout.setHorizontalGroup(
             jplQuanLyGiaoVienLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jplQuanLyGiaoVienLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(icon_tong_quan2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel19, javax.swing.GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE))
+            .addComponent(btn_Teacher, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jplQuanLyGiaoVienLayout.setVerticalGroup(
             jplQuanLyGiaoVienLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(icon_tong_quan2, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
-            .addComponent(jLabel19, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btn_Teacher, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        jplQuanLyDeThi.setBackground(new java.awt.Color(255, 255, 51));
-        jplQuanLyDeThi.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jplQuanLyDeThiMouseClicked(evt);
+        jplQuanLyDeThi.setBackground(new java.awt.Color(102, 153, 255));
+
+        btn_Exam.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
+        btn_Exam.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/test.png"))); // NOI18N
+        btn_Exam.setText("Đề thi");
+        btn_Exam.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btn_Exam.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_ExamActionPerformed(evt);
             }
         });
-
-        icon_tong_quan3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/test.png"))); // NOI18N
-
-        jLabel20.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel20.setText("Đề thi");
 
         javax.swing.GroupLayout jplQuanLyDeThiLayout = new javax.swing.GroupLayout(jplQuanLyDeThi);
         jplQuanLyDeThi.setLayout(jplQuanLyDeThiLayout);
         jplQuanLyDeThiLayout.setHorizontalGroup(
             jplQuanLyDeThiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jplQuanLyDeThiLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(icon_tong_quan3, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel20, javax.swing.GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE))
+            .addComponent(btn_Exam, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jplQuanLyDeThiLayout.setVerticalGroup(
             jplQuanLyDeThiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(icon_tong_quan3, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
-            .addComponent(jLabel20, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btn_Exam, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
+        jplQuanLyDeThi1.setBackground(new java.awt.Color(102, 153, 255));
+
+        btn_diagram.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
+        btn_diagram.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/pie-chart.png"))); // NOI18N
+        btn_diagram.setText("Thống kê - Biểu đồ");
+        btn_diagram.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btn_diagram.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_diagramActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jplQuanLyDeThi1Layout = new javax.swing.GroupLayout(jplQuanLyDeThi1);
+        jplQuanLyDeThi1.setLayout(jplQuanLyDeThi1Layout);
+        jplQuanLyDeThi1Layout.setHorizontalGroup(
+            jplQuanLyDeThi1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(btn_diagram, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        jplQuanLyDeThi1Layout.setVerticalGroup(
+            jplQuanLyDeThi1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(btn_diagram, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
@@ -438,6 +457,7 @@ public class MainContent extends javax.swing.JFrame {
             .addComponent(jplQuanLySinhVien, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jplQuanLyGiaoVien, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jplQuanLyDeThi, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jplQuanLyDeThi1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -451,7 +471,9 @@ public class MainContent extends javax.swing.JFrame {
                 .addComponent(jplQuanLyGiaoVien, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jplQuanLyDeThi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 406, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jplQuanLyDeThi1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 327, Short.MAX_VALUE))
         );
 
         jMenu1.setText("File");
@@ -515,84 +537,79 @@ public class MainContent extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void tong_quanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tong_quanMouseClicked
-
-        JOptionPane.showMessageDialog(this, "oke");
-    }//GEN-LAST:event_tong_quanMouseClicked
-
-    private void jplQuanLySinhVienMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jplQuanLySinhVienMouseClicked
-        loadMnStudent();
-    }//GEN-LAST:event_jplQuanLySinhVienMouseClicked
-
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         loadClass();
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
-    private void jplQuanLyGiaoVienMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jplQuanLyGiaoVienMouseClicked
-        loadTeacher();
-    }//GEN-LAST:event_jplQuanLyGiaoVienMouseClicked
+    private void btn_HomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_HomeActionPerformed
+        JOptionPane.showMessageDialog(this, "oke");
+    }//GEN-LAST:event_btn_HomeActionPerformed
 
-    private void jplQuanLyDeThiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jplQuanLyDeThiMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jplQuanLyDeThiMouseClicked
+    private void btn_StudentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_StudentActionPerformed
+        loadMnStudent();
+    }//GEN-LAST:event_btn_StudentActionPerformed
+
+    private void btn_TeacherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_TeacherActionPerformed
+        loadTeacher();
+    }//GEN-LAST:event_btn_TeacherActionPerformed
+
+    private void btn_ExamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ExamActionPerformed
+        loadExam();
+    }//GEN-LAST:event_btn_ExamActionPerformed
+
+    private void btn_diagramActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_diagramActionPerformed
+        JOptionPane.showMessageDialog(this, "Rất tiếc, Chưa có gì!");
+    }//GEN-LAST:event_btn_diagramActionPerformed
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Windows".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MainContent.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MainContent.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MainContent.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MainContent.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                MainContent main = new MainContent();
-                Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-                main.setBounds(100, 100, (int) dim.getWidth(), (int) dim.getHeight());
-                main.setVisible(true);
-                main.setLocationRelativeTo(null);
-            }
-        });
-    }
+//    public static void main(String args[]) {
+//        /* Set the Nimbus look and feel */
+//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+//         */
+//        try {
+//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+//                if ("Windows".equals(info.getName())) {
+//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+//                    break;
+//                }
+//            }
+//        } catch (ClassNotFoundException ex) {
+//            java.util.logging.Logger.getLogger(MainContent.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (InstantiationException ex) {
+//            java.util.logging.Logger.getLogger(MainContent.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (IllegalAccessException ex) {
+//            java.util.logging.Logger.getLogger(MainContent.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+//            java.util.logging.Logger.getLogger(MainContent.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        }
+//        //</editor-fold>
+//
+//        /* Create and display the form */
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                MainContent main = new MainContent();
+//                main.setVisible(true);
+//            }
+//        });
+//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel icon_tong_quan;
-    private javax.swing.JLabel icon_tong_quan1;
-    private javax.swing.JLabel icon_tong_quan2;
-    private javax.swing.JLabel icon_tong_quan3;
+    private javax.swing.JButton btn_Exam;
+    private javax.swing.JButton btn_Home;
+    private javax.swing.JButton btn_Student;
+    private javax.swing.JButton btn_Teacher;
+    private javax.swing.JButton btn_diagram;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel17;
-    private javax.swing.JLabel jLabel18;
-    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -618,44 +635,49 @@ public class MainContent extends javax.swing.JFrame {
     private javax.swing.JPanel jplMainContent;
     private javax.swing.JPanel jplMenu;
     private javax.swing.JPanel jplQuanLyDeThi;
+    private javax.swing.JPanel jplQuanLyDeThi1;
     private javax.swing.JPanel jplQuanLyGiaoVien;
     private javax.swing.JPanel jplQuanLySinhVien;
     private javax.swing.JLabel lbImageBanner;
+    private javax.swing.JLabel lblNameTeacher;
+    private javax.swing.JLabel lblToday;
     private javax.swing.JPanel pnlSystem;
     private javax.swing.JPanel tong_quan;
     private javax.swing.JLabel txtMenu;
     // End of variables declaration//GEN-END:variables
 
+    private void loadDisplay(JPanel jp) {
+        jplMainContent.removeAll();
+        jplMainContent.add(jp);
+        jplMainContent.repaint();
+        jplMainContent.validate();
+    }
+
     private void loadBanner() {
         ImageIcon img = new ImageIcon("src\\img\\banner.png"); //full path of image
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        lbImageBanner.setBounds(100, 100, (int) dim.getWidth(), 100);
-        Image img2 = img.getImage().getScaledInstance(lbImageBanner.getWidth(), 100, 1);
+        Image img2 = img.getImage().getScaledInstance((int) dim.getWidth(), 100, 1);
         ImageIcon img3 = new ImageIcon(img2);
         lbImageBanner.setIcon(img3);
     }
 
     private void loadMnStudent() {
         MnStudent mnst = new MnStudent();
-        jplMainContent.removeAll();
-        jplMainContent.add(mnst);
-        jplMainContent.repaint();
-        jplMainContent.validate();
+        loadDisplay(mnst);
     }
 
     private void loadClass() {
         JFClass jfc = new JFClass();
-        jplMainContent.removeAll();
-        jplMainContent.add(jfc);
-        jplMainContent.repaint();
-        jplMainContent.validate();
+        loadDisplay(jfc);
     }
 
     private void loadTeacher() {
         MnTeacher mtc = new MnTeacher();
-        jplMainContent.removeAll();
-        jplMainContent.add(mtc);
-        jplMainContent.repaint();
-        jplMainContent.validate();
+        loadDisplay(mtc);
+    }
+
+    private void loadExam() {
+        MnExam mex = new MnExam();
+        loadDisplay(mex);
     }
 }

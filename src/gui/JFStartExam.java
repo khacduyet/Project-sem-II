@@ -14,14 +14,17 @@ import javax.swing.JOptionPane;
  * @author duyet
  */
 public class JFStartExam extends javax.swing.JFrame {
-
+    String user;
+    String pass;
     /**
      * Creates new form JFSearchPoint
      */
-    public JFStartExam() {
+    public JFStartExam(String username, String password) {
         initComponents();
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
+        user = username;
+        pass = password;
     }
 
     /**
@@ -305,8 +308,8 @@ public class JFStartExam extends javax.swing.JFrame {
         if(i == 0){
             this.dispose();
             JOptionPane.showMessageDialog(this, "Bạn đã nộp bài thành công!");
-            JFStudent jst = new JFStudent();
-            jst.setVisible(true);
+//            JFStudent jst = new JFStudent(sv);
+//            jst.setVisible(true);
         } 
     }//GEN-LAST:event_btnSubmitActionPerformed
 

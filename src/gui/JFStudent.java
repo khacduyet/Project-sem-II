@@ -5,6 +5,7 @@
  */
 package gui;
 
+import entity.SinhVien;
 import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.PointerInfo;
@@ -17,12 +18,18 @@ import javax.swing.JOptionPane;
  */
 public class JFStudent extends javax.swing.JFrame {
 
+    private int id;
+    private String ma_sv;
+    private int id_lop;
+    private String ho_ten;
+
     /**
      * Creates new form test
      */
-    public JFStudent() {
+    public JFStudent(SinhVien sv) {
         initComponents();
         setLocationRelativeTo(null);
+        getAccountFromLogin(sv);
     }
 
     /**
@@ -39,7 +46,7 @@ public class JFStudent extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         lblAvatar = new javax.swing.JLabel();
         lblNameSt = new javax.swing.JLabel();
-        lblNameSt1 = new javax.swing.JLabel();
+        lblIdSt = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         btnFindPoint = new javax.swing.JButton();
         btnStartEx = new javax.swing.JButton();
@@ -66,9 +73,9 @@ public class JFStudent extends javax.swing.JFrame {
         lblNameSt.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblNameSt.setText("Nguyễn Hữu Thắng");
 
-        lblNameSt1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        lblNameSt1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblNameSt1.setText("B8793");
+        lblIdSt.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblIdSt.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblIdSt.setText("B8793");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -78,7 +85,7 @@ public class JFStudent extends javax.swing.JFrame {
                 .addGap(0, 397, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblNameSt, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblNameSt1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblIdSt, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lblAvatar)
                 .addGap(11, 11, 11))
@@ -91,7 +98,7 @@ public class JFStudent extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(lblNameSt)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(lblNameSt1))
+                        .addComponent(lblIdSt))
                     .addComponent(lblAvatar, javax.swing.GroupLayout.Alignment.LEADING))
                 .addContainerGap(18, Short.MAX_VALUE))
         );
@@ -202,6 +209,16 @@ public class JFStudent extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnExitActionPerformed
 
+    private void getAccountFromLogin(SinhVien sv) {
+        id = sv.getId();
+        ma_sv = sv.getMa_sv();
+        id_lop = sv.getId_lop();
+        ho_ten = sv.getHo_ten();
+        
+        lblNameSt.setText(ho_ten);
+        lblIdSt.setText(ma_sv);
+    }
+
     /**
      * @param args the command line arguments
      */
@@ -216,7 +233,7 @@ public class JFStudent extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JLabel lblAvatar;
+    private javax.swing.JLabel lblIdSt;
     private javax.swing.JLabel lblNameSt;
-    private javax.swing.JLabel lblNameSt1;
     // End of variables declaration//GEN-END:variables
 }

@@ -5,12 +5,16 @@
  */
 package gui;
 
+import entity.SinhVien;
+
 /**
  *
  * @author duyet
  */
 public class JFChooseExam extends javax.swing.JFrame {
     private JFStudent jsFStudent;
+    String user;
+    String pass;
     /**
      * Creates new form JFChooseExam
      */
@@ -18,9 +22,14 @@ public class JFChooseExam extends javax.swing.JFrame {
         this.jsFStudent = jsFStudent;
         initComponents();
         
+        
         // Thay đổi mặc định cửa sổ
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
+    }
+    
+    public JFChooseExam(SinhVien sv){
+        
     }
 
     private JFChooseExam() {
@@ -123,7 +132,7 @@ public class JFChooseExam extends javax.swing.JFrame {
     }//GEN-LAST:event_btnExitActionPerformed
 
     private void btnStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStartActionPerformed
-        JFStartExam jse = new JFStartExam();
+        JFStartExam jse = new JFStartExam(user, pass);
         jse.setVisible(true);
         this.setVisible(false);
         jsFStudent.setVisible(false);
