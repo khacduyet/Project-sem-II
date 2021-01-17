@@ -1,4 +1,4 @@
-CREATE DATABASE E_SMART
+	CREATE DATABASE E_SMART
 GO
 USE E_SMART
 GO
@@ -243,7 +243,7 @@ SELECT * FROM tbl_GiaoVien
 
 go
 -- CREATE PROCEDURE BY THANG
-
+/*==============PROC GIAO VIEN================*/
 CREATE PROCEDURE getAllGV
 AS
 	SELECT * FROM tbl_GiaoVien
@@ -251,6 +251,7 @@ GO;
 
 EXEC sp_HelpText '[dbo].[getAllGV]'
 go
+
 -- insert data bang giao vien
 CREATE PROCEDURE insertGv
  @id int,
@@ -272,22 +273,17 @@ AS
  --update data giao vien
 
  CREATE PROCEDURE updateGiaoVien
- @id int,
- @ma_gv varchar(10),
- @ho_ten nvarchar(100),
- @gioi_tinh bit,
- @ngay_sinh date,
- @dien_thoai nvarchar(11),
- @dia_chi nvarchar(200),
- @email varchar(100),
- @ngay_tao date,
- @ngay_cap_nhat date,
- @trang_thai bit,
- @username varchar(100),
- @password varchar(100)
- AS
-	UPDATE tbl_GiaoVien SET ho_ten = @ho_ten, gioi_tinh = @gioi_tinh ,ngay_sinh = @ngay_sinh, dien_thoai = @dien_thoai, dia_chi = @dia_chi,
-	email = @email , ngay_cap_nhat = @ngay_cap_nhat, trang_thai = @trang_thai , username = @username ,password = @password WHERE id = @id
+@id int,
+@ho_ten nvarchar(100),
+@gioi_tinh bit,
+@ngay_sinh date,
+@dien_thoai varchar(11),
+@dia_chi nvarchar(200),
+@email varchar(100),
+@ngay_cap_nhat date,
+@trang_thai bit
+AS
+	UPDATE tbl_GiaoVien SET ho_ten = @ho_ten,gioi_tinh = @gioi_tinh, ngay_sinh = @ngay_sinh,dien_thoai =  @dien_thoai , dia_chi = @dia_chi, email = @email,ngay_cap_nhat = @ngay_cap_nhat,trang_thai = @trang_thai WHERE id = @id
 GO
  -- xoa giao vien
   CREATE PROCEDURE deleteGiaoVien
@@ -295,6 +291,14 @@ GO
 AS
 	DELETE FROM tbl_GiaoVien WHERE id = @id
 GO
+-- lay theo id giao vien
+CREATE PROCEDURE getByIdGV
+@id int
+AS
+	SELECT * FROM tbl_GiaoVien WHERE id = @id
+GO
+/*==============PROC GIAO VIEN================*/
+
 --======= proc bo de ==========
 -------insert bode----------
  CREATE PROCEDURE getAllBoDe

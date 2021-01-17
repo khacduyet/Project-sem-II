@@ -14,11 +14,11 @@ import java.util.List;
  */
 public interface TeacherDAO {
     public List<GiaoVien> getAll();
-//    public GiaoVien getById(String id);
+    public GiaoVien getById(int id);
     
     public void insert(GiaoVien gv);
     public void update(GiaoVien gv);
-    public void delete(String id);
+    public void delete(int id);
     
     // Get account đăng nhập giáo viên
     public GiaoVien getAccountGiaoVien(String username, String password);
