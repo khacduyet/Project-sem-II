@@ -9,6 +9,7 @@ import entity.SinhVien;
 import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.PointerInfo;
+import java.awt.Window;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
@@ -22,6 +23,7 @@ public class JFStudent extends javax.swing.JFrame {
     private String ma_sv;
     private int id_lop;
     private String ho_ten;
+    SinhVien stud;
 
     /**
      * Creates new form test
@@ -30,8 +32,9 @@ public class JFStudent extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         getAccountFromLogin(sv);
+        stud = sv;
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -107,6 +110,11 @@ public class JFStudent extends javax.swing.JFrame {
         btnFindPoint.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/find.png"))); // NOI18N
         btnFindPoint.setText("TRA CỨU ĐIỂM");
         btnFindPoint.setToolTipText("Tra cứu điểm");
+        btnFindPoint.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFindPointActionPerformed(evt);
+            }
+        });
 
         btnStartEx.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         btnStartEx.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/exam.png"))); // NOI18N
@@ -197,17 +205,23 @@ public class JFStudent extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnStartExActionPerformed
 
+    private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
+        Integer i = JOptionPane.showConfirmDialog(this, "Bạn có chắc muốn đăng xuất!", "Thông báo!", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, new ImageIcon("src/img/exit-48px.png"));
+        if (i == 0) {
+            for (Window win : Window.getWindows()) {
+                win.dispose();
+            }
+            new JFIndex(ERROR).setVisible(true);
+        }
+    }//GEN-LAST:event_btnExitActionPerformed
+
     private void lblAvatarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblAvatarMouseClicked
 
     }//GEN-LAST:event_lblAvatarMouseClicked
 
-    private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
-        Integer i = JOptionPane.showConfirmDialog(this, "Bạn có chắc muốn đăng xuất!", "Thông báo!", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, new ImageIcon("src/img/exit-48px.png"));
-        if (i == 0) {
-            this.dispose();
-            new JFIndex(ERROR).setVisible(true);
-        }
-    }//GEN-LAST:event_btnExitActionPerformed
+    private void btnFindPointActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFindPointActionPerformed
+        new JFSearchPoint(stud).setVisible(true);
+    }//GEN-LAST:event_btnFindPointActionPerformed
 
     private void getAccountFromLogin(SinhVien sv) {
         id = sv.getId();
