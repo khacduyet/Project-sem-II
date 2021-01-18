@@ -67,5 +67,8 @@ public class LopHoc {
         this.trang_thai = trang_thai;
     }
     
-    
+    @Override
+    public String toString(){
+        return this.ten_lop;
+    }
 }

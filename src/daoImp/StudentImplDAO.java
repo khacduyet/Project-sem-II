@@ -76,7 +76,7 @@ public class StudentImplDAO implements StudentDAO {
         try {
             PreparedStatement pst = con.prepareStatement("INSERT INTO tbl_SinhVien VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
             pst.setString(1, sv.getMa_sv());
-            pst.setInt(2, sv.getId());
+            pst.setInt(2, sv.getId_lop());
             pst.setString(3, sv.getHo_ten());
             pst.setBoolean(4, sv.isGioi_Tinh());
             pst.setDate(5, (Date) sv.getNgay_sinh());
@@ -92,7 +92,6 @@ public class StudentImplDAO implements StudentDAO {
             pst.setString(15, sv.getGhi_chu());
             pst.setBoolean(16, sv.isTrang_thai());
             pst.executeUpdate();
-
         } catch (SQLException ex) {
             Logger.getLogger(StudentImplDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -104,7 +103,7 @@ public class StudentImplDAO implements StudentDAO {
             PreparedStatement pst = con.prepareStatement("UPDATE tbl_SinhVien SET id_lop = ?,ho_ten = ?,gioi_tinh=?,ngay_sinh = ?,ngay_nhap_hoc=?"
                     + ",ngay_cap_nhat =? ,di_dong = ? ,dt_gia_dinh = ?,email = ?,dia_chi = ?,avatar = ? ,username = ?,password = ?,"
                     + "ghi_chu = ?,trang_thai = ? WHERE id = ?");
-            pst.setInt(1, sv.getId());
+            pst.setInt(1, sv.getId_lop());
             pst.setString(2, sv.getHo_ten());
             pst.setBoolean(3, sv.isGioi_Tinh());
             pst.setDate(4, (Date) sv.getNgay_sinh());
@@ -138,10 +137,10 @@ public class StudentImplDAO implements StudentDAO {
     }
 
     @Override
-    public SinhVien getAccount(String username, String password) {
+    public SinhVien getAccountSinhVien(String username, String password) {
         SinhVien sv = null;
         try {
-            PreparedStatement pst = con.prepareStatement("SELECT * FROM tbl_SinhVien where username = ? AND password = ?");
+            PreparedStatement pst = con.prepareStatement("SELECT * FROM tbl_SinhVien where username = ? AND password = ? AND trang_thai = 1");
             pst.setString(1, username);
             pst.setString(2, password);
             ResultSet rs = pst.executeQuery();
@@ -157,6 +156,38 @@ public class StudentImplDAO implements StudentDAO {
                     .getName()).log(Level.SEVERE, null, ex);
         }
         return sv;
+    }
+
+    @Override
+    public SinhVien getIdIns() {
+        SinhVien sv = null;
+        try {
+            PreparedStatement pst = con.prepareStatement("SELECT TOP 1 * FROM tbl_SinhVien ORDER BY id DESC");
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                sv = new SinhVien(rs.getInt("id"), rs.getString("ma_sv"), rs.getInt("id_lop"), rs.getString("ho_ten"),
+                        rs.getBoolean("gioi_tinh"), rs.getDate("ngay_sinh"), rs.getDate("ngay_nhap_hoc"), rs.getDate("ngay_cap_nhat"), rs.getString("di_dong"),
+                        rs.getString("dt_gia_dinh"), rs.getString("email"), rs.getString("dia_chi"), rs.getString("avatar"), rs.getString("username"),
+                        rs.getString("password"), rs.getString("ghi_chu"), rs.getBoolean("trang_thai"));
+
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(StudentImplDAO.class
+                    .getName()).log(Level.SEVERE, null, ex);
+        }
+        return sv;
+    }
+
+    @Override
+    public void updateStatus(SinhVien sv) {
+        try {
+            PreparedStatement pst = con.prepareStatement("UPDATE tbl_SinhVien SET trang_thai = ? WHERE id = ?");
+            pst.setBoolean(1, sv.isTrang_thai());
+            pst.setInt(2, sv.getId());
+            pst.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(StudentImplDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
 }

@@ -106,7 +106,7 @@ public class TeacherImplDAO implements TeacherDAO {
     public GiaoVien getAccountGiaoVien(String username, String password) {
         GiaoVien gv = null;
         try {
-            PreparedStatement pst = con.prepareStatement("SELECT * FROM Tbl_GiaoVien where username = ? AND password = ?");
+            PreparedStatement pst = con.prepareStatement("SELECT * FROM Tbl_GiaoVien where username = ? AND password = ? AND trang_thai = 1");
             pst.setString(1, username);
             pst.setString(2, password);
             ResultSet rs = pst.executeQuery();

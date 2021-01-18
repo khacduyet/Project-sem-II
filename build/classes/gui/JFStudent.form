@@ -173,6 +173,9 @@
             <Property name="text" type="java.lang.String" value="TRA C&#x1ee8;U &#x110;I&#x1ec2;M"/>
             <Property name="toolTipText" type="java.lang.String" value="Tra c&#x1ee9;u &#x111;i&#x1ec3;m"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnFindPointActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnStartEx">
           <Properties>
