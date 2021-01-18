@@ -20,6 +20,7 @@ public interface StudentDAO {
     public void delete(int id);
     
     // duyệt thêm phương thức
-    public SinhVien getAccount(String username, String password);
-    
+    public SinhVien getAccountSinhVien(String username, String password);
+    public SinhVien getIdIns();
+    public void updateStatus(SinhVien sv);
 }

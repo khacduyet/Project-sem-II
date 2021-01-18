@@ -310,7 +310,6 @@ public class MainContent extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jplMainContent.setMaximumSize(new java.awt.Dimension(1000, 1000));
         jplMainContent.setLayout(new java.awt.BorderLayout());
 
         jPanel8.setBackground(new java.awt.Color(102, 153, 255));

@@ -5,6 +5,10 @@ GO
 drop database E_SMART
 GO
 --thong tin bang sinh vien--
+select * from tbl_SinhVien
+select * from tbl_LopHoc
+SELECT TOP 1 * FROM tbl_SinhVien ORDER BY id DESC
+
 CREATE TABLE tbl_SinhVien
 (
 	id int primary key identity,
@@ -28,7 +32,8 @@ CREATE TABLE tbl_SinhVien
 GO
 -- insert du lieu tbl_SinhVien
 insert into tbl_SinhVien values 
-('SV001',1,N'Thang',1,'1990-12-12','2020-10-10','2021-1-13','0987654321','0912345678','thang@gmail.com','Ha Noi',null,'thang','12345','khong co gi',1)
+('SV001',1,N'Thang',1,'1990-12-12','2020-10-10','2021-1-13','0987654321','0912345678','thang@gmail.com','Ha Noi',null,'thang','12345','khong co gi',1),
+('SV002',1,N'Hop',1,'1999-01-01','2020-10-10','2021-1-13','0123456789','0123456789','hop@gmail.com','Thanh Hoa',null,'hop','12345','khong co gi',1)
 
 go
 
@@ -42,7 +47,9 @@ CREATE TABLE tbl_LopHoc
 )
 GO
 -- insert du lieu tbl_LopHoc
+insert into tbl_LopHoc values ('C1909i1','CNTT',2020)
 insert into tbl_LopHoc values ('C1909i2','CNTT',2020)
+insert into tbl_LopHoc values ('C2009i','CNTT',2021)
 go
 
 --thong tin bang khieu nai--

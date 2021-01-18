@@ -240,7 +240,7 @@ public class JFLogin extends javax.swing.JFrame {
                 new MainContent(gv).setVisible(true);
             }
         } else if (login == 2) {
-            SinhVien sv = sdao.getAccount(txtUser.getText(), new String(txtPass.getPassword()));
+            SinhVien sv = sdao.getAccountSinhVien(txtUser.getText(), new String(txtPass.getPassword()));
             if (sv == null) {
                 JOptionPane.showMessageDialog(this, "Sai tên tài khoản hoặc mật khẩu!", "Thông báo!", JOptionPane.QUESTION_MESSAGE, new ImageIcon("src/img/exit-48px.png"));
             } else {
