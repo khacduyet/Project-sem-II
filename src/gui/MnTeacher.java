@@ -5,15 +5,27 @@
  */
 package gui;
 
+import contrain.DatabaseConnections;
+import dao.TeacherDAO;
+import daoImp.TeacherImplDAO;
 import entity.GiaoVien;
+import java.sql.Connection;
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Formatter;
+import java.util.List;
+import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
+import org.jdesktop.swingx.calendar.DateUtils;
 
 /**
  *
@@ -21,11 +33,18 @@ import java.util.logging.Logger;
  */
 public class MnTeacher extends javax.swing.JPanel {
 
+    private Connection con;
+    private TeacherDAO teacherdao;
+    boolean checkEdit = false;
     /**
      * Creates new form MnTeacher
      */
     public MnTeacher() {
+        con = DatabaseConnections.getConnect();
+        teacherdao = new TeacherImplDAO(con);
         initComponents();
+        getId();
+        loadDataTeacher();
     }
 
     /**
@@ -40,6 +59,12 @@ public class MnTeacher extends javax.swing.JPanel {
         GioiTinhGroup = new javax.swing.ButtonGroup();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel3 = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        jLabel13 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tblListTeacher = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -63,29 +88,76 @@ public class MnTeacher extends javax.swing.JPanel {
         txtUsername = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
         txtPassword = new javax.swing.JTextField();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tbl_Teacher = new javax.swing.JTable();
         btnSave = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
-        jLabel13 = new javax.swing.JLabel();
-        txtSearch = new javax.swing.JTextField();
 
         setPreferredSize(new java.awt.Dimension(1057, 605));
+
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(102, 0, 102));
+        jLabel3.setText("Danh Sách Thông Tin Giáo Viên");
+
+        jLabel13.setForeground(new java.awt.Color(102, 0, 102));
+        jLabel13.setText("Tìm Kiếm:");
+
+        jPanel1.setLayout(new java.awt.BorderLayout());
+
+        tblListTeacher.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        tblListTeacher.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblListTeacherMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(tblListTeacher);
+
+        jPanel1.add(jScrollPane2, java.awt.BorderLayout.CENTER);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1052, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel13)
+                        .addGap(18, 18, 18)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(0, 26, Short.MAX_VALUE)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(814, 814, 814))))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 624, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(70, 70, 70)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel13))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(53, 53, 53))
         );
 
         jTabbedPane1.addTab("Quản lý Tài Khoản", jPanel3);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(102, 0, 102));
         jLabel1.setText("Thêm mới giáo viên");
 
         jLabel2.setText("Mã giáo viên: ");
@@ -124,19 +196,6 @@ public class MnTeacher extends javax.swing.JPanel {
 
         jLabel12.setText("Password:");
 
-        tbl_Teacher.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane1.setViewportView(tbl_Teacher);
-
         btnSave.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         btnSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Save-icon.png"))); // NOI18N
         btnSave.setText("Lưu");
@@ -148,9 +207,7 @@ public class MnTeacher extends javax.swing.JPanel {
 
         btnDelete.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         btnDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/delete.png"))); // NOI18N
-        btnDelete.setText("Xóa");
-
-        jLabel13.setText("Tìm kiếm:");
+        btnDelete.setText("Làm mới");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -216,20 +273,10 @@ public class MnTeacher extends javax.swing.JPanel {
                                         .addComponent(jLabel12)
                                         .addGap(35, 35, 35)
                                         .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 311, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                .addContainerGap(45, Short.MAX_VALUE))))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(0, 0, Short.MAX_VALUE))))
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(44, 44, 44)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel13)
-                        .addGroup(jPanel2Layout.createSequentialGroup()
-                            .addGap(93, 93, 93)
-                            .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 311, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 971, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -277,21 +324,11 @@ public class MnTeacher extends javax.swing.JPanel {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(10, 10, 10)
                         .addComponent(jLabel6)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(61, 61, 61)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel13)
-                            .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(30, 30, 30))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnDelete)
-                            .addComponent(btnSave))
-                        .addGap(42, 42, 42)))
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnDelete)
+                    .addComponent(btnSave))
+                .addContainerGap(280, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Quản lý Giáo Viên", jPanel2);
@@ -304,7 +341,7 @@ public class MnTeacher extends javax.swing.JPanel {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 648, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -313,12 +350,9 @@ public class MnTeacher extends javax.swing.JPanel {
     }//GEN-LAST:event_txtNameActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-        // load ma giao vien co ki tu dau tien bat dau bang GV va kem theo 4 chu so random tu 1000 den 9999
-        int random_int = (int) (Math.random() * (9999 - 1000 + 1) + 1000);
-        String ma_gv = "GV" + random_int;
-        System.out.println("oke" + ma_gv);
+
         GiaoVien gv = new GiaoVien();
-        gv.setMa_gv(ma_gv);
+        gv.setMa_gv(lblIdTeacher.getText());
         gv.setHo_ten(txtName.getText());
         gv.setGioi_tinh(rdoMale.isSelected());
         // get data ngay sinh
@@ -334,18 +368,26 @@ public class MnTeacher extends javax.swing.JPanel {
         gv.setDia_chi(txtAddress.getText());
         gv.setEmail(txtEmail.getText());
 //      ngay tao bang lay ngay thang nam tren he thong may tinh
-        long timestamp = System.currentTimeMillis();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Date date = new Date(timestamp);
-        System.out.println("oke"+date);
-        System.out.println(dateFormat.format(date));
-        try {
-            System.out.println("ff"+dateFormat.parse(dateFormat.format(date)));
-            gv.setNgay_tao(dateFormat.parse(dateFormat.format(date)));
-        } catch (ParseException ex) {
-            Logger.getLogger(MnTeacher.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        Timestamp ts = new Timestamp(new Date().getTime());
+        java.sql.Date sqlDou = new java.sql.Date(ts.getTime());
+        gv.setNgay_tao(sqlDou);
+//      ngay cap nhat mac dinh lay theo ngay tao neu la lan dau tien
+        gv.setNgay_cap_nhat(sqlDou);
+        // dia chi giao vien
+        gv.setDia_chi(txtAddress.getText());
+        gv.setEmail(txtEmail.getText());
+        gv.setTrang_thai(chxStatus.isSelected());
+        gv.setUsername(txtUsername.getText());
+        gv.setPassword(txtPassword.getText());
+
+        teacherdao.insert(gv);
+
     }//GEN-LAST:event_btnSaveActionPerformed
+
+    private void tblListTeacherMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblListTeacherMouseClicked
+        // click de hien thi thong tin len form
+        
+    }//GEN-LAST:event_tblListTeacherMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -359,27 +401,76 @@ public class MnTeacher extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTextField jTextField1;
     private com.toedter.calendar.JDateChooser jdcDate;
     private javax.swing.JLabel lblIdTeacher;
     private javax.swing.JRadioButton rdoFemale;
     private javax.swing.JRadioButton rdoMale;
-    private javax.swing.JTable tbl_Teacher;
+    private javax.swing.JTable tblListTeacher;
     private javax.swing.JTextField txtAddress;
     private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtName;
     private javax.swing.JTextField txtPassword;
     private javax.swing.JTextField txtPhone;
-    private javax.swing.JTextField txtSearch;
     private javax.swing.JTextField txtUsername;
     // End of variables declaration//GEN-END:variables
+public void getId() {
+        GiaoVien gv = teacherdao.getIdIns();
+        String ma_gv = gv.getMa_gv();
+        Character ma_new = ma_gv.trim().charAt(ma_gv.length() - 1);
+        int number = Integer.parseInt(ma_new.toString());
+        String result = String.valueOf(number + 1);
+        lblIdTeacher.setText("GV00" + result);
+    }
+
+    private void loadDataTeacher() {
+        // hien thi thong tin giao vien len bang
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("Mã GV");
+        model.addColumn("Tên GV");
+        model.addColumn("Giới Tính");
+        model.addColumn("Ngày Sinh");
+        model.addColumn("Điện Thoại");
+        model.addColumn("Địa Chỉ");
+        model.addColumn("Email");
+        model.addColumn("Ngày Tạo");
+        model.addColumn("Ngày Cập Nhật");
+        model.addColumn("Trạng Thái");
+        model.addColumn("Username");
+        model.addColumn("Password");
+        
+        // hien thi thong tin len bang
+        List<GiaoVien> listGV = teacherdao.getAll();
+        for (GiaoVien item : listGV) {
+            Vector rows = new Vector();
+            rows.add(item.getMa_gv());
+            rows.add(item.getHo_ten());
+            rows.add(item.isGioi_tinh() ? "Nam" : "Nữ");
+            rows.add(item.getNgay_sinh());
+            rows.add(item.getDien_thoai());
+            rows.add(item.getDia_chi());
+            rows.add(item.getEmail());
+            rows.add(item.getNgay_tao());
+            rows.add(item.getNgay_cap_nhat());
+            rows.add(item.isTrang_thai() ? "Mở" : "Khóa");
+            rows.add(item.getUsername());
+            rows.add(item.getPassword());
+            model.addRow(rows);
+        }
+        
+        tblListTeacher.setModel(model);
+    }
+
 }

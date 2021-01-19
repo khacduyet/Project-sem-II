@@ -73,7 +73,7 @@ public final class MnStudent extends javax.swing.JPanel {
         // Set tên cột
         Vector cols = new Vector();
         cols.add("ID");
-        cols.add("Mã SV");
+        cols.add("Mã Sinh Viên");
         cols.add("Mã Lớp");
         cols.add("Lớp");
         cols.add("Họ Tên");
@@ -138,6 +138,8 @@ public final class MnStudent extends javax.swing.JPanel {
         jLabel3 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         btnChangeStatus = new javax.swing.JButton();
+        jLabel19 = new javax.swing.JLabel();
+        txtSearch = new javax.swing.JTextField();
         AddStudent = new javax.swing.JPanel();
         lblTitleIns = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -239,14 +241,12 @@ public final class MnStudent extends javax.swing.JPanel {
             }
         });
 
+        jLabel19.setText("Tìm kiếm:");
+
         javax.swing.GroupLayout listStudentLayout = new javax.swing.GroupLayout(listStudent);
         listStudent.setLayout(listStudentLayout);
         listStudentLayout.setHorizontalGroup(
             listStudentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(listStudentLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane2)
-                .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, listStudentLayout.createSequentialGroup()
                 .addGroup(listStudentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(listStudentLayout.createSequentialGroup()
@@ -264,6 +264,16 @@ public final class MnStudent extends javax.swing.JPanel {
                         .addComponent(btnDel))
                     .addComponent(btnChangeStatus, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(41, 41, 41))
+            .addGroup(listStudentLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(listStudentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2)
+                    .addGroup(listStudentLayout.createSequentialGroup()
+                        .addComponent(jLabel19)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         listStudentLayout.setVerticalGroup(
             listStudentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -280,9 +290,13 @@ public final class MnStudent extends javax.swing.JPanel {
                         .addComponent(jLabel3)
                         .addGap(18, 18, 18)
                         .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(listStudentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(txtSearch, javax.swing.GroupLayout.DEFAULT_SIZE, 27, Short.MAX_VALUE)
+                    .addComponent(jLabel19, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(16, 16, 16)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 379, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(205, Short.MAX_VALUE))
+                .addContainerGap(167, Short.MAX_VALUE))
         );
 
         QLSinhVien.addTab("Danh sách sinh viên", listStudent);
@@ -556,12 +570,6 @@ public final class MnStudent extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(displayPointStudentLayout.createSequentialGroup()
                 .addGroup(displayPointStudentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, displayPointStudentLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jSeparator3))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, displayPointStudentLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane3))
                     .addGroup(displayPointStudentLayout.createSequentialGroup()
                         .addGroup(displayPointStudentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(displayPointStudentLayout.createSequentialGroup()
@@ -579,7 +587,12 @@ public final class MnStudent extends javax.swing.JPanel {
                                         .addGap(142, 142, 142)
                                         .addComponent(btnSearch))
                                     .addComponent(cboFilter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 224, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 224, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, displayPointStudentLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(displayPointStudentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jSeparator3, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING))))
                 .addContainerGap())
         );
         displayPointStudentLayout.setVerticalGroup(
@@ -832,6 +845,7 @@ public final class MnStudent extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -864,6 +878,7 @@ public final class MnStudent extends javax.swing.JPanel {
     private javax.swing.JTextField txtNameStud;
     private javax.swing.JTextField txtPassword;
     private javax.swing.JTextField txtPhone;
+    private javax.swing.JTextField txtSearch;
     private javax.swing.JTextField txtUsername;
     // End of variables declaration//GEN-END:variables
 }
