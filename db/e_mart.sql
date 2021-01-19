@@ -304,6 +304,14 @@ CREATE PROCEDURE getByIdGV
 AS
 	SELECT * FROM tbl_GiaoVien WHERE id = @id
 GO
+-- update trang thai giao vien
+select * from tbl_GiaoVien
+CREATE PROCEDURE updateStatusGV
+@id int,
+@trang_thai bit
+AS
+	UPDATE tbl_GiaoVien SET trang_thai = @trang_thai Where id = @id
+GO
 /*==============PROC GIAO VIEN================*/
 
 --======= proc bo de ==========

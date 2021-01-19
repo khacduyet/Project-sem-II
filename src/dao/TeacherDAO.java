@@ -24,4 +24,5 @@ public interface TeacherDAO {
     public GiaoVien getAccountGiaoVien(String username, String password);
     // them ma giao vien
     public GiaoVien getIdIns();
+    public void upadateStatus(GiaoVien gv);
 }
