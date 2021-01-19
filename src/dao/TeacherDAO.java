@@ -22,4 +22,6 @@ public interface TeacherDAO {
     
     // Get account đăng nhập giáo viên
     public GiaoVien getAccountGiaoVien(String username, String password);
+    // them ma giao vien
+    public GiaoVien getIdIns();
 }

@@ -106,7 +106,7 @@ public class TeacherImplDAO implements TeacherDAO {
     public GiaoVien getAccountGiaoVien(String username, String password) {
         GiaoVien gv = null;
         try {
-            PreparedStatement pst = con.prepareStatement("SELECT * FROM Tbl_GiaoVien where username = ? AND password = ? AND trang_thai = 1");
+            PreparedStatement pst = con.prepareStatement("SELECT * FROM Tbl_GiaoVien where username = ? AND password = ?");
             pst.setString(1, username);
             pst.setString(2, password);
             ResultSet rs = pst.executeQuery();
@@ -139,4 +139,22 @@ public class TeacherImplDAO implements TeacherDAO {
         return gv;
     }
 
+    @Override
+    public GiaoVien getIdIns() {
+        GiaoVien gv = null;
+        try {
+            PreparedStatement pst = con.prepareStatement("SELECT TOP 1 * FROM Tbl_GiaoVien ORDER BY id DESC");
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                gv = new GiaoVien(rs.getInt("id"), rs.getString("ma_gv"), rs.getString("ho_ten"), rs.getBoolean("gioi_tinh"),
+                        rs.getDate("ngay_sinh"), rs.getString("dien_thoai"), rs.getString("dia_chi"), rs.getString("email"), rs.getDate("ngay_tao"),
+                        rs.getDate("ngay_cap_nhat"), rs.getBoolean("trang_thai"), rs.getString("username"), rs.getString("password"));
+
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(StudentImplDAO.class
+                    .getName()).log(Level.SEVERE, null, ex);
+        }
+        return gv;
+    }
 }
