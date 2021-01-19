@@ -29,7 +29,7 @@ public class MainContent extends javax.swing.JFrame {
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         loadBanner();
         loadMnStudent();
-        loadClass();
+        loadHome();
 
         //Tạo ngày hôm nay
         new Thread() {
@@ -96,12 +96,21 @@ public class MainContent extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem3 = new javax.swing.JMenuItem();
+        jMenuItem4 = new javax.swing.JMenuItem();
+        jMenuItem5 = new javax.swing.JMenuItem();
+        jMenuItem6 = new javax.swing.JMenuItem();
+        jMenuItem7 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenu3 = new javax.swing.JMenu();
+        jMenuItem8 = new javax.swing.JMenuItem();
+        jMenuItem9 = new javax.swing.JMenuItem();
+        jMenu5 = new javax.swing.JMenu();
         jMenu4 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Giáo Viên");
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/System-icon.png"))); // NOI18N
 
@@ -310,6 +319,7 @@ public class MainContent extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jplMainContent.setMaximumSize(new java.awt.Dimension(32767, 32767));
         jplMainContent.setLayout(new java.awt.BorderLayout());
 
         jPanel8.setBackground(new java.awt.Color(102, 153, 255));
@@ -337,6 +347,7 @@ public class MainContent extends javax.swing.JFrame {
         btn_Home.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
         btn_Home.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/home-icon.png"))); // NOI18N
         btn_Home.setText("Tổng Quan");
+        btn_Home.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_Home.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         btn_Home.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -360,6 +371,8 @@ public class MainContent extends javax.swing.JFrame {
         btn_Student.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
         btn_Student.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Student-3-icon.png"))); // NOI18N
         btn_Student.setText("Sinh Viên");
+        btn_Student.setToolTipText("Sinh viên nè!");
+        btn_Student.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_Student.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         btn_Student.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -383,6 +396,8 @@ public class MainContent extends javax.swing.JFrame {
         btn_Teacher.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
         btn_Teacher.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/speech.png"))); // NOI18N
         btn_Teacher.setText("Giáo Viên");
+        btn_Teacher.setToolTipText("Giáo viên nè!");
+        btn_Teacher.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_Teacher.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         btn_Teacher.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -406,6 +421,8 @@ public class MainContent extends javax.swing.JFrame {
         btn_Exam.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
         btn_Exam.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/test.png"))); // NOI18N
         btn_Exam.setText("Đề thi");
+        btn_Exam.setToolTipText("Đề thi!");
+        btn_Exam.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_Exam.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         btn_Exam.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -429,6 +446,8 @@ public class MainContent extends javax.swing.JFrame {
         btn_diagram.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
         btn_diagram.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/pie-chart.png"))); // NOI18N
         btn_diagram.setText("Thống kê - Biểu đồ");
+        btn_diagram.setToolTipText("Thống kê tất cả?");
+        btn_diagram.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_diagram.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         btn_diagram.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -477,23 +496,47 @@ public class MainContent extends javax.swing.JFrame {
 
         jMenu1.setText("File");
 
-        jMenuItem1.setText("jMenuItem1");
+        jMenuItem1.setText("Open");
         jMenu1.add(jMenuItem1);
+
+        jMenuItem3.setText("Save");
+        jMenu1.add(jMenuItem3);
+
+        jMenuItem4.setText("Save as..");
+        jMenu1.add(jMenuItem4);
+
+        jMenuItem5.setText("Print");
+        jMenu1.add(jMenuItem5);
+
+        jMenuItem6.setText("Share");
+        jMenu1.add(jMenuItem6);
+
+        jMenuItem7.setText("Close");
+        jMenu1.add(jMenuItem7);
 
         jMenuBar1.add(jMenu1);
 
         jMenu2.setText("Edit");
 
-        jMenu3.setText("jMenu3");
+        jMenu3.setText("Insert");
         jMenu2.add(jMenu3);
+
+        jMenuItem8.setText("Update");
+        jMenu2.add(jMenuItem8);
+
+        jMenuItem9.setText("Delete");
+        jMenu2.add(jMenuItem9);
 
         jMenuBar1.add(jMenu2);
 
-        jMenu4.setText("navigate");
+        jMenu5.setText("View");
+        jMenuBar1.add(jMenu5);
+
+        jMenu4.setText("Navigate");
 
         jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_J, java.awt.event.InputEvent.SHIFT_MASK));
         jMenuItem2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Class-icon.png"))); // NOI18N
-        jMenuItem2.setText("Lớp Học");
+        jMenuItem2.setText("Class");
         jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem2ActionPerformed(evt);
@@ -541,7 +584,7 @@ public class MainContent extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void btn_HomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_HomeActionPerformed
-        JOptionPane.showMessageDialog(this, "oke");
+        loadHome();
     }//GEN-LAST:event_btn_HomeActionPerformed
 
     private void btn_StudentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_StudentActionPerformed
@@ -620,9 +663,17 @@ public class MainContent extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
+    private javax.swing.JMenu jMenu5;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItem6;
+    private javax.swing.JMenuItem jMenuItem7;
+    private javax.swing.JMenuItem jMenuItem8;
+    private javax.swing.JMenuItem jMenuItem9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -659,7 +710,12 @@ public class MainContent extends javax.swing.JFrame {
         ImageIcon img3 = new ImageIcon(img2);
         lbImageBanner.setIcon(img3);
     }
-
+    
+    private void loadHome(){
+        MnHome mh = new MnHome();
+        loadDisplay(mh);
+    }
+    
     private void loadMnStudent() {
         MnStudent mnst = new MnStudent();
         loadDisplay(mnst);

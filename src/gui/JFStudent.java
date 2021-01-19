@@ -58,6 +58,7 @@ public class JFStudent extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Sinh Viên");
         setUndecorated(true);
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
@@ -66,6 +67,7 @@ public class JFStudent extends javax.swing.JFrame {
         jPanel2.setOpaque(false);
 
         lblAvatar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/user.png"))); // NOI18N
+        lblAvatar.setToolTipText("");
         lblAvatar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblAvatarMouseClicked(evt);
@@ -75,10 +77,12 @@ public class JFStudent extends javax.swing.JFrame {
         lblNameSt.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         lblNameSt.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblNameSt.setText("Nguyễn Hữu Thắng");
+        lblNameSt.setToolTipText(lblNameSt.getText());
 
         lblIdSt.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         lblIdSt.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblIdSt.setText("B8793");
+        lblIdSt.setToolTipText(lblIdSt.getText());
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -130,6 +134,11 @@ public class JFStudent extends javax.swing.JFrame {
         btnInfSt.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/card-identity.png"))); // NOI18N
         btnInfSt.setText("THÔNG TIN CÁ NHÂN");
         btnInfSt.setToolTipText("Thông tin cá nhân");
+        btnInfSt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnInfStActionPerformed(evt);
+            }
+        });
 
         btnExit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Users-Exit-icon.png"))); // NOI18N
         btnExit.setToolTipText("Đăng xuất");
@@ -222,6 +231,10 @@ public class JFStudent extends javax.swing.JFrame {
     private void btnFindPointActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFindPointActionPerformed
         new JFSearchPoint(stud).setVisible(true);
     }//GEN-LAST:event_btnFindPointActionPerformed
+
+    private void btnInfStActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInfStActionPerformed
+        new JFPersonalInf(stud).setVisible(true);
+    }//GEN-LAST:event_btnInfStActionPerformed
 
     private void getAccountFromLogin(SinhVien sv) {
         id = sv.getId();

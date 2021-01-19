@@ -135,6 +135,7 @@
             </Property>
             <Property name="horizontalAlignment" type="int" value="0"/>
             <Property name="text" type="java.lang.String" value="TEST APPLICATION E-SMART"/>
+            <Property name="toolTipText" type="java.lang.String" value="&#x1ee8;ng d&#x1ee5;ng thi tr&#x1eaf;c nghi&#x1ec7;m &#x111;&#x1ec9;nh kout!"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JSeparator" name="jSeparator1">
@@ -152,6 +153,10 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/img/teacher.png"/>
             </Property>
+            <Property name="toolTipText" type="java.lang.String" value="Gi&#xe1;o vi&#xea;n v&#xe0; nh&#x1eef;ng ng&#x1b0;&#x1edd;i b&#x1ea1;n!"/>
+            <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+              <Color id="Hand Cursor"/>
+            </Property>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnTeacherActionPerformed"/>
@@ -161,6 +166,10 @@
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/img/graduated.png"/>
+            </Property>
+            <Property name="toolTipText" type="java.lang.String" value="Sinh vi&#xea;n v&#xe0; nh&#x1eef;ng con h&#x1ec1;!"/>
+            <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+              <Color id="Hand Cursor"/>
             </Property>
           </Properties>
           <Events>
@@ -172,6 +181,10 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/img/loupe.png"/>
             </Property>
+            <Property name="toolTipText" type="java.lang.String" value="T&#xec;m ki&#x1ebf;m v&#x1ea1;n v&#x1ead;t!"/>
+            <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+              <Color id="Hand Cursor"/>
+            </Property>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnFindPointActionPerformed"/>
@@ -181,6 +194,10 @@
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/img/diagram.png"/>
+            </Property>
+            <Property name="toolTipText" type="java.lang.String" value="C&#x1ea5;u h&#xec;nh m&#x1ecd;i th&#x1ee9;!"/>
+            <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+              <Color id="Hand Cursor"/>
             </Property>
           </Properties>
         </Component>

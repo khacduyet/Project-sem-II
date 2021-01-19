@@ -68,6 +68,7 @@ public class JFChooseExam extends javax.swing.JFrame {
         btnStart.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
         btnStart.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/pencil.png"))); // NOI18N
         btnStart.setText("THI");
+        btnStart.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnStart.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnStartActionPerformed(evt);
@@ -77,6 +78,7 @@ public class JFChooseExam extends javax.swing.JFrame {
         btnExit.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
         btnExit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/exit.png"))); // NOI18N
         btnExit.setText("HỦY");
+        btnExit.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnExit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnExitActionPerformed(evt);

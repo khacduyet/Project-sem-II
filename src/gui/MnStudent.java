@@ -171,6 +171,17 @@ public final class MnStudent extends javax.swing.JPanel {
         btnIns = new javax.swing.JButton();
         btnReset = new javax.swing.JButton();
         jSeparator2 = new javax.swing.JSeparator();
+        displayPointStudent = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
+        txtIdStud = new javax.swing.JTextField();
+        btnSearch = new javax.swing.JButton();
+        jLabel17 = new javax.swing.JLabel();
+        cboFilter = new javax.swing.JComboBox<>();
+        jLabel18 = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tblPoint = new javax.swing.JTable();
+        jSeparator3 = new javax.swing.JSeparator();
         report = new javax.swing.JPanel();
 
         QLSinhVien.setPreferredSize(new java.awt.Dimension(1057, 654));
@@ -195,6 +206,7 @@ public final class MnStudent extends javax.swing.JPanel {
         btnUpd.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btnUpd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/pencil-32px.png"))); // NOI18N
         btnUpd.setText("Sửa");
+        btnUpd.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnUpd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnUpdActionPerformed(evt);
@@ -205,6 +217,7 @@ public final class MnStudent extends javax.swing.JPanel {
         btnDel.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btnDel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/delete.png"))); // NOI18N
         btnDel.setText("Xóa");
+        btnDel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnDel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDelActionPerformed(evt);
@@ -219,6 +232,7 @@ public final class MnStudent extends javax.swing.JPanel {
         btnChangeStatus.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btnChangeStatus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/status.png"))); // NOI18N
         btnChangeStatus.setText("Mở / Khóa");
+        btnChangeStatus.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnChangeStatus.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnChangeStatusActionPerformed(evt);
@@ -268,7 +282,7 @@ public final class MnStudent extends javax.swing.JPanel {
                         .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 379, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(117, Short.MAX_VALUE))
+                .addContainerGap(205, Short.MAX_VALUE))
         );
 
         QLSinhVien.addTab("Danh sách sinh viên", listStudent);
@@ -289,6 +303,8 @@ public final class MnStudent extends javax.swing.JPanel {
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
         jLabel5.setText("Lớp:");
+
+        cboClass.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
         jLabel6.setText("Giới tính:");
@@ -335,6 +351,7 @@ public final class MnStudent extends javax.swing.JPanel {
         btnIns.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btnIns.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Save-icon.png"))); // NOI18N
         btnIns.setText("Lưu");
+        btnIns.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnIns.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnInsActionPerformed(evt);
@@ -345,6 +362,7 @@ public final class MnStudent extends javax.swing.JPanel {
         btnReset.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btnReset.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Clear-icon.png"))); // NOI18N
         btnReset.setText("Làm mới");
+        btnReset.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnReset.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnResetActionPerformed(evt);
@@ -484,10 +502,110 @@ public final class MnStudent extends javax.swing.JPanel {
                 .addGroup(AddStudentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnIns)
                     .addComponent(btnReset))
-                .addContainerGap(46, Short.MAX_VALUE))
+                .addContainerGap(134, Short.MAX_VALUE))
         );
 
         QLSinhVien.addTab("Thêm mới sinh viên", AddStudent);
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(204, 0, 204));
+        jLabel1.setText("TRA CỨU ĐIỂM SINH VIÊN");
+
+        jLabel16.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel16.setText("Mã SV:");
+
+        txtIdStud.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+
+        btnSearch.setBackground(new java.awt.Color(204, 0, 204));
+        btnSearch.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
+        btnSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/find.png"))); // NOI18N
+        btnSearch.setText("Tra cứu");
+        btnSearch.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
+        jLabel17.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel17.setText("Lọc:");
+
+        cboFilter.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        cboFilter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Đạt", "Không Đạt" }));
+        cboFilter.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
+        jLabel18.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
+        jLabel18.setForeground(new java.awt.Color(204, 0, 204));
+        jLabel18.setText("BẢNG ĐIỂM SINH VIÊN");
+
+        tblPoint.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane3.setViewportView(tblPoint);
+
+        javax.swing.GroupLayout displayPointStudentLayout = new javax.swing.GroupLayout(displayPointStudent);
+        displayPointStudent.setLayout(displayPointStudentLayout);
+        displayPointStudentLayout.setHorizontalGroup(
+            displayPointStudentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(displayPointStudentLayout.createSequentialGroup()
+                .addGap(265, 265, 265)
+                .addComponent(jLabel18)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(displayPointStudentLayout.createSequentialGroup()
+                .addGroup(displayPointStudentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, displayPointStudentLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jSeparator3))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, displayPointStudentLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane3))
+                    .addGroup(displayPointStudentLayout.createSequentialGroup()
+                        .addGroup(displayPointStudentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(displayPointStudentLayout.createSequentialGroup()
+                                .addGap(258, 258, 258)
+                                .addComponent(jLabel1))
+                            .addGroup(displayPointStudentLayout.createSequentialGroup()
+                                .addGap(52, 52, 52)
+                                .addGroup(displayPointStudentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLabel17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(52, 52, 52)
+                                .addGroup(displayPointStudentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(displayPointStudentLayout.createSequentialGroup()
+                                        .addComponent(txtIdStud, javax.swing.GroupLayout.PREFERRED_SIZE, 401, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(142, 142, 142)
+                                        .addComponent(btnSearch))
+                                    .addComponent(cboFilter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 224, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        displayPointStudentLayout.setVerticalGroup(
+            displayPointStudentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(displayPointStudentLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
+                .addGroup(displayPointStudentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtIdStud, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSearch))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(displayPointStudentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cboFilter)
+                    .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(9, 9, 9)
+                .addComponent(jLabel18)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(118, 118, 118))
+        );
+
+        QLSinhVien.addTab("Bảng điểm", displayPointStudent);
 
         javax.swing.GroupLayout reportLayout = new javax.swing.GroupLayout(report);
         report.setLayout(reportLayout);
@@ -497,7 +615,7 @@ public final class MnStudent extends javax.swing.JPanel {
         );
         reportLayout.setVerticalGroup(
             reportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 624, Short.MAX_VALUE)
+            .addGap(0, 712, Short.MAX_VALUE)
         );
 
         QLSinhVien.addTab("Khiếu nại", report);
@@ -512,7 +630,7 @@ public final class MnStudent extends javax.swing.JPanel {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(QLSinhVien, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(QLSinhVien, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 742, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -617,12 +735,12 @@ public final class MnStudent extends javax.swing.JPanel {
         int getValue = (int) tblStudents.getValueAt(rowSelect, 0);
         String str = "";
         SinhVien stud = sdao.getById(getValue);
-        if (stud.isGioi_Tinh()){
+        if (stud.isTrang_thai()== true){
             str = " Khóa ";
         } else {
             str = " Mở ";
         }
-        int selectUpd = JOptionPane.showConfirmDialog(this, "Bạn có chắc muốn" + str + "tài khoản!", "Thông Báo!", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, new ImageIcon("src/img/alert-warning.png"));
+        int selectUpd = JOptionPane.showConfirmDialog(this, "Bạn có chắc muốn" + str + "tài khoản!", "Thông Báo!", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE, new ImageIcon("src/img/alert-warning.png"));
         if (selectUpd == 0) {
             stud.setId(stud.getId());
             stud.setTrang_thai(!stud.isTrang_thai());
@@ -699,14 +817,21 @@ public final class MnStudent extends javax.swing.JPanel {
     private javax.swing.JButton btnDel;
     private javax.swing.JButton btnIns;
     private javax.swing.JButton btnReset;
+    private javax.swing.JButton btnSearch;
     private javax.swing.JButton btnUpd;
     private javax.swing.JComboBox<LopHoc> cboClass;
+    private javax.swing.JComboBox<String> cboFilter;
+    private javax.swing.JPanel displayPointStudent;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -717,8 +842,10 @@ public final class MnStudent extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JSeparator jSeparator3;
     private com.toedter.calendar.JDateChooser jdcDam;
     private com.toedter.calendar.JDateChooser jdcDob;
     private javax.swing.JLabel lblIdStud;
@@ -727,11 +854,13 @@ public final class MnStudent extends javax.swing.JPanel {
     private javax.swing.JRadioButton rdoFemale;
     private javax.swing.JRadioButton rdoMale;
     private javax.swing.JPanel report;
+    private javax.swing.JTable tblPoint;
     private javax.swing.JTable tblStudents;
     private javax.swing.JTextArea txaNote;
     private javax.swing.JTextField txtAddress;
     private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtHomePhone;
+    private javax.swing.JTextField txtIdStud;
     private javax.swing.JTextField txtNameStud;
     private javax.swing.JTextField txtPassword;
     private javax.swing.JTextField txtPhone;

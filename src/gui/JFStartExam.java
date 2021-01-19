@@ -189,10 +189,12 @@ public class JFStartExam extends javax.swing.JFrame {
         btnNext.setBackground(new java.awt.Color(153, 153, 153));
         btnNext.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/next.png"))); // NOI18N
         btnNext.setText("Câu tiếp");
+        btnNext.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         btnSubmit.setBackground(new java.awt.Color(153, 153, 153));
         btnSubmit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/save.png"))); // NOI18N
         btnSubmit.setText("Nộp bài");
+        btnSubmit.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnSubmit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSubmitActionPerformed(evt);
