@@ -7,7 +7,6 @@ package gui;
 
 import daoImp.StudentImplDAO;
 import contrain.DatabaseConnections;
-import dao.StudentDAO;
 import daoImp.TeacherImplDAO;
 import entity.GiaoVien;
 import entity.SinhVien;

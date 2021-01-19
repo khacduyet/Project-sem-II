@@ -6,7 +6,6 @@
 package gui;
 
 import entity.SinhVien;
-import javax.swing.JOptionPane;
 
 /**
  *

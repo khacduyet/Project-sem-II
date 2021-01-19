@@ -29,7 +29,6 @@ public class MainContent extends javax.swing.JFrame {
         initComponents();
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         loadBanner();
-        loadMnStudent();
         loadHome();
 
         //Tạo ngày hôm nay

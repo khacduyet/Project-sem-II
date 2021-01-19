@@ -12,7 +12,6 @@ import entity.LopHoc;
 import entity.SinhVien;
 import java.sql.Connection;
 import java.sql.Timestamp;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Vector;
@@ -202,6 +201,7 @@ public final class MnStudent extends javax.swing.JPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tblStudents.setMaximumSize(new java.awt.Dimension(32767, 32767));
         jScrollPane2.setViewportView(tblStudents);
 
         btnUpd.setBackground(new java.awt.Color(204, 0, 204));
