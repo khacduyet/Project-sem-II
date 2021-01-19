@@ -98,6 +98,8 @@ public class JFLogin extends javax.swing.JFrame {
 
         txtUser.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         txtUser.setText("thang");
+        txtUser.setToolTipText("Nhập tên tài khoản vào đây...!");
+        txtUser.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         txtUser.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtUserKeyPressed(evt);
@@ -114,6 +116,8 @@ public class JFLogin extends javax.swing.JFrame {
 
         txtPass.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         txtPass.setText("12345");
+        txtPass.setToolTipText("Nhập mật khẩu vào đây...!");
+        txtPass.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         txtPass.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtPassKeyPressed(evt);
@@ -122,6 +126,8 @@ public class JFLogin extends javax.swing.JFrame {
 
         btnLogin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/enter.png"))); // NOI18N
         btnLogin.setText("Đăng nhập");
+        btnLogin.setToolTipText("Vô luôn!");
+        btnLogin.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLoginActionPerformed(evt);
@@ -130,10 +136,13 @@ public class JFLogin extends javax.swing.JFrame {
 
         chxRmb.setForeground(new java.awt.Color(102, 255, 0));
         chxRmb.setText("Ghi nhớ");
+        chxRmb.setToolTipText("Có nên nhớ không?");
         chxRmb.setOpaque(false);
 
         btnExit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/remove-button.png"))); // NOI18N
         btnExit.setText("Thoát");
+        btnExit.setToolTipText("Để sau đi...!");
+        btnExit.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnExit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnExitActionPerformed(evt);

@@ -102,11 +102,14 @@ public class JFIndex extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Viner Hand ITC", 3, 36)); // NOI18N
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("TEST APPLICATION E-SMART");
+        jLabel2.setToolTipText("Ứng dụng thi trắc nghiệm đỉnh kout!");
 
         lblDateTime.setFont(new java.awt.Font("Tahoma", 2, 13)); // NOI18N
         lblDateTime.setText("18:00:00 12/01/2021");
 
         btnTeacher.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/teacher.png"))); // NOI18N
+        btnTeacher.setToolTipText("Giáo viên và những người bạn!");
+        btnTeacher.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnTeacher.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnTeacherActionPerformed(evt);
@@ -114,6 +117,8 @@ public class JFIndex extends javax.swing.JFrame {
         });
 
         btnStudent.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/graduated.png"))); // NOI18N
+        btnStudent.setToolTipText("Sinh viên và những con hề!");
+        btnStudent.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnStudent.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnStudentActionPerformed(evt);
@@ -121,6 +126,8 @@ public class JFIndex extends javax.swing.JFrame {
         });
 
         btnFindPoint.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/loupe.png"))); // NOI18N
+        btnFindPoint.setToolTipText("Tìm kiếm vạn vật!");
+        btnFindPoint.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnFindPoint.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnFindPointActionPerformed(evt);
@@ -128,6 +135,8 @@ public class JFIndex extends javax.swing.JFrame {
         });
 
         btnSetting.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/diagram.png"))); // NOI18N
+        btnSetting.setToolTipText("Cấu hình mọi thứ!");
+        btnSetting.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
         jLabel4.setText("Giáo Viên");
