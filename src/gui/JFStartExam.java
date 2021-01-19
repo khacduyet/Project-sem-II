@@ -6,7 +6,6 @@
 package gui;
 
 import javax.swing.ImageIcon;
-import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
 
 /**

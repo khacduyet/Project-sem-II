@@ -254,7 +254,7 @@ go
 CREATE PROCEDURE getAllGV
 AS
 	SELECT * FROM tbl_GiaoVien
-GO;
+GO
 
 EXEC sp_HelpText '[dbo].[getAllGV]'
 go
@@ -276,7 +276,7 @@ CREATE PROCEDURE insertGv
  @password varchar(100)
 AS
  INSERT INTO tbl_GiaoVien VALUES (@ma_gv,@ho_ten,@gioi_tinh,@ngay_sinh,@dien_thoai,@dia_chi,@email,@ngay_tao,@ngay_cap_nhat,@trang_thai,@username,@password);
- GO;
+ GO
  --update data giao vien
 
  CREATE PROCEDURE updateGiaoVien

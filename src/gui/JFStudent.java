@@ -6,9 +6,6 @@
 package gui;
 
 import entity.SinhVien;
-import java.awt.MouseInfo;
-import java.awt.Point;
-import java.awt.PointerInfo;
 import java.awt.Window;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;

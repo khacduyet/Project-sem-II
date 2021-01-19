@@ -11,8 +11,6 @@ import entity.LopHoc;
 import entity.SinhVien;
 import java.sql.Connection;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import javax.swing.JOptionPane;
 
 /**
  *
