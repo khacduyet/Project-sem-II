@@ -21,6 +21,7 @@ import javax.swing.JPanel;
  * @author Laptophaidang.com
  */
 public class MainContent extends javax.swing.JFrame {
+    GiaoVien teacher;
     /**
      * Creates new form MainContent
      */
@@ -43,6 +44,7 @@ public class MainContent extends javax.swing.JFrame {
         }.start();
         // Set tên giáo viên
         lblNameTeacher.setText(gv.getHo_ten());
+        teacher = gv;
     }
 
     /**
@@ -592,7 +594,7 @@ public class MainContent extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_StudentActionPerformed
 
     private void btn_TeacherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_TeacherActionPerformed
-        loadTeacher();
+        loadTeacher(teacher);
     }//GEN-LAST:event_btn_TeacherActionPerformed
 
     private void btn_ExamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ExamActionPerformed
@@ -726,8 +728,8 @@ public class MainContent extends javax.swing.JFrame {
         loadDisplay(jfc);
     }
 
-    private void loadTeacher() {
-        MnTeacher mtc = new MnTeacher();
+    private void loadTeacher(GiaoVien teacher) {
+        MnTeacher mtc = new MnTeacher(teacher);
         loadDisplay(mtc);
     }
 

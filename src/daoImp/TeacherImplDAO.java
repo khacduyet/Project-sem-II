@@ -157,4 +157,16 @@ public class TeacherImplDAO implements TeacherDAO {
         }
         return gv;
     }
+
+    @Override
+    public void upadateStatus(GiaoVien gv) {
+        try {
+            PreparedStatement pst = con.prepareStatement("Update tbl_GiaoVien set trang_thai = ? where id = ?");
+            pst.setBoolean(1, gv.isTrang_thai());
+            pst.setInt(2, gv.getId());
+            pst.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(TeacherImplDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }

@@ -271,8 +271,7 @@ public final class MnStudent extends javax.swing.JPanel {
                     .addGroup(listStudentLayout.createSequentialGroup()
                         .addComponent(jLabel19)
                         .addGap(18, 18, 18)
-                        .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         listStudentLayout.setVerticalGroup(
@@ -296,7 +295,7 @@ public final class MnStudent extends javax.swing.JPanel {
                     .addComponent(jLabel19, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(16, 16, 16)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 379, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(167, Short.MAX_VALUE))
+                .addContainerGap(171, Short.MAX_VALUE))
         );
 
         QLSinhVien.addTab("Danh sách sinh viên", listStudent);

@@ -90,7 +90,6 @@
                               <Component id="jLabel19" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="txtSearch" min="-2" pref="300" max="-2" attributes="0"/>
-                              <EmptySpace max="32767" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -123,7 +122,7 @@
                       </Group>
                       <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
                       <Component id="jScrollPane2" min="-2" pref="379" max="-2" attributes="0"/>
-                      <EmptySpace pref="167" max="32767" attributes="0"/>
+                      <EmptySpace pref="171" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
