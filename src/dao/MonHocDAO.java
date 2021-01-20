@@ -19,4 +19,6 @@ public interface MonHocDAO {
     public void update(Mon m);
 
     public void delete(int id);
+    
+    public void changerStt(Mon m);
 }

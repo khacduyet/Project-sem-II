@@ -102,7 +102,19 @@ public class MonImplDAO implements MonHocDAO {
     public void delete(int id) {
         try {
             PreparedStatement pst = con.prepareStatement("DELETE FROM tbl_mon WHERE id = ?");
-            pst.setInt(1,id);
+            pst.setInt(1, id);
+            pst.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(MonImplDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @Override
+    public void changerStt(Mon m) {
+        try {
+            PreparedStatement pst = con.prepareStatement("Update tbl_mon set trang_thai = ? where id = ?");
+            pst.setBoolean(1, m.isTrang_thai());
+            pst.setInt(2, m.getId());
             pst.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(MonImplDAO.class.getName()).log(Level.SEVERE, null, ex);

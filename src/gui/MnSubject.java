@@ -5,17 +5,42 @@
  */
 package gui;
 
+import DAOimpl.MonImplDAO;
+import contrain.DatabaseConnections;
+import dao.MonHocDAO;
+import entity.Mon;
+import java.sql.Connection;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Vector;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author duyet
  */
 public class MnSubject extends javax.swing.JPanel {
 
+    private Connection con;
+    private MonHocDAO monDao;
+    private int monId;
+    private boolean checkStatus = true;
+    private boolean checkEdit = true;
+    private int monID;
+
     /**
      * Creates new form MnSubject
      */
     public MnSubject() {
         initComponents();
+        con = DatabaseConnections.getConnect();
+        monDao = new MonImplDAO(con);
+        loadSubject();
     }
 
     /**
@@ -27,7 +52,7 @@ public class MnSubject extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jTabbedPane1 = new javax.swing.JTabbedPane();
+        QLMonHoc = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         lblSubject = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -67,9 +92,19 @@ public class MnSubject extends javax.swing.JPanel {
 
         btnNew.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Clear-icon.png"))); // NOI18N
         btnNew.setText("Thêm");
+        btnNew.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNewActionPerformed(evt);
+            }
+        });
 
         btnSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Save-icon.png"))); // NOI18N
         btnSave.setText("Lưu");
+        btnSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveActionPerformed(evt);
+            }
+        });
 
         btnDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/delete.png"))); // NOI18N
         btnDelete.setText("Xóa");
@@ -89,6 +124,11 @@ public class MnSubject extends javax.swing.JPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tblSubject.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblSubjectMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblSubject);
 
         jLabel6.setText("Tìm kiếm:");
@@ -176,22 +216,90 @@ public class MnSubject extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("Môn học", jPanel1);
+        QLMonHoc.addTab("Môn học", jPanel1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1)
+            .addComponent(QLMonHoc)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1)
+            .addComponent(QLMonHoc)
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
+        Mon mon = new Mon();
+        mon.setTen_mon(txtNameSub.getText());
+        mon.setNoi_dung(txtContentSub.getText());
+        mon.setMota(txtDescSub.getText());
+//      ngay tao bang lay ngay thang nam tren he thong may tinh
+        Timestamp ts = new Timestamp(new Date().getTime());
+        java.sql.Date sqlDou = new java.sql.Date(ts.getTime());
+        mon.setNgay_tao(sqlDou);
+        //ngay cap nhat mac dinh lay theo ngay tao neu la lan dau tien
+        mon.setNgay_cap_nhat(sqlDou);
+        mon.setTrang_thai(true);
+        if (checkEdit) {
+            monDao.insert(mon);
+            JOptionPane.showMessageDialog(this, "Thêm mới thành công!");
+        } else {
+            mon.setId(monId);
+            monDao.update(mon);
+            JOptionPane.showMessageDialog(this, "Cập nhật thành công!");
+            loadSubject();
+        }
+
+        loadSubject();
+    }//GEN-LAST:event_btnSaveActionPerformed
+
+    private void tblSubjectMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSubjectMouseClicked
+        int rowSelect = tblSubject.getSelectedRow();
+        monId = (int) tblSubject.getValueAt(rowSelect, 0);
+        Mon m = monDao.getById(monId);
+        lblSubject.setText("SỬA MÔN HỌC");
+        txtNameSub.setText(m.getTen_mon());
+        txtContentSub.setText(m.getNoi_dung());
+        txtDescSub.setText(m.getMota());
+        btnNew.setText("Mở/Khóa");
+        checkStatus = false;
+        checkEdit = false;
+    }//GEN-LAST:event_tblSubjectMouseClicked
+
+    private void btnNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewActionPerformed
+        // neu check = false thi se thay doi trang thai cua mon hoc
+        if (checkStatus == false) {
+            int rowSelect = tblSubject.getSelectedRow();
+            monID = (int) tblSubject.getValueAt(rowSelect, 0);
+            String str = "";
+            Mon m = monDao.getById(monID);
+            if (m.isTrang_thai() == true) {
+                str = " Khóa ";
+            } else {
+                str = " Mở ";
+            }
+            int selectUpd = JOptionPane.showConfirmDialog(this, "Bạn có chắc muốn" + str + "môn!", "Thông Báo!", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE, new ImageIcon("src/img/alert-warning.png"));
+            if (selectUpd == 0) {
+                m.setTrang_thai(!m.isTrang_thai());
+                m.setId(m.getId());
+                monDao.changerStt(m);
+                JOptionPane.showMessageDialog(this, str + "môn thành công!", "Thông báo!", JOptionPane.QUESTION_MESSAGE, new ImageIcon("src/img/tick.png"));
+                loadSubject();
+            }
+            checkStatus = true;
+            lblSubject.setText("THÊM MÔN HỌC");
+            btnNew.setText("Thêm");
+            txtNameSub.setText("");
+            txtDescSub.setText("");
+            txtContentSub.setText("");
+        }
+    }//GEN-LAST:event_btnNewActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTabbedPane QLMonHoc;
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnNew;
     private javax.swing.JButton btnSave;
@@ -203,7 +311,6 @@ public class MnSubject extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JLabel lblSubject;
     private javax.swing.JTable tblSubject;
     private javax.swing.JTextField txtContentSub;
@@ -211,4 +318,31 @@ public class MnSubject extends javax.swing.JPanel {
     private javax.swing.JTextField txtNameSub;
     private javax.swing.JTextField txtSearchSub;
     // End of variables declaration//GEN-END:variables
+
+    private void loadSubject() {
+        List<Mon> listMon = new ArrayList<>();
+        listMon = monDao.getAll();
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("id");
+        model.addColumn("Tên Môn");
+        model.addColumn("Nội Dung");
+        model.addColumn("Mô tả");
+        model.addColumn("Ngày Tạo");
+        model.addColumn("Ngày Cập Nhật");
+        model.addColumn("Trạng Thái");
+
+        for (Mon item : listMon) {
+            Vector rows = new Vector();
+            rows.add(item.getId());
+            rows.add(item.getTen_mon());
+            rows.add(item.getNoi_dung());
+            rows.add(item.getMota());
+            rows.add(item.getNgay_tao());
+            rows.add(item.getNgay_cap_nhat());
+            rows.add(item.isTrang_thai() ? "Đang Hoạt Động" : "Đã Ngừng");
+            model.addRow(rows);
+        }
+
+        tblSubject.setModel(model);
+    }
 }
