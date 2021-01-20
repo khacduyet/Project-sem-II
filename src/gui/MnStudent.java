@@ -17,7 +17,9 @@ import java.util.List;
 import java.util.Vector;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 /**
@@ -31,6 +33,7 @@ public final class MnStudent extends javax.swing.JPanel {
     Connection con;
     boolean checkSave = true;
     int idUpd;
+    DefaultTableModel dm;
 
     /**
      * Creates new form MnStudent
@@ -48,6 +51,13 @@ public final class MnStudent extends javax.swing.JPanel {
         AutoCompleteDecorator.decorate(cboClass);
         // Set độ rộng hàng
         tblStudents.setRowHeight(30);
+        tblStudents.setAutoCreateRowSorter(true);
+        dm = (DefaultTableModel) tblStudents.getModel();
+    }
+    
+    public void Filter(String str){
+        TableRowSorter<DefaultTableModel> trs = new TableRowSorter<DefaultTableModel>(dm);
+        trs.setRowFilter(RowFilter.regexFilter(str));
     }
 
     public void loadClass() {
@@ -242,6 +252,12 @@ public final class MnStudent extends javax.swing.JPanel {
         });
 
         jLabel19.setText("Tìm kiếm:");
+
+        txtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtSearchKeyReleased(evt);
+            }
+        });
 
         javax.swing.GroupLayout listStudentLayout = new javax.swing.GroupLayout(listStudent);
         listStudent.setLayout(listStudentLayout);
@@ -518,7 +534,7 @@ public final class MnStudent extends javax.swing.JPanel {
                 .addContainerGap(134, Short.MAX_VALUE))
         );
 
-        QLSinhVien.addTab("Thêm mới sinh viên", AddStudent);
+        QLSinhVien.addTab("Quản lý sinh viên", AddStudent);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(204, 0, 204));
@@ -697,20 +713,24 @@ public final class MnStudent extends javax.swing.JPanel {
         stud.setPassword(txtPassword.getText());
         // Ghi chú
         stud.setGhi_chu(txaNote.getText());
-        // Trạng thái: Mặc định mở khóa
-        stud.setTrang_thai(true);
 
         if (checkSave) {
+            // Trạng thái: Mặc định mở khóa
+            stud.setTrang_thai(true);
             // Thêm mới
             sdao.insert(stud);
             JOptionPane.showMessageDialog(this, "Thêm mới thành công!", "Thông báo!", JOptionPane.HEIGHT, new ImageIcon("src/img/tick.png"));
         } else {
             // Cập nhật
             stud.setId(idUpd);
+            SinhVien sv = sdao.getById(idUpd);
+            stud.setTrang_thai(sv.isTrang_thai());
             sdao.update(stud);
             JOptionPane.showMessageDialog(this, "Cập nhật thành công!", "Thông báo!", JOptionPane.HEIGHT, new ImageIcon("src/img/tick.png"));
+            loadFormReset();
+            QLSinhVien.setSelectedIndex(0);
         }
-
+        loadDataTableStudent();
     }//GEN-LAST:event_btnInsActionPerformed
 
     private void btnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed
@@ -762,6 +782,10 @@ public final class MnStudent extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnChangeStatusActionPerformed
 
+    private void txtSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtSearchKeyReleased
+
     public void setFormStudUpd(int id) {
         lblTitleIns.setText("SỬA SINH VIÊN");
         SinhVien stud = sdao.getById(id);
@@ -772,7 +796,7 @@ public final class MnStudent extends javax.swing.JPanel {
         // Combobox lớp học
         LopHoc lh = cdao.getById(stud.getId_lop());
         for (int i = 0; i < cboClass.getItemCount(); i++) {
-            if (cboClass.getSelectedItem().equals(lh.getTen_lop())) {
+            if (cboClass.getItemAt(i).getTen_lop().equals(lh.getTen_lop())) {
                 cboClass.setSelectedIndex(i);
                 break;
             }

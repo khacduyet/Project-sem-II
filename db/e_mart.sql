@@ -1,4 +1,4 @@
-	CREATE DATABASE E_SMART
+ï»¿	CREATE DATABASE E_SMART
 GO
 USE E_SMART
 GO
@@ -107,7 +107,7 @@ CREATE TABLE tbl_GiaoVien
 )
 GO
 -- INSERT DATA Tbl_GiaoVien
-insert into tbl_GiaoVien values ('GV001',N'Lê Vãn Tê',1,'1990-10-10','0123456789','Hà Thành','te@gmail.com','2021-01-14','2021-01-14',1,'te','12345')
+insert into tbl_GiaoVien values ('GV001',N'LÃª VÄƒn TÃª',1,'1990-10-10','0123456789','HÃ  ThÃ nh','te@gmail.com','2021-01-14','2021-01-14',1,'te','12345')
 go
 -- rang buoc phan quyen va giao vien
 ALTER TABLE tbl_PhanQuyenChiTiet

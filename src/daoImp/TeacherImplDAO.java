@@ -73,19 +73,25 @@ public class TeacherImplDAO implements TeacherDAO {
 
     @Override
     public void update(GiaoVien gv) {
-        CallableStatement cs;
+        PreparedStatement pst;
         try {
-            cs = con.prepareCall("{CALL updateGiaoVien(?,?,?,?,?,?,?,?,?)}");
-            cs.setString(1, gv.getHo_ten());
-            cs.setBoolean(2, gv.isGioi_tinh());
-            cs.setDate(3, (Date) gv.getNgay_sinh());
-            cs.setString(4, gv.getDien_thoai());
-            cs.setString(5, gv.getDia_chi());
-            cs.setString(6, gv.getEmail());
-            cs.setDate(7, (Date) gv.getNgay_cap_nhat());
-            cs.setBoolean(8, gv.isTrang_thai());
-            cs.setInt(9, gv.getId());
-            cs.executeUpdate();
+            pst = con.prepareStatement("UPDATE tbl_GiaoVien SET ma_gv = ?, ho_ten = ?,gioi_tinh = ?, ngay_sinh = ?,\n"
+                    + "	dien_thoai =  ? , dia_chi = ?, email = ?,ngay_tao = ?,ngay_cap_nhat = ?,trang_thai = ?, username = ?, password= ?\n"
+                    + "	WHERE id = ?");
+            pst.setString(1, gv.getMa_gv());
+            pst.setString(2, gv.getHo_ten());
+            pst.setBoolean(3, gv.isGioi_tinh());
+            pst.setDate(4, (Date) gv.getNgay_sinh());
+            pst.setString(5, gv.getDien_thoai());
+            pst.setString(6, gv.getDia_chi());
+            pst.setString(7, gv.getEmail());
+            pst.setDate(8, (Date) gv.getNgay_tao());
+            pst.setDate(9, (Date) gv.getNgay_cap_nhat());
+            pst.setBoolean(10, gv.isTrang_thai());
+            pst.setString(11, gv.getUsername());
+            pst.setString(12, gv.getPassword());
+            pst.setInt(13, gv.getId());
+            pst.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(TeacherImplDAO.class.getName()).log(Level.SEVERE, null, ex);
         }

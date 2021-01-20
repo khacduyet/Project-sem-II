@@ -16,7 +16,10 @@ import java.util.List;
 import java.util.Vector;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
+
 /**
  *
  * @author duyet
@@ -28,6 +31,7 @@ public class MnTeacher extends javax.swing.JPanel {
     boolean checkSave = true;
     int idUpd;
     GiaoVien getTeach;
+    DefaultTableModel dm;
 
     /**
      * Creates new form MnTeacher
@@ -42,8 +46,14 @@ public class MnTeacher extends javax.swing.JPanel {
 
         // Set độ rộng hàng
         tblListTeacher.setRowHeight(30);
+        tblListTeacher.setAutoCreateRowSorter(true);
+        dm = (DefaultTableModel) tblListTeacher.getModel();
     }
-
+    
+    public void filter(String str){
+        TableRowSorter<DefaultTableModel> trs = new TableRowSorter<DefaultTableModel>(dm);
+        trs.setRowFilter(RowFilter.regexFilter(str));
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -57,7 +67,7 @@ public class MnTeacher extends javax.swing.JPanel {
         QuanLyGv = new javax.swing.JTabbedPane();
         MnAccount = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        txtSearchTeach = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -83,8 +93,6 @@ public class MnTeacher extends javax.swing.JPanel {
         txtAddress = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
         txtEmail = new javax.swing.JTextField();
-        jLabel10 = new javax.swing.JLabel();
-        chxStatus = new javax.swing.JCheckBox();
         jLabel11 = new javax.swing.JLabel();
         txtUsername = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
@@ -100,6 +108,12 @@ public class MnTeacher extends javax.swing.JPanel {
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(204, 0, 204));
         jLabel3.setText("Danh Sách Thông Tin Giáo Viên");
+
+        txtSearchTeach.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtSearchTeachKeyReleased(evt);
+            }
+        });
 
         jLabel13.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel13.setText("Tìm Kiếm:");
@@ -169,7 +183,7 @@ public class MnTeacher extends javax.swing.JPanel {
                             .addGroup(MnAccountLayout.createSequentialGroup()
                                 .addComponent(jLabel13)
                                 .addGap(18, 18, 18)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(txtSearchTeach, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 753, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 609, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -194,7 +208,7 @@ public class MnTeacher extends javax.swing.JPanel {
                         .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(MnAccountLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtSearchTeach, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(MnAccountLayout.createSequentialGroup()
                         .addGap(18, 18, 18)
@@ -243,11 +257,6 @@ public class MnTeacher extends javax.swing.JPanel {
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel9.setText("Email:");
-
-        jLabel10.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel10.setText("Trạng thái:");
-
-        chxStatus.setText("Mở / Khóa");
 
         jLabel11.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel11.setText("Username:");
@@ -339,11 +348,8 @@ public class MnTeacher extends javax.swing.JPanel {
                                                 .addGap(35, 35, 35)
                                                 .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 311, javax.swing.GroupLayout.PREFERRED_SIZE))
                                             .addGroup(addTitleGvLayout.createSequentialGroup()
-                                                .addGroup(addTitleGvLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                                    .addComponent(jLabel11)
-                                                    .addComponent(jLabel10))
-                                                .addGap(31, 31, 31)
-                                                .addComponent(chxStatus))
+                                                .addGap(2, 2, 2)
+                                                .addComponent(jLabel11))
                                             .addComponent(jLabel9))
                                         .addContainerGap(27, Short.MAX_VALUE))))))))
         );
@@ -365,9 +371,7 @@ public class MnTeacher extends javax.swing.JPanel {
                         .addGroup(addTitleGvLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(rdoMale)
                             .addComponent(jLabel5)
-                            .addComponent(rdoFemale)
-                            .addComponent(jLabel10)
-                            .addComponent(chxStatus))
+                            .addComponent(rdoFemale))
                         .addGap(18, 18, 18)
                         .addGroup(addTitleGvLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(addTitleGvLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -417,8 +421,8 @@ public class MnTeacher extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-
         GiaoVien gv = new GiaoVien();
+
         gv.setMa_gv(lblIdTeacher.getText());
         gv.setHo_ten(txtName.getText());
         gv.setGioi_tinh(rdoMale.isSelected());
@@ -437,18 +441,32 @@ public class MnTeacher extends javax.swing.JPanel {
 //      ngay tao bang lay ngay thang nam tren he thong may tinh
         Timestamp ts = new Timestamp(new Date().getTime());
         java.sql.Date sqlDou = new java.sql.Date(ts.getTime());
-        gv.setNgay_tao(sqlDou);
+
 //      ngay cap nhat mac dinh lay theo ngay tao neu la lan dau tien
         gv.setNgay_cap_nhat(sqlDou);
         // dia chi giao vien
-        gv.setDia_chi(txtAddress.getText());
-        gv.setEmail(txtEmail.getText());
-        gv.setTrang_thai(chxStatus.isSelected());
+
         gv.setUsername(txtUsername.getText());
         gv.setPassword(txtPassword.getText());
 
-        teacherdao.insert(gv);
-
+        if (checkSave) {
+            gv.setNgay_tao(sqlDou);
+            gv.setTrang_thai(true);
+            // Thêm mới
+            teacherdao.insert(gv);
+            JOptionPane.showMessageDialog(this, "Thêm mới thành công!", "Thông báo!", JOptionPane.HEIGHT, new ImageIcon("src/img/tick.png"));
+        } else {
+            // Cập nhật
+            gv.setId(idUpd);
+            GiaoVien teach = teacherdao.getById(idUpd);
+            gv.setNgay_tao(teach.getNgay_tao());
+            gv.setTrang_thai(teach.isTrang_thai());
+            teacherdao.update(gv);
+            JOptionPane.showMessageDialog(this, "Cập nhật thành công!", "Thông báo!", JOptionPane.HEIGHT, new ImageIcon("src/img/tick.png"));
+            ResetForm();
+            QuanLyGv.setSelectedIndex(0);
+        }
+        loadDataTeacher();
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnChangSttActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChangSttActionPerformed
@@ -508,6 +526,16 @@ public class MnTeacher extends javax.swing.JPanel {
     }//GEN-LAST:event_btnDellGVActionPerformed
 
     private void btnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed
+        ResetForm();
+    }//GEN-LAST:event_btnResetActionPerformed
+
+    private void txtSearchTeachKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchTeachKeyReleased
+        String str = txtSearchTeach.getText().toLowerCase();
+        filter(str);
+    }//GEN-LAST:event_txtSearchTeachKeyReleased
+
+    private void ResetForm() {
+        titleAddGV.setText("THÊM GIÁO VIÊN");
         getId();
         txtName.setText("");
         rdoMale.setSelected(true);
@@ -517,11 +545,10 @@ public class MnTeacher extends javax.swing.JPanel {
         txtPhone.setText("");
         txtUsername.setText("");
         jdcDate.setCalendar(null);
-        chxStatus.setSelected(false);
-    }//GEN-LAST:event_btnResetActionPerformed
+    }
 
     public void setFormTeacherUpd(int id) {
-        titleAddGV.setText("SỬA SINH VIÊN");
+        titleAddGV.setText("SỬA GIÁO VIÊN");
         GiaoVien gv = teacherdao.getById(id);
         // Mã sinh viên
         lblIdTeacher.setText(gv.getMa_gv());
@@ -537,10 +564,6 @@ public class MnTeacher extends javax.swing.JPanel {
         jdcDate.setDate(gv.getNgay_sinh());
         // Số điện thoại
         txtPhone.setText(gv.getDien_thoai());
-        // set trang thai
-        if (gv.isTrang_thai()) {
-            chxStatus.setSelected(true);
-        }
         // Email
         txtEmail.setText(gv.getEmail());
         // Địa chỉ
@@ -561,8 +584,6 @@ public class MnTeacher extends javax.swing.JPanel {
     private javax.swing.JButton btnReset;
     private javax.swing.JButton btnSave;
     private javax.swing.JButton btnUpdateGV;
-    private javax.swing.JCheckBox chxStatus;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
@@ -578,7 +599,6 @@ public class MnTeacher extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
-    private javax.swing.JTextField jTextField1;
     private com.toedter.calendar.JDateChooser jdcDate;
     private javax.swing.JLabel lblIdTeacher;
     private javax.swing.JRadioButton rdoFemale;
@@ -590,6 +610,7 @@ public class MnTeacher extends javax.swing.JPanel {
     private javax.swing.JTextField txtName;
     private javax.swing.JTextField txtPassword;
     private javax.swing.JTextField txtPhone;
+    private javax.swing.JTextField txtSearchTeach;
     private javax.swing.JTextField txtUsername;
     // End of variables declaration//GEN-END:variables
 public void getId() {
@@ -614,9 +635,9 @@ public void getId() {
         model.addColumn("Email");
         model.addColumn("Ngày Tạo");
         model.addColumn("Ngày Cập Nhật");
-        model.addColumn("Trạng Thái");
         model.addColumn("Username");
         model.addColumn("Password");
+        model.addColumn("Trạng Thái");
 
         // hien thi thong tin len bang
         List<GiaoVien> listGV = teacherdao.getAll();
@@ -632,9 +653,9 @@ public void getId() {
             rows.add(item.getEmail());
             rows.add(item.getNgay_tao());
             rows.add(item.getNgay_cap_nhat());
-            rows.add(item.isTrang_thai() ? "Mở" : "Khóa");
             rows.add(item.getUsername());
             rows.add(item.getPassword());
+            rows.add(item.isTrang_thai() ? "Mở" : "Khóa");
             model.addRow(rows);
         }
 
