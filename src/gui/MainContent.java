@@ -93,6 +93,7 @@ public class MainContent extends javax.swing.JFrame {
         jplQuanLyDeThi = new javax.swing.JPanel();
         btn_Exam = new javax.swing.JButton();
         jplQuanLyDeThi1 = new javax.swing.JPanel();
+        btn_subject = new javax.swing.JButton();
         btn_diagram = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
@@ -320,7 +321,6 @@ public class MainContent extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jplMainContent.setMaximumSize(new java.awt.Dimension(32767, 32767));
         jplMainContent.setLayout(new java.awt.BorderLayout());
 
         jPanel8.setBackground(new java.awt.Color(102, 153, 255));
@@ -444,6 +444,18 @@ public class MainContent extends javax.swing.JFrame {
 
         jplQuanLyDeThi1.setBackground(new java.awt.Color(102, 153, 255));
 
+        btn_subject.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
+        btn_subject.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/files.png"))); // NOI18N
+        btn_subject.setText("Môn học");
+        btn_subject.setToolTipText("Thống kê tất cả?");
+        btn_subject.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_subject.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btn_subject.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_subjectActionPerformed(evt);
+            }
+        });
+
         btn_diagram.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
         btn_diagram.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/pie-chart.png"))); // NOI18N
         btn_diagram.setText("Thống kê - Biểu đồ");
@@ -460,11 +472,16 @@ public class MainContent extends javax.swing.JFrame {
         jplQuanLyDeThi1.setLayout(jplQuanLyDeThi1Layout);
         jplQuanLyDeThi1Layout.setHorizontalGroup(
             jplQuanLyDeThi1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(btn_subject, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(btn_diagram, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jplQuanLyDeThi1Layout.setVerticalGroup(
             jplQuanLyDeThi1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(btn_diagram, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jplQuanLyDeThi1Layout.createSequentialGroup()
+                .addComponent(btn_subject, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(btn_diagram, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
@@ -492,7 +509,7 @@ public class MainContent extends javax.swing.JFrame {
                 .addComponent(jplQuanLyDeThi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jplQuanLyDeThi1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 327, Short.MAX_VALUE))
+                .addGap(0, 255, Short.MAX_VALUE))
         );
 
         jMenu1.setText("File");
@@ -600,6 +617,10 @@ public class MainContent extends javax.swing.JFrame {
         loadExam();
     }//GEN-LAST:event_btn_ExamActionPerformed
 
+    private void btn_subjectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_subjectActionPerformed
+        loadSubject();
+    }//GEN-LAST:event_btn_subjectActionPerformed
+
     private void btn_diagramActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_diagramActionPerformed
         JOptionPane.showMessageDialog(this, "Rất tiếc, Chưa có gì!");
     }//GEN-LAST:event_btn_diagramActionPerformed
@@ -646,6 +667,7 @@ public class MainContent extends javax.swing.JFrame {
     private javax.swing.JButton btn_Student;
     private javax.swing.JButton btn_Teacher;
     private javax.swing.JButton btn_diagram;
+    private javax.swing.JButton btn_subject;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -735,5 +757,10 @@ public class MainContent extends javax.swing.JFrame {
     private void loadExam() {
         MnExam mex = new MnExam();
         loadDisplay(mex);
+    }
+    
+    private void loadSubject(){
+        MnSubject msb = new MnSubject();
+        loadDisplay(msb);
     }
 }
