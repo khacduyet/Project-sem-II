@@ -90,7 +90,7 @@ public class MnTeacher extends javax.swing.JPanel {
         jLabel12 = new javax.swing.JLabel();
         txtPassword = new javax.swing.JTextField();
         btnSave = new javax.swing.JButton();
-        btnDelete = new javax.swing.JButton();
+        btnReset = new javax.swing.JButton();
         jSeparator2 = new javax.swing.JSeparator();
 
         setPreferredSize(new java.awt.Dimension(1057, 742));
@@ -222,16 +222,11 @@ public class MnTeacher extends javax.swing.JPanel {
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel4.setText("Tên giáo viên: ");
 
-        txtName.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtNameActionPerformed(evt);
-            }
-        });
-
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel5.setText("Giới tính:");
 
         GioiTinhGroup.add(rdoMale);
+        rdoMale.setSelected(true);
         rdoMale.setText("Nam");
 
         GioiTinhGroup.add(rdoFemale);
@@ -270,10 +265,15 @@ public class MnTeacher extends javax.swing.JPanel {
             }
         });
 
-        btnDelete.setBackground(new java.awt.Color(204, 0, 204));
-        btnDelete.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        btnDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/delete.png"))); // NOI18N
-        btnDelete.setText("Làm mới");
+        btnReset.setBackground(new java.awt.Color(204, 0, 204));
+        btnReset.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        btnReset.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/delete.png"))); // NOI18N
+        btnReset.setText("Làm mới");
+        btnReset.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnResetActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout addTitleGvLayout = new javax.swing.GroupLayout(addTitleGv);
         addTitleGv.setLayout(addTitleGvLayout);
@@ -318,7 +318,7 @@ public class MnTeacher extends javax.swing.JPanel {
                                             .addGroup(addTitleGvLayout.createSequentialGroup()
                                                 .addComponent(btnSave)
                                                 .addGap(67, 67, 67)
-                                                .addComponent(btnDelete))
+                                                .addComponent(btnReset))
                                             .addComponent(jdcDate, javax.swing.GroupLayout.PREFERRED_SIZE, 368, javax.swing.GroupLayout.PREFERRED_SIZE))))
                                 .addGap(102, 102, 102)
                                 .addGroup(addTitleGvLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -397,7 +397,7 @@ public class MnTeacher extends javax.swing.JPanel {
                         .addComponent(jLabel6)))
                 .addGap(44, 44, 44)
                 .addGroup(addTitleGvLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnDelete)
+                    .addComponent(btnReset)
                     .addComponent(btnSave))
                 .addContainerGap(308, Short.MAX_VALUE))
         );
@@ -415,10 +415,6 @@ public class MnTeacher extends javax.swing.JPanel {
             .addComponent(QuanLyGv, javax.swing.GroupLayout.DEFAULT_SIZE, 742, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
-
-    private void txtNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNameActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtNameActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
 
@@ -511,6 +507,19 @@ public class MnTeacher extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnDellGVActionPerformed
 
+    private void btnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed
+        getId();
+        txtName.setText("");
+        rdoMale.setSelected(true);
+        txtAddress.setText("");
+        txtEmail.setText("");
+        txtPassword.setText("");
+        txtPhone.setText("");
+        txtUsername.setText("");
+        jdcDate.setCalendar(null);
+        chxStatus.setSelected(false);
+    }//GEN-LAST:event_btnResetActionPerformed
+
     public void setFormTeacherUpd(int id) {
         titleAddGV.setText("SỬA SINH VIÊN");
         GiaoVien gv = teacherdao.getById(id);
@@ -548,8 +557,8 @@ public class MnTeacher extends javax.swing.JPanel {
     private javax.swing.JTabbedPane QuanLyGv;
     private javax.swing.JPanel addTitleGv;
     private javax.swing.JButton btnChangStt;
-    private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnDellGV;
+    private javax.swing.JButton btnReset;
     private javax.swing.JButton btnSave;
     private javax.swing.JButton btnUpdateGV;
     private javax.swing.JCheckBox chxStatus;
