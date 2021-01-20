@@ -80,7 +80,7 @@ public class JFLogin extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         txtPass = new javax.swing.JPasswordField();
         btnLogin = new javax.swing.JButton();
-        chxRmb = new javax.swing.JCheckBox();
+        chxShoHid = new javax.swing.JCheckBox();
         btnExit = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
@@ -133,10 +133,15 @@ public class JFLogin extends javax.swing.JFrame {
             }
         });
 
-        chxRmb.setForeground(new java.awt.Color(102, 255, 0));
-        chxRmb.setText("Ghi nhớ");
-        chxRmb.setToolTipText("Có nên nhớ không?");
-        chxRmb.setOpaque(false);
+        chxShoHid.setForeground(new java.awt.Color(102, 255, 0));
+        chxShoHid.setText("Hiện mật khẩu!");
+        chxShoHid.setToolTipText("Có nên không?");
+        chxShoHid.setOpaque(false);
+        chxShoHid.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chxShoHidActionPerformed(evt);
+            }
+        });
 
         btnExit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/remove-button.png"))); // NOI18N
         btnExit.setText("Thoát");
@@ -173,7 +178,7 @@ public class JFLogin extends javax.swing.JFrame {
                                 .addGap(57, 57, 57)
                                 .addComponent(btnExit))
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(chxRmb, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(chxShoHid, javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(txtUser, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 254, Short.MAX_VALUE)
                                 .addComponent(txtPass, javax.swing.GroupLayout.Alignment.LEADING)))))
                 .addGap(106, 106, 106))
@@ -192,7 +197,7 @@ public class JFLogin extends javax.swing.JFrame {
                     .addComponent(jLabel4)
                     .addComponent(txtPass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(chxRmb)
+                .addComponent(chxShoHid)
                 .addGap(39, 39, 39)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnLogin)
@@ -237,6 +242,16 @@ public class JFLogin extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txtPassKeyPressed
 
+    private void chxShoHidActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chxShoHidActionPerformed
+        if (chxShoHid.isSelected()){
+            txtPass.setEchoChar((char)0);
+            chxShoHid.setText("Ẩn mật khẩu!");
+        } else {
+            txtPass.setEchoChar('*');
+            chxShoHid.setText("Hiện mật khẩu!");
+        }
+    }//GEN-LAST:event_chxShoHidActionPerformed
+
     private void checkLogin() {
         if (login == 1) {
             GiaoVien gv = tdao.getAccountGiaoVien(txtUser.getText(), new String(txtPass.getPassword()));
@@ -266,7 +281,7 @@ public class JFLogin extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnExit;
     private javax.swing.JButton btnLogin;
-    private javax.swing.JCheckBox chxRmb;
+    private javax.swing.JCheckBox chxShoHid;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

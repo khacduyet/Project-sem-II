@@ -28,11 +28,12 @@ public class MnExam extends javax.swing.JPanel {
     private void initComponents() {
 
         grAnswer = new javax.swing.ButtonGroup();
+        grpLevelPoint = new javax.swing.ButtonGroup();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
-        lblTitle = new javax.swing.JLabel();
+        lblTitleAnswer = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jLabel2 = new javax.swing.JLabel();
         lblId = new javax.swing.JLabel();
@@ -56,8 +57,8 @@ public class MnExam extends javax.swing.JPanel {
         jLabel12 = new javax.swing.JLabel();
         txtD = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
-        btnIns = new javax.swing.JButton();
-        btnSave = new javax.swing.JButton();
+        btnNewQuestion = new javax.swing.JButton();
+        btnSaveQuestion = new javax.swing.JButton();
         jSeparator2 = new javax.swing.JSeparator();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbl_Question = new javax.swing.JTable();
@@ -65,8 +66,27 @@ public class MnExam extends javax.swing.JPanel {
         jRadioButton2 = new javax.swing.JRadioButton();
         jRadioButton3 = new javax.swing.JRadioButton();
         jRadioButton4 = new javax.swing.JRadioButton();
-        btnDelete = new javax.swing.JButton();
+        btnDeleteQuestion = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
+        lblTitleLevel = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        txtIdLevel = new javax.swing.JTextField();
+        jLabel14 = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        txaDescLevel = new javax.swing.JTextArea();
+        jLabel15 = new javax.swing.JLabel();
+        jRadioButton5 = new javax.swing.JRadioButton();
+        jRadioButton6 = new javax.swing.JRadioButton();
+        jRadioButton7 = new javax.swing.JRadioButton();
+        jRadioButton8 = new javax.swing.JRadioButton();
+        btnNew = new javax.swing.JButton();
+        btnSaveLevel = new javax.swing.JButton();
+        btnDeleteLevel = new javax.swing.JButton();
+        jSeparator3 = new javax.swing.JSeparator();
+        jSeparator4 = new javax.swing.JSeparator();
+        jLabel16 = new javax.swing.JLabel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        tblLevel = new javax.swing.JTable();
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -94,9 +114,9 @@ public class MnExam extends javax.swing.JPanel {
 
         jTabbedPane1.addTab("Tạo đề thi", jPanel2);
 
-        lblTitle.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
-        lblTitle.setForeground(new java.awt.Color(204, 0, 204));
-        lblTitle.setText("? CÂU HỎI");
+        lblTitleAnswer.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
+        lblTitleAnswer.setForeground(new java.awt.Color(204, 0, 204));
+        lblTitleAnswer.setText("? CÂU HỎI");
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
         jLabel2.setText("ID:");
@@ -155,11 +175,13 @@ public class MnExam extends javax.swing.JPanel {
         jLabel13.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
         jLabel13.setText("Câu trả lời:");
 
-        btnIns.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Clear-icon.png"))); // NOI18N
-        btnIns.setText("Thêm");
+        btnNewQuestion.setBackground(new java.awt.Color(204, 0, 204));
+        btnNewQuestion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Clear-icon.png"))); // NOI18N
+        btnNewQuestion.setText("Thêm");
 
-        btnSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Save-icon.png"))); // NOI18N
-        btnSave.setText("Lưu");
+        btnSaveQuestion.setBackground(new java.awt.Color(204, 0, 204));
+        btnSaveQuestion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Save-icon.png"))); // NOI18N
+        btnSaveQuestion.setText("Lưu");
 
         tbl_Question.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -186,8 +208,9 @@ public class MnExam extends javax.swing.JPanel {
         grAnswer.add(jRadioButton4);
         jRadioButton4.setText("D");
 
-        btnDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/delete.png"))); // NOI18N
-        btnDelete.setText("Xóa");
+        btnDeleteQuestion.setBackground(new java.awt.Color(204, 0, 204));
+        btnDeleteQuestion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/delete.png"))); // NOI18N
+        btnDeleteQuestion.setText("Xóa");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -252,15 +275,15 @@ public class MnExam extends javax.swing.JPanel {
                                             .addComponent(txtD, javax.swing.GroupLayout.PREFERRED_SIZE, 393, javax.swing.GroupLayout.PREFERRED_SIZE))))
                                 .addGap(33, 33, 33)
                                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(btnIns, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(btnSave, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(btnDelete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                    .addComponent(btnNewQuestion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btnSaveQuestion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btnDeleteQuestion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                             .addGroup(jPanel4Layout.createSequentialGroup()
                                 .addContainerGap()
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 978, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel4Layout.createSequentialGroup()
                                 .addGap(443, 443, 443)
-                                .addComponent(lblTitle)))
+                                .addComponent(lblTitleAnswer)))
                         .addGap(0, 3, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -268,7 +291,7 @@ public class MnExam extends javax.swing.JPanel {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lblTitle)
+                .addComponent(lblTitleAnswer)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -277,21 +300,21 @@ public class MnExam extends javax.swing.JPanel {
                     .addComponent(lblId)
                     .addComponent(jLabel8)
                     .addComponent(txtQuestion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnIns))
+                    .addComponent(btnNewQuestion))
                 .addGap(23, 23, 23)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(cboSubject, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel9)
                     .addComponent(txtA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnSave))
+                    .addComponent(btnSaveQuestion))
                 .addGap(25, 25, 25)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(cboClass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel10)
                     .addComponent(txtB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnDelete))
+                    .addComponent(btnDeleteQuestion))
                 .addGap(20, 20, 20)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
@@ -323,15 +346,159 @@ public class MnExam extends javax.swing.JPanel {
 
         jTabbedPane1.addTab("Quản lý câu hỏi", jPanel4);
 
+        lblTitleLevel.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
+        lblTitleLevel.setForeground(new java.awt.Color(204, 0, 204));
+        lblTitleLevel.setText("THÊM HẠNG CÂU");
+
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel3.setText("Mã hạng:");
+
+        txtIdLevel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+
+        jLabel14.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel14.setText("Mô tả:");
+
+        txaDescLevel.setColumns(20);
+        txaDescLevel.setFont(new java.awt.Font("Monospaced", 0, 14)); // NOI18N
+        txaDescLevel.setRows(5);
+        jScrollPane3.setViewportView(txaDescLevel);
+
+        jLabel15.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel15.setText("Mức điểm:");
+
+        grpLevelPoint.add(jRadioButton5);
+        jRadioButton5.setText("0.5");
+
+        grpLevelPoint.add(jRadioButton6);
+        jRadioButton6.setText("1.0");
+
+        grpLevelPoint.add(jRadioButton7);
+        jRadioButton7.setText("1.5");
+
+        grpLevelPoint.add(jRadioButton8);
+        jRadioButton8.setText("2.0");
+
+        btnNew.setBackground(new java.awt.Color(204, 0, 204));
+        btnNew.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Clear-icon.png"))); // NOI18N
+        btnNew.setText("Thêm");
+
+        btnSaveLevel.setBackground(new java.awt.Color(204, 0, 204));
+        btnSaveLevel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Save-icon.png"))); // NOI18N
+        btnSaveLevel.setText("Lưu");
+
+        btnDeleteLevel.setBackground(new java.awt.Color(204, 0, 204));
+        btnDeleteLevel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/delete.png"))); // NOI18N
+        btnDeleteLevel.setText("Xóa");
+
+        jLabel16.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
+        jLabel16.setForeground(new java.awt.Color(204, 0, 204));
+        jLabel16.setText("DANH SÁCH HẠNG CÂU");
+
+        tblLevel.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane4.setViewportView(tblLevel);
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1052, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGap(237, 237, 237)
+                                .addComponent(lblTitleLevel))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGap(236, 236, 236)
+                                .addComponent(jLabel16)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel14))
+                                .addGap(32, 32, 32)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(txtIdLevel)
+                                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 316, Short.MAX_VALUE))
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel3Layout.createSequentialGroup()
+                                        .addGap(135, 135, 135)
+                                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(jLabel15)
+                                                .addGroup(jPanel3Layout.createSequentialGroup()
+                                                    .addComponent(jRadioButton5)
+                                                    .addGap(50, 50, 50)
+                                                    .addComponent(jRadioButton6)
+                                                    .addGap(41, 41, 41)
+                                                    .addComponent(jRadioButton7)
+                                                    .addGap(43, 43, 43)
+                                                    .addComponent(jRadioButton8)))
+                                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                                .addComponent(btnNew)
+                                                .addGap(50, 50, 50)
+                                                .addComponent(btnSaveLevel)
+                                                .addGap(43, 43, 43)
+                                                .addComponent(btnDeleteLevel)))
+                                        .addGap(0, 0, Short.MAX_VALUE))
+                                    .addGroup(jPanel3Layout.createSequentialGroup()
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jSeparator3))))
+                            .addComponent(jSeparator4))))
+                .addContainerGap())
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 998, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(42, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 684, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblTitleLevel)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(txtIdLevel)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(33, 33, 33)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel14)
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(jPanel3Layout.createSequentialGroup()
+                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jRadioButton5)
+                                .addComponent(jRadioButton6)
+                                .addComponent(jRadioButton7)
+                                .addComponent(jRadioButton8))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(13, 13, 13)
+                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(btnNew)
+                                .addComponent(btnSaveLevel)
+                                .addComponent(btnDeleteLevel)))
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(48, 48, 48)
+                .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel16)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Quản lý hạng câu", jPanel3);
@@ -352,18 +519,26 @@ public class MnExam extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnDelete;
-    private javax.swing.JButton btnIns;
-    private javax.swing.JButton btnSave;
+    private javax.swing.JButton btnDeleteLevel;
+    private javax.swing.JButton btnDeleteQuestion;
+    private javax.swing.JButton btnNew;
+    private javax.swing.JButton btnNewQuestion;
+    private javax.swing.JButton btnSaveLevel;
+    private javax.swing.JButton btnSaveQuestion;
     private javax.swing.JComboBox<String> cboClass;
     private javax.swing.JComboBox<String> cboSubject;
     private javax.swing.JCheckBox chxStatus;
     private javax.swing.ButtonGroup grAnswer;
+    private javax.swing.ButtonGroup grpLevelPoint;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -378,19 +553,31 @@ public class MnExam extends javax.swing.JPanel {
     private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JRadioButton jRadioButton3;
     private javax.swing.JRadioButton jRadioButton4;
+    private javax.swing.JRadioButton jRadioButton5;
+    private javax.swing.JRadioButton jRadioButton6;
+    private javax.swing.JRadioButton jRadioButton7;
+    private javax.swing.JRadioButton jRadioButton8;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JSeparator jSeparator3;
+    private javax.swing.JSeparator jSeparator4;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JLabel lblId;
-    private javax.swing.JLabel lblTitle;
+    private javax.swing.JLabel lblTitleAnswer;
+    private javax.swing.JLabel lblTitleLevel;
+    private javax.swing.JTable tblLevel;
     private javax.swing.JTable tbl_Question;
+    private javax.swing.JTextArea txaDescLevel;
     private javax.swing.JTextArea txaNote;
     private javax.swing.JTextField txtA;
     private javax.swing.JTextField txtB;
     private javax.swing.JTextField txtC;
     private javax.swing.JTextField txtD;
+    private javax.swing.JTextField txtIdLevel;
     private javax.swing.JTextField txtQuestion;
     // End of variables declaration//GEN-END:variables
 }

@@ -64,7 +64,7 @@
                                   <Component id="btnExit" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                                  <Component id="chxRmb" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="chxShoHid" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Component id="txtUser" alignment="0" pref="254" max="32767" attributes="0"/>
                                   <Component id="txtPass" alignment="0" max="32767" attributes="0"/>
                               </Group>
@@ -91,7 +91,7 @@
                       <Component id="txtPass" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="chxRmb" min="-2" max="-2" attributes="0"/>
+                  <Component id="chxShoHid" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="btnLogin" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -181,15 +181,18 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnLoginActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JCheckBox" name="chxRmb">
+        <Component class="javax.swing.JCheckBox" name="chxShoHid">
           <Properties>
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="0" green="ff" red="66" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Ghi nh&#x1edb;"/>
-            <Property name="toolTipText" type="java.lang.String" value="C&#xf3; n&#xea;n nh&#x1edb; kh&#xf4;ng?"/>
+            <Property name="text" type="java.lang.String" value="Hi&#x1ec7;n m&#x1ead;t kh&#x1ea9;u!"/>
+            <Property name="toolTipText" type="java.lang.String" value="C&#xf3; n&#xea;n kh&#xf4;ng?"/>
             <Property name="opaque" type="boolean" value="false"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="chxShoHidActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnExit">
           <Properties>
