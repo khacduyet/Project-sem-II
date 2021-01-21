@@ -12,23 +12,26 @@ import java.util.Date;
  * @author Laptophaidang.com
  */
 public class HangCau {
+
     private int id;
     private String ma_hang;
     private String mo_ta;
     private float muc_diem;
     private Date ngay_tao;
     private Date ngay_cap_nhat;
+    private boolean status;
 
     public HangCau() {
     }
 
-    public HangCau(int id, String ma_hang, String mo_ta, float muc_diem, Date ngay_tao, Date ngay_cap_nhat) {
+    public HangCau(int id, String ma_hang, String mo_ta, float muc_diem, Date ngay_tao, Date ngay_cap_nhat, boolean status) {
         this.id = id;
         this.ma_hang = ma_hang;
         this.mo_ta = mo_ta;
         this.muc_diem = muc_diem;
         this.ngay_tao = ngay_tao;
         this.ngay_cap_nhat = ngay_cap_nhat;
+        this.status = status;
     }
 
     public int getId() {
@@ -78,6 +81,13 @@ public class HangCau {
     public void setNgay_cap_nhat(Date ngay_cap_nhat) {
         this.ngay_cap_nhat = ngay_cap_nhat;
     }
-    
-    
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
+
 }
