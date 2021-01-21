@@ -5,17 +5,32 @@
  */
 package gui;
 
+import contrain.DatabaseConnections;
+import dao.HangCauDAO;
+import daoImp.HangCauImplDAO;
+import entity.HangCau;
+import java.sql.Connection;
+import java.sql.Timestamp;
+import java.util.Date;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author duyet
  */
 public class MnExam extends javax.swing.JPanel {
 
+    private Connection con;
+    private HangCauDAO hcDao;
+
     /**
      * Creates new form MnExam
      */
     public MnExam() {
         initComponents();
+        con = DatabaseConnections.getConnect();
+        hcDao = new HangCauImplDAO(con);
+//        loadHangCau();
     }
 
     /**
@@ -75,10 +90,10 @@ public class MnExam extends javax.swing.JPanel {
         jScrollPane3 = new javax.swing.JScrollPane();
         txaDescLevel = new javax.swing.JTextArea();
         jLabel15 = new javax.swing.JLabel();
-        jRadioButton5 = new javax.swing.JRadioButton();
-        jRadioButton6 = new javax.swing.JRadioButton();
-        jRadioButton7 = new javax.swing.JRadioButton();
-        jRadioButton8 = new javax.swing.JRadioButton();
+        rdoDiem1 = new javax.swing.JRadioButton();
+        rdoDiem2 = new javax.swing.JRadioButton();
+        rdoDiem3 = new javax.swing.JRadioButton();
+        rdoDiem4 = new javax.swing.JRadioButton();
         btnNew = new javax.swing.JButton();
         btnSaveLevel = new javax.swing.JButton();
         btnDeleteLevel = new javax.swing.JButton();
@@ -366,17 +381,17 @@ public class MnExam extends javax.swing.JPanel {
         jLabel15.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel15.setText("Mức điểm:");
 
-        grpLevelPoint.add(jRadioButton5);
-        jRadioButton5.setText("0.5");
+        grpLevelPoint.add(rdoDiem1);
+        rdoDiem1.setText("0.5");
 
-        grpLevelPoint.add(jRadioButton6);
-        jRadioButton6.setText("1.0");
+        grpLevelPoint.add(rdoDiem2);
+        rdoDiem2.setText("1.0");
 
-        grpLevelPoint.add(jRadioButton7);
-        jRadioButton7.setText("1.5");
+        grpLevelPoint.add(rdoDiem3);
+        rdoDiem3.setText("1.5");
 
-        grpLevelPoint.add(jRadioButton8);
-        jRadioButton8.setText("2.0");
+        grpLevelPoint.add(rdoDiem4);
+        rdoDiem4.setText("2.0");
 
         btnNew.setBackground(new java.awt.Color(204, 0, 204));
         btnNew.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Clear-icon.png"))); // NOI18N
@@ -385,6 +400,11 @@ public class MnExam extends javax.swing.JPanel {
         btnSaveLevel.setBackground(new java.awt.Color(204, 0, 204));
         btnSaveLevel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Save-icon.png"))); // NOI18N
         btnSaveLevel.setText("Lưu");
+        btnSaveLevel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveLevelActionPerformed(evt);
+            }
+        });
 
         btnDeleteLevel.setBackground(new java.awt.Color(204, 0, 204));
         btnDeleteLevel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/delete.png"))); // NOI18N
@@ -440,13 +460,13 @@ public class MnExam extends javax.swing.JPanel {
                                             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                 .addComponent(jLabel15)
                                                 .addGroup(jPanel3Layout.createSequentialGroup()
-                                                    .addComponent(jRadioButton5)
+                                                    .addComponent(rdoDiem1)
                                                     .addGap(50, 50, 50)
-                                                    .addComponent(jRadioButton6)
+                                                    .addComponent(rdoDiem2)
                                                     .addGap(41, 41, 41)
-                                                    .addComponent(jRadioButton7)
+                                                    .addComponent(rdoDiem3)
                                                     .addGap(43, 43, 43)
-                                                    .addComponent(jRadioButton8)))
+                                                    .addComponent(rdoDiem4)))
                                             .addGroup(jPanel3Layout.createSequentialGroup()
                                                 .addComponent(btnNew)
                                                 .addGap(50, 50, 50)
@@ -480,10 +500,10 @@ public class MnExam extends javax.swing.JPanel {
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addGroup(jPanel3Layout.createSequentialGroup()
                             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jRadioButton5)
-                                .addComponent(jRadioButton6)
-                                .addComponent(jRadioButton7)
-                                .addComponent(jRadioButton8))
+                                .addComponent(rdoDiem1)
+                                .addComponent(rdoDiem2)
+                                .addComponent(rdoDiem3)
+                                .addComponent(rdoDiem4))
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGap(13, 13, 13)
@@ -516,6 +536,32 @@ public class MnExam extends javax.swing.JPanel {
                 .addGap(0, 0, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnSaveLevelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveLevelActionPerformed
+        //Luu thong tin thay doi tren form them moi va chinh sua hang cau
+        HangCau hc = new HangCau();
+        hc.setMa_hang(txtIdLevel.getText());
+        hc.setMo_ta(txaDescLevel.getText());
+        if (rdoDiem1.isSelected()) {
+            hc.setMuc_diem(Float.parseFloat(rdoDiem1.getText()));
+        } else if (rdoDiem2.isSelected()) {
+            hc.setMuc_diem(Float.parseFloat(rdoDiem2.getText()));
+        } else if (rdoDiem3.isSelected()) {
+            hc.setMuc_diem(Float.parseFloat(rdoDiem3.getText()));
+        } else {
+            hc.setMuc_diem(Float.parseFloat(rdoDiem4.getText()));
+        }
+        //      ngay tao bang lay ngay thang nam tren he thong may tinh
+        Timestamp ts = new Timestamp(new Date().getTime());
+        java.sql.Date sqlDou = new java.sql.Date(ts.getTime());
+        hc.setNgay_tao(sqlDou);
+//      ngay cap nhat mac dinh lay theo ngay tao neu la lan dau tien
+        hc.setNgay_cap_nhat(sqlDou);
+        hc.setStatus(true);
+        // insert data
+        hcDao.insert(hc);
+        JOptionPane.showMessageDialog(this, "Thêm mới thành công!");
+    }//GEN-LAST:event_btnSaveLevelActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -553,10 +599,6 @@ public class MnExam extends javax.swing.JPanel {
     private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JRadioButton jRadioButton3;
     private javax.swing.JRadioButton jRadioButton4;
-    private javax.swing.JRadioButton jRadioButton5;
-    private javax.swing.JRadioButton jRadioButton6;
-    private javax.swing.JRadioButton jRadioButton7;
-    private javax.swing.JRadioButton jRadioButton8;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
@@ -569,6 +611,10 @@ public class MnExam extends javax.swing.JPanel {
     private javax.swing.JLabel lblId;
     private javax.swing.JLabel lblTitleAnswer;
     private javax.swing.JLabel lblTitleLevel;
+    private javax.swing.JRadioButton rdoDiem1;
+    private javax.swing.JRadioButton rdoDiem2;
+    private javax.swing.JRadioButton rdoDiem3;
+    private javax.swing.JRadioButton rdoDiem4;
     private javax.swing.JTable tblLevel;
     private javax.swing.JTable tbl_Question;
     private javax.swing.JTextArea txaDescLevel;

@@ -587,13 +587,13 @@
                                                   <Group type="103" groupAlignment="0" attributes="0">
                                                       <Component id="jLabel15" min="-2" max="-2" attributes="0"/>
                                                       <Group type="102" attributes="0">
-                                                          <Component id="jRadioButton5" min="-2" max="-2" attributes="0"/>
+                                                          <Component id="rdoDiem1" min="-2" max="-2" attributes="0"/>
                                                           <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
-                                                          <Component id="jRadioButton6" min="-2" max="-2" attributes="0"/>
+                                                          <Component id="rdoDiem2" min="-2" max="-2" attributes="0"/>
                                                           <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
-                                                          <Component id="jRadioButton7" min="-2" max="-2" attributes="0"/>
+                                                          <Component id="rdoDiem3" min="-2" max="-2" attributes="0"/>
                                                           <EmptySpace min="-2" pref="43" max="-2" attributes="0"/>
-                                                          <Component id="jRadioButton8" min="-2" max="-2" attributes="0"/>
+                                                          <Component id="rdoDiem4" min="-2" max="-2" attributes="0"/>
                                                       </Group>
                                                   </Group>
                                                   <Group type="102" attributes="0">
@@ -642,10 +642,10 @@
                           <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
                               <Group type="102" attributes="0">
                                   <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="jRadioButton5" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jRadioButton6" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jRadioButton7" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jRadioButton8" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="rdoDiem1" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="rdoDiem2" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="rdoDiem3" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="rdoDiem4" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace max="32767" attributes="0"/>
                                   <Component id="jSeparator3" min="-2" pref="10" max="-2" attributes="0"/>
@@ -731,7 +731,7 @@
                 <Property name="text" type="java.lang.String" value="M&#x1ee9;c &#x111;i&#x1ec3;m:"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JRadioButton" name="jRadioButton5">
+            <Component class="javax.swing.JRadioButton" name="rdoDiem1">
               <Properties>
                 <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
                   <ComponentRef name="grpLevelPoint"/>
@@ -739,7 +739,7 @@
                 <Property name="text" type="java.lang.String" value="0.5"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JRadioButton" name="jRadioButton6">
+            <Component class="javax.swing.JRadioButton" name="rdoDiem2">
               <Properties>
                 <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
                   <ComponentRef name="grpLevelPoint"/>
@@ -747,7 +747,7 @@
                 <Property name="text" type="java.lang.String" value="1.0"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JRadioButton" name="jRadioButton7">
+            <Component class="javax.swing.JRadioButton" name="rdoDiem3">
               <Properties>
                 <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
                   <ComponentRef name="grpLevelPoint"/>
@@ -755,7 +755,7 @@
                 <Property name="text" type="java.lang.String" value="1.5"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JRadioButton" name="jRadioButton8">
+            <Component class="javax.swing.JRadioButton" name="rdoDiem4">
               <Properties>
                 <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
                   <ComponentRef name="grpLevelPoint"/>
@@ -784,6 +784,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="L&#x1b0;u"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSaveLevelActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnDeleteLevel">
               <Properties>

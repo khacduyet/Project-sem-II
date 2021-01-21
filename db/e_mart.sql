@@ -107,7 +107,7 @@ CREATE TABLE tbl_GiaoVien
 )
 GO
 -- INSERT DATA Tbl_GiaoVien
-insert into tbl_GiaoVien values ('GV001',N'Lê Văn Tê',1,'1990-10-10','0123456789','Hà Thành','te@gmail.com','2021-01-14','2021-01-14',1,'te','12345')
+insert into tbl_GiaoVien values ('GV001',N'Lê Vãn Tê',1,'1990-10-10','0123456789','Hà Thành','te@gmail.com','2021-01-14','2021-01-14',1,'te','12345')
 go
 -- rang buoc phan quyen va giao vien
 ALTER TABLE tbl_PhanQuyenChiTiet
@@ -455,3 +455,47 @@ AS
 	SELECT * FROM tbl_CauHoi WHERE id = @id
 GO
 /*==============PROC CAU HOI================*/
+/*==============PROC HANG CAU================*/
+ALTER TABLE tbl_HangCau
+ADD status bit;
+-- insert data bang hạng câu
+CREATE PROCEDURE insertHangCau
+@ma_hang varchar(10),
+@mo_ta nvarchar(100),
+@muc_diem float,
+@ngay_tao date,
+@ngay_cap_nhat date,
+@status bit
+AS
+	INSERT INTO tbl_HangCau VALUES(@ma_hang,@mo_ta,@muc_diem,@ngay_tao,@ngay_cap_nhat,@status)
+Go
+-- update data bảng hạng câu
+CREATE PROCEDURE updateHangCau
+@id int,
+@ma_hang varchar(10),
+@mo_ta nvarchar(100),
+@muc_diem float,
+@ngay_cap_nhat date,
+@status bit
+AS
+	UPDATE tbl_HangCau SET ma_hang = @ma_hang , mo_ta = @mo_ta , muc_diem = @muc_diem , ngay_cap_nhat = @ngay_cap_nhat , status = @status WHERE id = @id
+GO
+-- get all data hang cau
+CREATE PROCEDURE getAllHangCau
+AS
+	SELECT * FROM tbl_HangCau
+GO
+-- get data theo id hang cau
+CREATE PROCEDURE getByIdHangCau
+@id int
+AS
+	SELECT * FROM tbl_HangCau WHERE id= @id
+GO
+-- xoa data theo id
+CREATE PROCEDURE deleteHangCau
+@id int
+AS
+	DELETE FROM tbl_HangCau WHERE id = @id
+GO
+select * from tbl_HangCau
+/*==============PROC HANG CAU================*/
