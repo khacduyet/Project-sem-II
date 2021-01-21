@@ -11,8 +11,12 @@ import daoImp.HangCauImplDAO;
 import entity.HangCau;
 import java.sql.Connection;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Vector;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -22,6 +26,8 @@ public class MnExam extends javax.swing.JPanel {
 
     private Connection con;
     private HangCauDAO hcDao;
+    private int hangCauId;
+    private boolean checkEdit = true;
 
     /**
      * Creates new form MnExam
@@ -30,7 +36,7 @@ public class MnExam extends javax.swing.JPanel {
         initComponents();
         con = DatabaseConnections.getConnect();
         hcDao = new HangCauImplDAO(con);
-//        loadHangCau();
+        loadHangCau();
     }
 
     /**
@@ -425,6 +431,11 @@ public class MnExam extends javax.swing.JPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tblLevel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblLevelMouseClicked(evt);
+            }
+        });
         jScrollPane4.setViewportView(tblLevel);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -558,10 +569,40 @@ public class MnExam extends javax.swing.JPanel {
 //      ngay cap nhat mac dinh lay theo ngay tao neu la lan dau tien
         hc.setNgay_cap_nhat(sqlDou);
         hc.setStatus(true);
-        // insert data
-        hcDao.insert(hc);
-        JOptionPane.showMessageDialog(this, "Thêm mới thành công!");
+        if (checkEdit) {
+            // insert data
+            hcDao.insert(hc);
+            JOptionPane.showMessageDialog(this, "Thêm mới thành công!");
+            loadHangCau();
+        } else {
+            hc.setId(hangCauId);
+            hcDao.update(hc);
+            JOptionPane.showMessageDialog(this, "Cập nhật thành công!");
+            loadHangCau();
+        }
+
     }//GEN-LAST:event_btnSaveLevelActionPerformed
+
+    private void tblLevelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblLevelMouseClicked
+        //  click hien thi thong tin len form hang cau
+        int rowSelect = tblLevel.getSelectedRow();
+        hangCauId = (int) tblLevel.getValueAt(rowSelect, 0);
+        HangCau hc = hcDao.getById(hangCauId);
+        lblTitleLevel.setText("Sửa Thông Tin Hạng Câu");
+        txtIdLevel.setText(hc.getMa_hang());
+        txaDescLevel.setText(hc.getMo_ta());
+        float checkMark = (float) tblLevel.getValueAt(rowSelect, 3);
+        if (checkMark == 0.5) {
+            rdoDiem1.setSelected(true);
+        } else if (checkMark == 1.0) {
+            rdoDiem2.setSelected(true);
+        } else if (checkMark == 1.5) {
+            rdoDiem3.setSelected(true);
+        } else {
+            rdoDiem4.setSelected(true);
+        }
+        checkEdit = false;
+    }//GEN-LAST:event_tblLevelMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -626,4 +667,32 @@ public class MnExam extends javax.swing.JPanel {
     private javax.swing.JTextField txtIdLevel;
     private javax.swing.JTextField txtQuestion;
     // End of variables declaration//GEN-END:variables
+
+    private void loadHangCau() {
+        List<HangCau> listHC = new ArrayList<>();
+        listHC = hcDao.getAll();
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("ID");
+        model.addColumn("Mã Hạng");
+        model.addColumn("Mô Tả");
+        model.addColumn("Mức Điểm");
+        model.addColumn("Ngày Tạo");
+        model.addColumn("Ngày Cập Nhật");
+        model.addColumn("Trạng Thái");
+
+        for (HangCau item : listHC) {
+            Vector rows = new Vector();
+            rows.add(item.getId());
+            rows.add(item.getMa_hang());
+            rows.add(item.getMo_ta());
+            rows.add(item.getMuc_diem());
+            rows.add(item.getNgay_tao());
+            rows.add(item.getNgay_cap_nhat());
+            rows.add(item.isStatus() ? "Đang tồn tại" : "Đã Khóa");
+            model.addRow(rows);
+
+        }
+        tblLevel.setModel(model);
+
+    }
 }

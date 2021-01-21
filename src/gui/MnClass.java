@@ -229,7 +229,6 @@ public class MnClass extends javax.swing.JPanel {
         // lưu dữ liệu lớp vào csdl
         LopHoc lp1 = new LopHoc();
         if (checkNull()) {
-
             lp1.setTen_lop(txtNameClass.getText());
             lp1.setKhoa_hoc(txtCourse.getText());
             String value = cboYear.getSelectedItem().toString();
