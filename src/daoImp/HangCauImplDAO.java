@@ -10,6 +10,7 @@ import entity.HangCau;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.Date;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -83,14 +84,14 @@ public class HangCauImplDAO implements HangCauDAO {
     @Override
     public void update(HangCau m) {
         try {
-            CallableStatement cs = con.prepareCall("{CALL updateHangCau(?,?,?,?,?,?)}");
-            cs.setString(1, m.getMa_hang());
-            cs.setString(2, m.getMo_ta());
-            cs.setFloat(3, m.getMuc_diem());
-            cs.setDate(4, (Date) m.getNgay_cap_nhat());
-            cs.setBoolean(5, m.isStatus());
-            cs.setInt(6, m.getId());
-            cs.executeUpdate();
+            PreparedStatement pst = con.prepareStatement("UPDATE tbl_HangCau SET ma_hang = ? , mo_ta = ? , muc_diem = ? , ngay_cap_nhat = ? , status = ? WHERE id = ?");
+            pst.setString(1, m.getMa_hang());
+            pst.setString(2, m.getMo_ta());
+            pst.setFloat(3, m.getMuc_diem());
+            pst.setDate(4, (Date) m.getNgay_cap_nhat());
+            pst.setBoolean(5, m.isStatus());
+            pst.setInt(6, m.getId());
+            pst.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(HangCauImplDAO.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -471,12 +471,12 @@ AS
 Go
 -- update data bảng hạng câu
 CREATE PROCEDURE updateHangCau
-@id int,
 @ma_hang varchar(10),
 @mo_ta nvarchar(100),
 @muc_diem float,
 @ngay_cap_nhat date,
-@status bit
+@status bit,
+@id int
 AS
 	UPDATE tbl_HangCau SET ma_hang = @ma_hang , mo_ta = @mo_ta , muc_diem = @muc_diem , ngay_cap_nhat = @ngay_cap_nhat , status = @status WHERE id = @id
 GO
