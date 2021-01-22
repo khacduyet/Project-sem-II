@@ -19,4 +19,7 @@ public interface DapAnDAO {
     public void update(DapAn da);
 
     public void delete(int id);
+    
+    public DapAn getByIdQuestion(int id);
+    public List<DapAn> getAllAnsert(int id);
 }

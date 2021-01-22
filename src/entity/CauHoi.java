@@ -15,7 +15,6 @@ public class CauHoi {
     private int id;
     private int id_mon;
     private int id_hang;
-    private int loai_cau;
     private String noi_dung;
     private Date ngay_tao;
     private Date ngay_cap_nhat;
@@ -25,11 +24,15 @@ public class CauHoi {
     public CauHoi() {
     }
 
-    public CauHoi(int id, int id_mon, int id_hang, int loai_cau, String noi_dung, Date ngay_tao, Date ngay_cap_nhat, String ghi_chu, boolean trang_thai) {
+    public CauHoi(int id) {
+        this.id = id;
+    }
+
+    
+    public CauHoi(int id, int id_mon, int id_hang,  String noi_dung, Date ngay_tao, Date ngay_cap_nhat, String ghi_chu, boolean trang_thai) {
         this.id = id;
         this.id_mon = id_mon;
         this.id_hang = id_hang;
-        this.loai_cau = loai_cau;
         this.noi_dung = noi_dung;
         this.ngay_tao = ngay_tao;
         this.ngay_cap_nhat = ngay_cap_nhat;
@@ -59,14 +62,6 @@ public class CauHoi {
 
     public void setId_hang(int id_hang) {
         this.id_hang = id_hang;
-    }
-
-    public int getLoai_cau() {
-        return loai_cau;
-    }
-
-    public void setLoai_cau(int loai_cau) {
-        this.loai_cau = loai_cau;
     }
 
     public String getNoi_dung() {

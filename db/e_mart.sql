@@ -419,14 +419,13 @@ GO
 CREATE PROCEDURE insertCauHoi
 @id_mon int,
 @id_hang int,
-@loai_cau int,
 @noi_dung nvarchar(200),
 @ngay_tao date,
 @ngay_cap_nhat date,
 @ghi_chu nvarchar(200),
 @trang_thai bit
 AS
-	INSERT INTO tbl_CauHoi VALUES(@id_mon,@id_hang,@loai_cau,@noi_dung,@ngay_tao,@ngay_cap_nhat,@ghi_chu,@trang_thai)
+	INSERT INTO tbl_CauHoi VALUES(@id_mon,@id_hang,@noi_dung,@ngay_tao,@ngay_cap_nhat,@ghi_chu,@trang_thai)
 GO
 --update du lieu bang cau hoi
 CREATE PROCEDURE updateCauHoi
@@ -454,6 +453,17 @@ CREATE PROCEDURE getByIdCauHoi
 AS
 	SELECT * FROM tbl_CauHoi WHERE id = @id
 GO
+-- lay ra id vua insert vao csdl
+CREATE PROCEDURE idFitInsert
+AS
+	SELECT TOP(1) * from tbl_CauHoi ORDER BY id DESC
+GO
+
+-- lay du lieu tbl_CauHoi theo mon
+CREATE PROC getAllBySubject
+as
+	SELECT id, m.mo
+go
 /*==============PROC CAU HOI================*/
 /*==============PROC HANG CAU================*/
 ALTER TABLE tbl_HangCau
@@ -499,3 +509,22 @@ AS
 GO
 select * from tbl_HangCau
 /*==============PROC HANG CAU================*/
+/*==============PROC DAP AN================*/
+--insert dap an
+CREATE PROCEDURE insertDapAn
+@id_cauhoi int,
+@noi_dung nvarchar(200),
+@dap_an bit
+AS
+	INSERT INTO tbl_DapAn VALUES(@id_cauhoi,@noi_dung,@dap_an)
+GO
+-- update data dap an
+CREATE PROCEDURE updateDapAn
+@id int,
+@id_cauhoi int,
+@noi_dung nvarchar(200),
+@dap_an bit
+AS
+	UPDATE tbl_DapAn SET noi_dung = @noi_dung , dap_an = @dap_an WHERE id = @id
+GO
+/*==============PROC DAP AN================*/
