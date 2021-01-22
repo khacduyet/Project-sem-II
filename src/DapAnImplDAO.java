@@ -103,4 +103,36 @@ public class DapAnImplDAO implements DapAnDAO {
         }
     }
 
+    @Override
+    public DapAn getByIdQuestion(int id) {
+        DapAn da = null;
+        try {
+            PreparedStatement pst = con.prepareStatement("SELECT ca.id, ca.id_cauhoi, ca.noi_dung, ca.dap_an, ch.id FROM tbl_DapAn ca inner join tbl_CauHoi ch on ch.id = ca.id_cauhoi where ch.id = ? AND dap_an = 1");
+            pst.setInt(1, id);
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                da = new DapAn(rs.getInt("id"), rs.getInt("id_cauhoi"), rs.getString("noi_dung"), rs.getBoolean("dap_an"));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DapAnImplDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return da;
+    }
+
+    @Override
+    public List<DapAn> getAllAnsert(int id) {
+        List<DapAn> results = new ArrayList<>();
+        try {
+            PreparedStatement pst = con.prepareStatement("SELECT ca.id, ca.id_cauhoi, ca.noi_dung, ca.dap_an, ch.id FROM tbl_DapAn ca inner join tbl_CauHoi ch on ch.id = ca.id_cauhoi where ch.id = ?");
+            pst.setInt(1, id);
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                DapAn da = new DapAn(rs.getInt("id"), rs.getInt("id_cauhoi"), rs.getString("noi_dung"), rs.getBoolean("dap_an"));
+                results.add(da);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DapAnImplDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return results;
+    }
 }

@@ -90,4 +90,10 @@ public class HangCau {
         this.status = status;
     }
 
+    @Override
+    public String toString() {
+        return this.ma_hang = ma_hang;
+    }
+
+    
 }

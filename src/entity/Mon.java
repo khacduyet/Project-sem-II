@@ -88,6 +88,11 @@ public class Mon {
     public void setTrang_thai(boolean trang_thai) {
         this.trang_thai = trang_thai;
     }
+
+    @Override
+    public String toString() {
+        return this.ten_mon = ten_mon;
+    }
     
     
     

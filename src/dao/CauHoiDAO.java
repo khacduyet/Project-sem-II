@@ -23,4 +23,8 @@ public interface CauHoiDAO {
     public void update(CauHoi lp);
 
     public void delete(int id);
+    
+    public CauHoi getIdInsert();
+    
+    public List<CauHoi> getAllBySubject();
 }
