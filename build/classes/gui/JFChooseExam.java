@@ -5,12 +5,7 @@
  */
 package gui;
 
-import DAOimpl.MonImplDAO;
-import contrain.DatabaseConnections;
-import entity.Mon;
 import entity.SinhVien;
-import java.sql.Connection;
-import java.util.List;
 
 /**
  *
@@ -20,8 +15,6 @@ public class JFChooseExam extends javax.swing.JFrame {
     private JFStudent jsFStudent;
     String user;
     String pass;
-    MonImplDAO mdao;
-    Connection con;
     /**
      * Creates new form JFChooseExam
      */
@@ -29,28 +22,20 @@ public class JFChooseExam extends javax.swing.JFrame {
         this.jsFStudent = jsFStudent;
         initComponents();
         
+        
         // Thay đổi mặc định cửa sổ
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
-        
-        // Lấy dữ liệu từ MSQL
-        con = DatabaseConnections.getConnect();
-        mdao = new MonImplDAO(con);
-        
-        // Load dữ liệu
-        loadSubjects();
     }
     
     public JFChooseExam(SinhVien sv){
-        // Get dữ liệu
+        
     }
-    
-    public void loadSubjects(){
-        List<Mon> m = mdao.getAll();
-        m.forEach((mon) -> {
-            cboSubject.addItem(mon);
-        });
+
+    private JFChooseExam() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -72,6 +57,10 @@ public class JFChooseExam extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
         jLabel1.setText("Môn học: ");
+
+        cboSubject.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        cboThreads.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
         jLabel2.setText("Chọn đề:");
@@ -154,11 +143,12 @@ public class JFChooseExam extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
+   
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnExit;
     private javax.swing.JButton btnStart;
-    private javax.swing.JComboBox<Mon> cboSubject;
+    private javax.swing.JComboBox<String> cboSubject;
     private javax.swing.JComboBox<String> cboThreads;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

@@ -120,5 +120,4 @@ public class MonImplDAO implements MonHocDAO {
             Logger.getLogger(MonImplDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
 }

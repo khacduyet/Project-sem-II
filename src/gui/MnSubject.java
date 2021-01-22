@@ -251,7 +251,7 @@ public class MnSubject extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Cập nhật thành công!");
             loadSubject();
         }
-
+        ResetForm();
         loadSubject();
     }//GEN-LAST:event_btnSaveActionPerformed
 
@@ -289,14 +289,17 @@ public class MnSubject extends javax.swing.JPanel {
                 loadSubject();
             }
             checkStatus = true;
-            lblSubject.setText("THÊM MÔN HỌC");
-            btnNew.setText("Thêm");
-            txtNameSub.setText("");
-            txtDescSub.setText("");
-            txtContentSub.setText("");
+            ResetForm();
         }
     }//GEN-LAST:event_btnNewActionPerformed
 
+    public void ResetForm() {
+        lblSubject.setText("THÊM MÔN HỌC");
+        btnNew.setText("Thêm");
+        txtNameSub.setText("");
+        txtDescSub.setText("");
+        txtContentSub.setText("");
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTabbedPane QLMonHoc;
