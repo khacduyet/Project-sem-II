@@ -120,6 +120,7 @@ public class MnTeacher extends javax.swing.JPanel {
 
         jPanel1.setLayout(new java.awt.BorderLayout());
 
+        tblListTeacher.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         tblListTeacher.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -176,7 +177,7 @@ public class MnTeacher extends javax.swing.JPanel {
                 .addGap(1080, 1080, 1080))
             .addGroup(MnAccountLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(MnAccountLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(MnAccountLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane2)
                     .addGroup(MnAccountLayout.createSequentialGroup()
                         .addGroup(MnAccountLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -192,8 +193,9 @@ public class MnTeacher extends javax.swing.JPanel {
                                 .addComponent(btnUpdateGV, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(btnDellGV))
-                            .addComponent(btnChangStt, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(btnChangStt, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 53, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         MnAccountLayout.setVerticalGroup(
             MnAccountLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -351,7 +353,7 @@ public class MnTeacher extends javax.swing.JPanel {
                                                 .addGap(2, 2, 2)
                                                 .addComponent(jLabel11))
                                             .addComponent(jLabel9))
-                                        .addContainerGap(27, Short.MAX_VALUE))))))))
+                                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))))
         );
         addTitleGvLayout.setVerticalGroup(
             addTitleGvLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -412,7 +414,9 @@ public class MnTeacher extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(QuanLyGv, javax.swing.GroupLayout.DEFAULT_SIZE, 1085, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(QuanLyGv, javax.swing.GroupLayout.PREFERRED_SIZE, 1095, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

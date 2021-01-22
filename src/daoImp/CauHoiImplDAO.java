@@ -87,7 +87,7 @@ public class CauHoiImplDAO implements CauHoiDAO {
     public void update(CauHoi lp) {
         CallableStatement cs;
         try {
-            cs = con.prepareCall("{CALL updateCauHoi(?,?,?,?,?,?,?,?)}");
+            cs = con.prepareCall("{CALL updateCauHoi(?,?,?,?,?,?,?)}");
             cs.setInt(1, lp.getId_mon());
             cs.setInt(2, lp.getId_hang());
             cs.setString(3, lp.getNoi_dung());
