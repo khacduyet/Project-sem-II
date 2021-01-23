@@ -26,5 +26,5 @@ public interface CauHoiDAO {
     
     public CauHoi getIdInsert();
     
-    public List<CauHoi> getAllBySubject();
+    public List<CauHoi> getAllBySubject(int id_cauhoi);
 }

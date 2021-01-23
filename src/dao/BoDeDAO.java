@@ -6,6 +6,7 @@
 package dao;
 
 import entity.BoDe;
+import entity.BoDeChiTiet;
 import java.util.List;
 
 /**
@@ -23,4 +24,14 @@ public interface BoDeDAO {
     public void update(BoDe bd);
 
     public void delete(int id);
+    
+    public void insBoDeChiTiet(BoDeChiTiet bd);
+    
+    public BoDe idFitInsExam();
+    
+    public BoDeChiTiet getByIdChiTiet(int id_bd, int id_ch);
+    
+    public void updateStatusExam(BoDe bd);
+    
+    public List<BoDeChiTiet> getAllByIdExam(int id);
 }

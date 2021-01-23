@@ -7,50 +7,55 @@ package gui;
 
 import DAOimpl.MonImplDAO;
 import contrain.DatabaseConnections;
-import entity.Mon;
+import daoImp.BoDeImplDAO;
+import daoImp.CauHoiImplDAO;
+import entity.BoDe;
 import entity.SinhVien;
 import java.sql.Connection;
 import java.util.List;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author duyet
  */
 public class JFChooseExam extends javax.swing.JFrame {
+
     private JFStudent jsFStudent;
     String user;
     String pass;
+    int idExam;
     MonImplDAO mdao;
+    BoDeImplDAO bddao;
+    CauHoiImplDAO chdao;
     Connection con;
+
     /**
      * Creates new form JFChooseExam
      */
     public JFChooseExam(JFStudent jsFStudent) {
         this.jsFStudent = jsFStudent;
         initComponents();
-        
+
         // Thay đổi mặc định cửa sổ
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
-        
+
         // Lấy dữ liệu từ MSQL
         con = DatabaseConnections.getConnect();
-        mdao = new MonImplDAO(con);
-        
+        bddao = new BoDeImplDAO(con);
+
         // Load dữ liệu
-        loadSubjects();
+        loadExam();
     }
-    
-    public JFChooseExam(SinhVien sv){
-        // Get dữ liệu
-    }
-    
-    public void loadSubjects(){
-        List<Mon> m = mdao.getAll();
-        m.forEach((mon) -> {
-            cboSubject.addItem(mon);
+
+    public void loadExam() {
+        List<BoDe> bd = bddao.getAll();
+        bd.forEach((boDe) -> {
+            cboThreads.addItem(boDe);
         });
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -60,22 +65,20 @@ public class JFChooseExam extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        cboSubject = new javax.swing.JComboBox<>();
         cboThreads = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
         btnStart = new javax.swing.JButton();
         btnExit = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jSeparator1 = new javax.swing.JSeparator();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
-        jLabel1.setText("Môn học: ");
-
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
         jLabel2.setText("Chọn đề:");
 
+        btnStart.setBackground(new java.awt.Color(0, 255, 0));
         btnStart.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
         btnStart.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/pencil.png"))); // NOI18N
         btnStart.setText("THI");
@@ -86,6 +89,7 @@ public class JFChooseExam extends javax.swing.JFrame {
             }
         });
 
+        btnExit.setBackground(new java.awt.Color(255, 0, 0));
         btnExit.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
         btnExit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/exit.png"))); // NOI18N
         btnExit.setText("HỦY");
@@ -96,41 +100,49 @@ public class JFChooseExam extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(204, 0, 204));
+        jLabel1.setText("CHỌN ĐỀ BÀI");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(38, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(30, 30, 30)
-                        .addComponent(cboSubject, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(50, 50, 50)
+                                .addComponent(btnStart)
+                                .addGap(64, 64, 64)
+                                .addComponent(btnExit))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(20, 20, 20)
+                                .addComponent(jLabel2)
+                                .addGap(28, 28, 28)
+                                .addComponent(cboThreads, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(80, 80, 80)
+                                .addComponent(jLabel1)))
+                        .addGap(0, 26, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(cboThreads, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap()
+                        .addComponent(jSeparator1)))
                 .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(50, 50, 50)
-                .addComponent(btnStart)
-                .addGap(64, 64, 64)
-                .addComponent(btnExit)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(28, 28, 28)
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addGap(4, 4, 4)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(cboSubject, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(26, 26, 26)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(cboThreads, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
+                    .addComponent(cboThreads, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnStart)
                     .addComponent(btnExit))
@@ -145,7 +157,13 @@ public class JFChooseExam extends javax.swing.JFrame {
     }//GEN-LAST:event_btnExitActionPerformed
 
     private void btnStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStartActionPerformed
-        JFStartExam jse = new JFStartExam(user, pass);
+        List<BoDe> bd = bddao.getAll();
+        for (int i = 0; i < cboThreads.getItemCount(); i++) {
+            if (cboThreads.getItemAt(i).equals(cboThreads.getSelectedItem())) {
+                idExam = cboThreads.getItemAt(i).getId();
+            }
+        }
+        JFStartExam jse = new JFStartExam(user, pass, idExam);
         jse.setVisible(true);
         this.setVisible(false);
         jsFStudent.setVisible(false);
@@ -158,9 +176,9 @@ public class JFChooseExam extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnExit;
     private javax.swing.JButton btnStart;
-    private javax.swing.JComboBox<Mon> cboSubject;
-    private javax.swing.JComboBox<String> cboThreads;
+    private javax.swing.JComboBox<BoDe> cboThreads;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JSeparator jSeparator1;
     // End of variables declaration//GEN-END:variables
 }

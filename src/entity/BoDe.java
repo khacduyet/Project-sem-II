@@ -88,4 +88,9 @@ public class BoDe {
     public void setTrang_thai(boolean trang_thai) {
         this.trang_thai = trang_thai;
     }
+    
+    @Override
+    public String toString(){
+        return noi_dung;
+    }
 }

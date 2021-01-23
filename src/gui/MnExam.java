@@ -13,10 +13,13 @@ import dao.CauHoiDAO;
 import dao.DapAnDAO;
 import dao.HangCauDAO;
 import dao.MonHocDAO;
+import dao.TeacherDAO;
 import daoImp.BoDeImplDAO;
 import daoImp.CauHoiImplDAO;
 import daoImp.HangCauImplDAO;
+import daoImp.TeacherImplDAO;
 import entity.BoDe;
+import entity.BoDeChiTiet;
 import entity.CauHoi;
 import entity.DapAn;
 import entity.GiaoVien;
@@ -25,9 +28,11 @@ import entity.Mon;
 import java.sql.Connection;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 import java.util.Vector;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
@@ -45,8 +50,10 @@ public class MnExam extends javax.swing.JPanel {
     private CauHoiDAO cauhoiDAO;
     private DapAnDAO daDAO;
     private BoDeDAO bdDAO;
+    private TeacherDAO tdao;
     private int hangCauId;
     private int cauhoiId;
+    private int idQuesExam;
     private boolean checkEditLevel = true;
     private boolean checkEditQuestion = true;
     GiaoVien teach;
@@ -63,10 +70,17 @@ public class MnExam extends javax.swing.JPanel {
         cauhoiDAO = new CauHoiImplDAO(con);
         daDAO = new DapAnImplDAO(con);
         bdDAO = new BoDeImplDAO(con);
+        tdao = new TeacherImplDAO(con);
         loadTblHangCau();
         loadCBMon();
         loadCBHangCau();
         loadTblQuestion();
+        loadTblExam();
+
+        // Sort Table 
+        tblQuestion.setAutoCreateRowSorter(true);
+        tblExam.setAutoCreateRowSorter(true);
+        tblLevel.setAutoCreateRowSorter(true);
     }
 
     /**
@@ -906,7 +920,7 @@ public class MnExam extends javax.swing.JPanel {
         checkEditQuestion = false;
         int selectUpd = JOptionPane.showConfirmDialog(this, "Bạn có chắc muốn sửa!", "Thông Báo!", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, new ImageIcon("src/img/exit-48px.png"));
         if (selectUpd == 0) {
-            jTabbedPane1.setSelectedIndex(3);
+            jTabbedPane1.setSelectedIndex(2);
             int rowSelect = tblQuestion.getSelectedRow();
             cauhoiId = (int) tblQuestion.getValueAt(rowSelect, 0);
             CauHoi ch = cauhoiDAO.getById(cauhoiId);
@@ -976,10 +990,10 @@ public class MnExam extends javax.swing.JPanel {
         ch.setTrang_thai(chxStatus.isSelected());
 
         if (checkEditQuestion) {
+            ch.setNgay_tao(sqlDou);
             cauhoiDAO.insert(ch);
             int idInsertFit = cauhoiDAO.getIdInsert().getId();
             String list[] = {txtA.getText(), txtB.getText(), txtC.getText(), txtD.getText()};
-            ch.setNgay_tao(sqlDou);
             int a = 1;
             for (String string : list) {
                 DapAn da = new DapAn();
@@ -999,6 +1013,7 @@ public class MnExam extends javax.swing.JPanel {
             }
             JOptionPane.showMessageDialog(this, "Thêm câu hỏi thành công!", "Thông báo!", JOptionPane.QUESTION_MESSAGE, new ImageIcon("src/img/tick.png"));
             loadFormQuestion();
+            loadTblQuestion();
         } else {
             ch.setId(cauhoiId);
             cauhoiDAO.update(ch);
@@ -1062,17 +1077,145 @@ public class MnExam extends javax.swing.JPanel {
         bd.setMo_ta(txtDescExam.getText());
         bd.setTrang_thai(true);
         bdDAO.insert(bd);
-        JOptionPane.showMessageDialog(this, "Thêm bộ đề thành công!","Thông báo!", JOptionPane.INFORMATION_MESSAGE);
+
         // Tạo bộ đề chi tiết
-        
+        BoDeChiTiet bdct = new BoDeChiTiet();
+        int ifie = bdDAO.idFitInsExam().getId();
+
+        // Lấy dữ liệu câu hỏi
+        idFitInsExam();
+        List<CauHoi> ques = cauhoiDAO.getAllBySubject(idQuesExam);
+        List<CauHoi> ld = new ArrayList<>();
+        List<CauHoi> ltb = new ArrayList<>();
+        List<CauHoi> lk = new ArrayList<>();
+        List<CauHoi> lg = new ArrayList<>();
+        ques.forEach((que) -> {
+            switch (que.getId_hang()) {
+                case 1:
+                    ld.add(que);
+                    break;
+                case 2:
+                    ltb.add(que);
+                    break;
+                case 3:
+                    lk.add(que);
+                    break;
+                case 4:
+                    lg.add(que);
+                    break;
+                default:
+                    break;
+            }
+        });
+
+        // Xử lí bộ đề theo điểm
+        if (cboTotalPoint.getSelectedIndex() == 0) {
+            // Xử lí câu hỏi
+            bdct.setId_bode(ifie);
+            Collections.shuffle(ld);
+            Collections.shuffle(ltb);
+            Collections.shuffle(lk);
+            Collections.shuffle(lg);
+            for (int i = 0; i < 4; i++) {
+                bdct.setId_cauhoi(ld.get(i).getId());
+                CauHoi ch = cauhoiDAO.getById(ld.get(i).getId());
+                HangCau hc = hcDao.getById(ch.getId_hang());
+                bdct.setDiem(hc.getMuc_diem());
+                bdDAO.insBoDeChiTiet(bdct);
+            }
+            for (int i = 0; i < 3; i++) {
+                bdct.setId_cauhoi(ltb.get(i).getId());
+                CauHoi ch = cauhoiDAO.getById(ltb.get(i).getId());
+                HangCau hc = hcDao.getById(ch.getId_hang());
+                bdct.setDiem(hc.getMuc_diem());
+                bdDAO.insBoDeChiTiet(bdct);
+            }
+            for (int i = 0; i < 2; i++) {
+                bdct.setId_cauhoi(lk.get(i).getId());
+                CauHoi ch = cauhoiDAO.getById(lk.get(i).getId());
+                HangCau hc = hcDao.getById(ch.getId_hang());
+                bdct.setDiem(hc.getMuc_diem());
+                bdDAO.insBoDeChiTiet(bdct);
+            }
+            for (int i = 0; i < 1; i++) {
+                bdct.setId_cauhoi(lg.get(i).getId());
+                CauHoi ch = cauhoiDAO.getById(lg.get(i).getId());
+                HangCau hc = hcDao.getById(ch.getId_hang());
+                bdct.setDiem(hc.getMuc_diem());
+                bdDAO.insBoDeChiTiet(bdct);
+            }
+        } else {
+            // Xử lí câu hỏi
+            bdct.setId_bode(ifie);
+            Collections.shuffle(ld);
+            Collections.shuffle(ltb);
+            Collections.shuffle(lk);
+            Collections.shuffle(lg);
+            for (int i = 0; i < 8; i++) {
+                bdct.setId_cauhoi(ld.get(i).getId());
+                CauHoi ch = cauhoiDAO.getById(ld.get(i).getId());
+                HangCau hc = hcDao.getById(ch.getId_hang());
+                bdct.setDiem(hc.getMuc_diem());
+                bdDAO.insBoDeChiTiet(bdct);
+            }
+            for (int i = 0; i < 6; i++) {
+                bdct.setId_cauhoi(ltb.get(i).getId());
+                CauHoi ch = cauhoiDAO.getById(ltb.get(i).getId());
+                HangCau hc = hcDao.getById(ch.getId_hang());
+                bdct.setDiem(hc.getMuc_diem());
+                bdDAO.insBoDeChiTiet(bdct);
+            }
+            for (int i = 0; i < 4; i++) {
+                bdct.setId_cauhoi(lk.get(i).getId());
+                CauHoi ch = cauhoiDAO.getById(lk.get(i).getId());
+                HangCau hc = hcDao.getById(ch.getId_hang());
+                bdct.setDiem(hc.getMuc_diem());
+                bdDAO.insBoDeChiTiet(bdct);
+            }
+            for (int i = 0; i < 2; i++) {
+                bdct.setId_cauhoi(lg.get(i).getId());
+                CauHoi ch = cauhoiDAO.getById(lg.get(i).getId());
+                HangCau hc = hcDao.getById(ch.getId_hang());
+                bdct.setDiem(hc.getMuc_diem());
+                bdDAO.insBoDeChiTiet(bdct);
+            }
+        }
+        JOptionPane.showMessageDialog(this, "Thêm bộ đề thành công!", "Thông báo!", JOptionPane.INFORMATION_MESSAGE);
+        // Load tbl_BoDe
+        loadFormExam();
+        loadTblExam();
     }//GEN-LAST:event_btnSaveExamActionPerformed
+
+    public void idFitInsExam() {
+        for (int i = 0; i < cboSubjectExam.getItemCount(); i++) {
+            if (cboSubjectExam.getSelectedItem().equals(cboSubjectExam.getItemAt(i))) {
+                idQuesExam = cboSubjectExam.getItemAt(i).getId();
+            }
+        }
+    }
 
     private void btnNewExamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewExamActionPerformed
         loadFormExam();
     }//GEN-LAST:event_btnNewExamActionPerformed
 
     private void btnUpdStatusExamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdStatusExamActionPerformed
-        // TODO add your handling code here:
+        int rowSelect = tblExam.getSelectedRow();
+        int getValue = (int) tblExam.getValueAt(rowSelect, 0);
+        String str = "";
+        BoDe bode = bdDAO.getById(getValue);
+        if (bode.isTrang_thai() == true) {
+            str = " Khóa ";
+        } else {
+            str = " Mở ";
+        }
+        int selectUpd = JOptionPane.showConfirmDialog(this, "Bạn có chắc muốn" + str + "bộ đề này!", "Thông Báo!", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE, new ImageIcon("src/img/alert-warning.png"));
+        if (selectUpd == 0) {
+            bode.setTrang_thai(!bode.isTrang_thai());
+            bode.setId(bode.getId());
+            bdDAO.updateStatusExam(bode);
+            JOptionPane.showMessageDialog(this, str + "bộ đề thành công!", "Thông báo!", JOptionPane.QUESTION_MESSAGE, new ImageIcon("src/img/tick.png"));
+            loadTblExam();
+        }
     }//GEN-LAST:event_btnUpdStatusExamActionPerformed
 
     private void loadFormExam() {
@@ -1250,5 +1393,38 @@ public class MnExam extends javax.swing.JPanel {
             model.addRow(rows);
         }
         tblQuestion.setModel(model);
+    }
+
+    private void loadTblExam() {
+        List<BoDe> bd = bdDAO.getAll();
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("ID");
+        model.addColumn("Mã Đề Thi");
+        model.addColumn("Tên Môn");
+        model.addColumn("Tác Giả");
+        model.addColumn("Ngày Tạo");
+        model.addColumn("Ngày Cập Nhật");
+        model.addColumn("Mô Tả");
+        model.addColumn("Trạng Thái");
+
+        for (BoDe item : bd) {
+            Vector rows = new Vector();
+            rows.add(item.getId());
+            rows.add(item.getNoi_dung());
+            // Tên môn
+            BoDeChiTiet bodeCT = bdDAO.getByIdChiTiet(item.getId(), 0);
+            CauHoi ch = cauhoiDAO.getById(bodeCT.getId_cauhoi());
+            Mon m = monDAO.getById(ch.getId_mon());
+            rows.add(m.getTen_mon());
+            // Tên giáo viên
+            GiaoVien gv = tdao.getById(item.getId_giangvien());
+            rows.add(gv.getHo_ten());
+            rows.add(item.getNgay_tao());
+            rows.add(item.getNgay_cap_nhat());
+            rows.add(item.getMo_ta());
+            rows.add(item.isTrang_thai() ? "Mở" : "Khóa");
+            model.addRow(rows);
+        }
+        tblExam.setModel(model);
     }
 }
