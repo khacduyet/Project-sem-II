@@ -8,22 +8,31 @@ package gui;
 import daoImp.DapAnImplDAO;
 import DAOimpl.MonImplDAO;
 import contrain.DatabaseConnections;
+import dao.BoDeDAO;
 import dao.CauHoiDAO;
 import dao.DapAnDAO;
 import dao.HangCauDAO;
 import dao.MonHocDAO;
+import dao.TeacherDAO;
+import daoImp.BoDeImplDAO;
 import daoImp.CauHoiImplDAO;
 import daoImp.HangCauImplDAO;
+import daoImp.TeacherImplDAO;
+import entity.BoDe;
+import entity.BoDeChiTiet;
 import entity.CauHoi;
 import entity.DapAn;
+import entity.GiaoVien;
 import entity.HangCau;
 import entity.Mon;
 import java.sql.Connection;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 import java.util.Vector;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
@@ -40,25 +49,38 @@ public class MnExam extends javax.swing.JPanel {
     private MonHocDAO monDAO;
     private CauHoiDAO cauhoiDAO;
     private DapAnDAO daDAO;
+    private BoDeDAO bdDAO;
+    private TeacherDAO tdao;
     private int hangCauId;
     private int cauhoiId;
+    private int idQuesExam;
     private boolean checkEditLevel = true;
     private boolean checkEditQuestion = true;
+    GiaoVien teach;
 
     /**
      * Creates new form MnExam
      */
-    public MnExam() {
+    public MnExam(GiaoVien gv) {
         initComponents();
+        teach = gv;
         con = DatabaseConnections.getConnect();
         hcDao = new HangCauImplDAO(con);
         monDAO = new MonImplDAO(con);
         cauhoiDAO = new CauHoiImplDAO(con);
         daDAO = new DapAnImplDAO(con);
-        loadHangCau();
+        bdDAO = new BoDeImplDAO(con);
+        tdao = new TeacherImplDAO(con);
+        loadTblHangCau();
         loadCBMon();
         loadCBHangCau();
         loadTblQuestion();
+        loadTblExam();
+
+        // Sort Table 
+        tblQuestion.setAutoCreateRowSorter(true);
+        tblExam.setAutoCreateRowSorter(true);
+        tblLevel.setAutoCreateRowSorter(true);
     }
 
     /**
@@ -74,7 +96,26 @@ public class MnExam extends javax.swing.JPanel {
         grpLevelPoint = new javax.swing.ButtonGroup();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         MnExam = new javax.swing.JPanel();
-        CreateExam = new javax.swing.JPanel();
+        lblTitleẼam = new javax.swing.JLabel();
+        jSeparator6 = new javax.swing.JSeparator();
+        jLabel18 = new javax.swing.JLabel();
+        txtIdExam = new javax.swing.JTextField();
+        jLabel19 = new javax.swing.JLabel();
+        txtDescExam = new javax.swing.JTextField();
+        jLabel20 = new javax.swing.JLabel();
+        cboTotalPoint = new javax.swing.JComboBox<>();
+        jLabel21 = new javax.swing.JLabel();
+        btnSaveExam = new javax.swing.JButton();
+        btnNewExam = new javax.swing.JButton();
+        btnUpdStatusExam = new javax.swing.JButton();
+        jSeparator7 = new javax.swing.JSeparator();
+        lblTitleQuestion2 = new javax.swing.JLabel();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        tblExam = new javax.swing.JTable();
+        jLabel22 = new javax.swing.JLabel();
+        txtSearchExam = new javax.swing.JTextField();
+        jLabel23 = new javax.swing.JLabel();
+        cboSubjectExam = new javax.swing.JComboBox<>();
         jPanel5 = new javax.swing.JPanel();
         lblTitleQuestion = new javax.swing.JLabel();
         jSeparator5 = new javax.swing.JSeparator();
@@ -139,31 +180,193 @@ public class MnExam extends javax.swing.JPanel {
         jScrollPane4 = new javax.swing.JScrollPane();
         tblLevel = new javax.swing.JTable();
 
+        lblTitleẼam.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
+        lblTitleẼam.setForeground(new java.awt.Color(204, 0, 204));
+        lblTitleẼam.setText("? ĐỀ THI");
+
+        jLabel18.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel18.setText("Mã đề thi:");
+
+        txtIdExam.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+
+        jLabel19.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel19.setText("Mô tả:");
+
+        txtDescExam.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+
+        jLabel20.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel20.setText("Mức Điểm:");
+
+        cboTotalPoint.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
+        cboTotalPoint.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "10 Điểm", "20 Điểm" }));
+
+        jLabel21.setFont(new java.awt.Font("Tahoma", 2, 13)); // NOI18N
+        jLabel21.setForeground(new java.awt.Color(255, 51, 51));
+        jLabel21.setText("*Bộ đề sẽ được tạo ngẫu nhiên dựa trên số điểm bạn chọn!");
+
+        btnSaveExam.setBackground(new java.awt.Color(204, 0, 204));
+        btnSaveExam.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Save-icon.png"))); // NOI18N
+        btnSaveExam.setText("Lưu");
+        btnSaveExam.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveExamActionPerformed(evt);
+            }
+        });
+
+        btnNewExam.setBackground(new java.awt.Color(204, 0, 204));
+        btnNewExam.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Clear-icon.png"))); // NOI18N
+        btnNewExam.setText("Thêm");
+        btnNewExam.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNewExamActionPerformed(evt);
+            }
+        });
+
+        btnUpdStatusExam.setBackground(new java.awt.Color(204, 0, 204));
+        btnUpdStatusExam.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/update.png"))); // NOI18N
+        btnUpdStatusExam.setText("Mở / Khóa");
+        btnUpdStatusExam.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdStatusExamActionPerformed(evt);
+            }
+        });
+
+        lblTitleQuestion2.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
+        lblTitleQuestion2.setForeground(new java.awt.Color(204, 0, 204));
+        lblTitleQuestion2.setText("DANH SÁCH ĐỀ THI");
+
+        tblExam.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane6.setViewportView(tblExam);
+
+        jLabel22.setText("Tìm kiếm:");
+
+        jLabel23.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel23.setText("Môn:");
+
+        cboSubjectExam.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
+
         javax.swing.GroupLayout MnExamLayout = new javax.swing.GroupLayout(MnExam);
         MnExam.setLayout(MnExamLayout);
         MnExamLayout.setHorizontalGroup(
             MnExamLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1052, Short.MAX_VALUE)
+            .addGroup(MnExamLayout.createSequentialGroup()
+                .addGap(213, 213, 213)
+                .addComponent(lblTitleẼam)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(MnExamLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(MnExamLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(MnExamLayout.createSequentialGroup()
+                        .addGroup(MnExamLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel19)
+                            .addComponent(jLabel20))
+                        .addGap(51, 51, 51)
+                        .addGroup(MnExamLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(MnExamLayout.createSequentialGroup()
+                                .addComponent(txtDescExam, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(MnExamLayout.createSequentialGroup()
+                                .addComponent(cboTotalPoint, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                    .addGroup(MnExamLayout.createSequentialGroup()
+                        .addComponent(jLabel18)
+                        .addGap(56, 56, 56)
+                        .addComponent(txtIdExam, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(47, 47, 47)))
+                .addComponent(jLabel23)
+                .addGap(18, 18, 18)
+                .addGroup(MnExamLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(MnExamLayout.createSequentialGroup()
+                        .addGroup(MnExamLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btnNewExam, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnSaveExam, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(49, 49, 49)
+                        .addComponent(btnUpdStatusExam))
+                    .addComponent(cboSubjectExam, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(274, Short.MAX_VALUE))
+            .addGroup(MnExamLayout.createSequentialGroup()
+                .addGroup(MnExamLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(MnExamLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jSeparator6))
+                    .addGroup(MnExamLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jSeparator7))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, MnExamLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane6))
+                    .addGroup(MnExamLayout.createSequentialGroup()
+                        .addGroup(MnExamLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(MnExamLayout.createSequentialGroup()
+                                .addGap(102, 102, 102)
+                                .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 354, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(MnExamLayout.createSequentialGroup()
+                                .addGap(210, 210, 210)
+                                .addComponent(lblTitleQuestion2))
+                            .addGroup(MnExamLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jLabel22)
+                                .addGap(40, 40, 40)
+                                .addComponent(txtSearchExam, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         MnExamLayout.setVerticalGroup(
             MnExamLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 684, Short.MAX_VALUE)
+            .addGroup(MnExamLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblTitleẼam)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator6, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(2, 2, 2)
+                .addGroup(MnExamLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(txtIdExam, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnNewExam))
+                .addGroup(MnExamLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(MnExamLayout.createSequentialGroup()
+                        .addGap(26, 26, 26)
+                        .addGroup(MnExamLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtDescExam, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(MnExamLayout.createSequentialGroup()
+                        .addGap(32, 32, 32)
+                        .addGroup(MnExamLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnSaveExam)
+                            .addComponent(btnUpdStatusExam))))
+                .addGap(17, 17, 17)
+                .addGroup(MnExamLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cboTotalPoint, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(MnExamLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel23, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cboSubjectExam, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
+                .addComponent(jLabel21)
+                .addGap(18, 18, 18)
+                .addComponent(jSeparator7, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblTitleQuestion2)
+                .addGap(20, 20, 20)
+                .addGroup(MnExamLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel22)
+                    .addComponent(txtSearchExam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 381, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(47, 47, 47))
         );
 
         jTabbedPane1.addTab("Quản lý đề thi", MnExam);
-
-        javax.swing.GroupLayout CreateExamLayout = new javax.swing.GroupLayout(CreateExam);
-        CreateExam.setLayout(CreateExamLayout);
-        CreateExamLayout.setHorizontalGroup(
-            CreateExamLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1052, Short.MAX_VALUE)
-        );
-        CreateExamLayout.setVerticalGroup(
-            CreateExamLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 684, Short.MAX_VALUE)
-        );
-
-        jTabbedPane1.addTab("Tạo đề thi", CreateExam);
 
         lblTitleQuestion.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
         lblTitleQuestion.setForeground(new java.awt.Color(204, 0, 204));
@@ -381,8 +584,7 @@ public class MnExam extends javax.swing.JPanel {
                                         .addGap(18, 18, 18)
                                         .addComponent(rdoC)
                                         .addGap(18, 18, 18)
-                                        .addComponent(rdoD)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addComponent(rdoD))
                                     .addGroup(InsQuestionLayout.createSequentialGroup()
                                         .addGroup(InsQuestionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(jLabel10)
@@ -399,18 +601,15 @@ public class MnExam extends javax.swing.JPanel {
                                             .addComponent(txtQuestion, javax.swing.GroupLayout.PREFERRED_SIZE, 393, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addGap(0, 0, Short.MAX_VALUE))))))
                     .addGroup(InsQuestionLayout.createSequentialGroup()
-                        .addGroup(InsQuestionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(InsQuestionLayout.createSequentialGroup()
-                                .addGap(277, 277, 277)
-                                .addComponent(lblTitleInsQues))
-                            .addGroup(InsQuestionLayout.createSequentialGroup()
-                                .addGap(116, 116, 116)
-                                .addComponent(btnNewQuestion)
-                                .addGap(79, 79, 79)
-                                .addComponent(btnSaveQuestion, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(94, 94, 94)
-                                .addComponent(btnDeleteQuestion, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, 0)))
+                        .addGap(277, 277, 277)
+                        .addComponent(lblTitleInsQues))
+                    .addGroup(InsQuestionLayout.createSequentialGroup()
+                        .addGap(116, 116, 116)
+                        .addComponent(btnNewQuestion)
+                        .addGap(79, 79, 79)
+                        .addComponent(btnSaveQuestion, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(94, 94, 94)
+                        .addComponent(btnDeleteQuestion, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         InsQuestionLayout.setVerticalGroup(
@@ -493,15 +692,19 @@ public class MnExam extends javax.swing.JPanel {
         jLabel15.setText("Mức điểm:");
 
         grpLevelPoint.add(rdoDiem1);
+        rdoDiem1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         rdoDiem1.setText("0.5");
 
         grpLevelPoint.add(rdoDiem2);
+        rdoDiem2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         rdoDiem2.setText("1.0");
 
         grpLevelPoint.add(rdoDiem3);
+        rdoDiem3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         rdoDiem3.setText("1.5");
 
         grpLevelPoint.add(rdoDiem4);
+        rdoDiem4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         rdoDiem4.setText("2.0");
 
         btnNew.setBackground(new java.awt.Color(204, 0, 204));
@@ -653,7 +856,7 @@ public class MnExam extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-
+    // LEVEL FUNCTION HANDLE
     private void btnSaveLevelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveLevelActionPerformed
         //Luu thong tin thay doi tren form them moi va chinh sua hang cau
         HangCau hc = new HangCau();
@@ -679,13 +882,13 @@ public class MnExam extends javax.swing.JPanel {
             // insert data
             hcDao.insert(hc);
             JOptionPane.showMessageDialog(this, "Thêm mới thành công!");
-            loadHangCau();
+            loadTblHangCau();
             loadCBHangCau();
         } else {
             hc.setId(hangCauId);
             hcDao.update(hc);
             JOptionPane.showMessageDialog(this, "Cập nhật thành công!");
-            loadHangCau();
+            loadTblHangCau();
             loadCBHangCau();
         }
 
@@ -712,11 +915,12 @@ public class MnExam extends javax.swing.JPanel {
         checkEditLevel = false;
     }//GEN-LAST:event_tblLevelMouseClicked
 
+    // QUESTION FUNCTION HANDLE
     private void btnUpdQuestionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdQuestionActionPerformed
         checkEditQuestion = false;
         int selectUpd = JOptionPane.showConfirmDialog(this, "Bạn có chắc muốn sửa!", "Thông Báo!", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, new ImageIcon("src/img/exit-48px.png"));
         if (selectUpd == 0) {
-            jTabbedPane1.setSelectedIndex(3);
+            jTabbedPane1.setSelectedIndex(2);
             int rowSelect = tblQuestion.getSelectedRow();
             cauhoiId = (int) tblQuestion.getValueAt(rowSelect, 0);
             CauHoi ch = cauhoiDAO.getById(cauhoiId);
@@ -786,10 +990,10 @@ public class MnExam extends javax.swing.JPanel {
         ch.setTrang_thai(chxStatus.isSelected());
 
         if (checkEditQuestion) {
+            ch.setNgay_tao(sqlDou);
             cauhoiDAO.insert(ch);
             int idInsertFit = cauhoiDAO.getIdInsert().getId();
             String list[] = {txtA.getText(), txtB.getText(), txtC.getText(), txtD.getText()};
-            ch.setNgay_tao(sqlDou);
             int a = 1;
             for (String string : list) {
                 DapAn da = new DapAn();
@@ -809,6 +1013,7 @@ public class MnExam extends javax.swing.JPanel {
             }
             JOptionPane.showMessageDialog(this, "Thêm câu hỏi thành công!", "Thông báo!", JOptionPane.QUESTION_MESSAGE, new ImageIcon("src/img/tick.png"));
             loadFormQuestion();
+            loadTblQuestion();
         } else {
             ch.setId(cauhoiId);
             cauhoiDAO.update(ch);
@@ -860,21 +1065,186 @@ public class MnExam extends javax.swing.JPanel {
         grAnswer.clearSelection();
     }
 
+    // EXAM FUNCTION HANDLE
+    private void btnSaveExamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveExamActionPerformed
+        BoDe bd = new BoDe();
+        bd.setId_giangvien(teach.getId());
+        bd.setNoi_dung(txtIdExam.getText());
+        Timestamp ts = new Timestamp(new Date().getTime());
+        java.sql.Date dateSql = new java.sql.Date(ts.getTime());
+        bd.setNgay_tao(dateSql);
+        bd.setNgay_cap_nhat(dateSql);
+        bd.setMo_ta(txtDescExam.getText());
+        bd.setTrang_thai(true);
+        bdDAO.insert(bd);
+
+        // Tạo bộ đề chi tiết
+        BoDeChiTiet bdct = new BoDeChiTiet();
+        int ifie = bdDAO.idFitInsExam().getId();
+
+        // Lấy dữ liệu câu hỏi
+        idFitInsExam();
+        List<CauHoi> ques = cauhoiDAO.getAllBySubject(idQuesExam);
+        List<CauHoi> ld = new ArrayList<>();
+        List<CauHoi> ltb = new ArrayList<>();
+        List<CauHoi> lk = new ArrayList<>();
+        List<CauHoi> lg = new ArrayList<>();
+        ques.forEach((que) -> {
+            switch (que.getId_hang()) {
+                case 1:
+                    ld.add(que);
+                    break;
+                case 2:
+                    ltb.add(que);
+                    break;
+                case 3:
+                    lk.add(que);
+                    break;
+                case 4:
+                    lg.add(que);
+                    break;
+                default:
+                    break;
+            }
+        });
+
+        // Xử lí bộ đề theo điểm
+        if (cboTotalPoint.getSelectedIndex() == 0) {
+            // Xử lí câu hỏi
+            bdct.setId_bode(ifie);
+            Collections.shuffle(ld);
+            Collections.shuffle(ltb);
+            Collections.shuffle(lk);
+            Collections.shuffle(lg);
+            for (int i = 0; i < 4; i++) {
+                bdct.setId_cauhoi(ld.get(i).getId());
+                CauHoi ch = cauhoiDAO.getById(ld.get(i).getId());
+                HangCau hc = hcDao.getById(ch.getId_hang());
+                bdct.setDiem(hc.getMuc_diem());
+                bdDAO.insBoDeChiTiet(bdct);
+            }
+            for (int i = 0; i < 3; i++) {
+                bdct.setId_cauhoi(ltb.get(i).getId());
+                CauHoi ch = cauhoiDAO.getById(ltb.get(i).getId());
+                HangCau hc = hcDao.getById(ch.getId_hang());
+                bdct.setDiem(hc.getMuc_diem());
+                bdDAO.insBoDeChiTiet(bdct);
+            }
+            for (int i = 0; i < 2; i++) {
+                bdct.setId_cauhoi(lk.get(i).getId());
+                CauHoi ch = cauhoiDAO.getById(lk.get(i).getId());
+                HangCau hc = hcDao.getById(ch.getId_hang());
+                bdct.setDiem(hc.getMuc_diem());
+                bdDAO.insBoDeChiTiet(bdct);
+            }
+            for (int i = 0; i < 1; i++) {
+                bdct.setId_cauhoi(lg.get(i).getId());
+                CauHoi ch = cauhoiDAO.getById(lg.get(i).getId());
+                HangCau hc = hcDao.getById(ch.getId_hang());
+                bdct.setDiem(hc.getMuc_diem());
+                bdDAO.insBoDeChiTiet(bdct);
+            }
+        } else {
+            // Xử lí câu hỏi
+            bdct.setId_bode(ifie);
+            Collections.shuffle(ld);
+            Collections.shuffle(ltb);
+            Collections.shuffle(lk);
+            Collections.shuffle(lg);
+            for (int i = 0; i < 8; i++) {
+                bdct.setId_cauhoi(ld.get(i).getId());
+                CauHoi ch = cauhoiDAO.getById(ld.get(i).getId());
+                HangCau hc = hcDao.getById(ch.getId_hang());
+                bdct.setDiem(hc.getMuc_diem());
+                bdDAO.insBoDeChiTiet(bdct);
+            }
+            for (int i = 0; i < 6; i++) {
+                bdct.setId_cauhoi(ltb.get(i).getId());
+                CauHoi ch = cauhoiDAO.getById(ltb.get(i).getId());
+                HangCau hc = hcDao.getById(ch.getId_hang());
+                bdct.setDiem(hc.getMuc_diem());
+                bdDAO.insBoDeChiTiet(bdct);
+            }
+            for (int i = 0; i < 4; i++) {
+                bdct.setId_cauhoi(lk.get(i).getId());
+                CauHoi ch = cauhoiDAO.getById(lk.get(i).getId());
+                HangCau hc = hcDao.getById(ch.getId_hang());
+                bdct.setDiem(hc.getMuc_diem());
+                bdDAO.insBoDeChiTiet(bdct);
+            }
+            for (int i = 0; i < 2; i++) {
+                bdct.setId_cauhoi(lg.get(i).getId());
+                CauHoi ch = cauhoiDAO.getById(lg.get(i).getId());
+                HangCau hc = hcDao.getById(ch.getId_hang());
+                bdct.setDiem(hc.getMuc_diem());
+                bdDAO.insBoDeChiTiet(bdct);
+            }
+        }
+        JOptionPane.showMessageDialog(this, "Thêm bộ đề thành công!", "Thông báo!", JOptionPane.INFORMATION_MESSAGE);
+        // Load tbl_BoDe
+        loadFormExam();
+        loadTblExam();
+    }//GEN-LAST:event_btnSaveExamActionPerformed
+
+    public void idFitInsExam() {
+        for (int i = 0; i < cboSubjectExam.getItemCount(); i++) {
+            if (cboSubjectExam.getSelectedItem().equals(cboSubjectExam.getItemAt(i))) {
+                idQuesExam = cboSubjectExam.getItemAt(i).getId();
+            }
+        }
+    }
+
+    private void btnNewExamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewExamActionPerformed
+        loadFormExam();
+    }//GEN-LAST:event_btnNewExamActionPerformed
+
+    private void btnUpdStatusExamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdStatusExamActionPerformed
+        int rowSelect = tblExam.getSelectedRow();
+        int getValue = (int) tblExam.getValueAt(rowSelect, 0);
+        String str = "";
+        BoDe bode = bdDAO.getById(getValue);
+        if (bode.isTrang_thai() == true) {
+            str = " Khóa ";
+        } else {
+            str = " Mở ";
+        }
+        int selectUpd = JOptionPane.showConfirmDialog(this, "Bạn có chắc muốn" + str + "bộ đề này!", "Thông Báo!", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE, new ImageIcon("src/img/alert-warning.png"));
+        if (selectUpd == 0) {
+            bode.setTrang_thai(!bode.isTrang_thai());
+            bode.setId(bode.getId());
+            bdDAO.updateStatusExam(bode);
+            JOptionPane.showMessageDialog(this, str + "bộ đề thành công!", "Thông báo!", JOptionPane.QUESTION_MESSAGE, new ImageIcon("src/img/tick.png"));
+            loadTblExam();
+        }
+    }//GEN-LAST:event_btnUpdStatusExamActionPerformed
+
+    private void loadFormExam() {
+        txtIdExam.setText("");
+        txtDescExam.setText("");
+        cboTotalPoint.setSelectedIndex(0);
+        cboSubjectExam.setSelectedIndex(0);
+        txtIdExam.requestFocus();
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel CreateExam;
     private javax.swing.JPanel InsQuestion;
     private javax.swing.JPanel MnExam;
     private javax.swing.JPanel MnLevel;
     private javax.swing.JButton btnDeleteLevel;
     private javax.swing.JButton btnDeleteQuestion;
     private javax.swing.JButton btnNew;
+    private javax.swing.JButton btnNewExam;
     private javax.swing.JButton btnNewQuestion;
+    private javax.swing.JButton btnSaveExam;
     private javax.swing.JButton btnSaveLevel;
     private javax.swing.JButton btnSaveQuestion;
     private javax.swing.JButton btnUpdQuestion;
+    private javax.swing.JButton btnUpdStatusExam;
     private javax.swing.JComboBox<HangCau> cboClass;
     private javax.swing.JComboBox<Mon> cboFindSubject;
     private javax.swing.JComboBox<Mon> cboSubject;
+    private javax.swing.JComboBox<Mon> cboSubjectExam;
+    private javax.swing.JComboBox<String> cboTotalPoint;
     private javax.swing.JCheckBox chxStatus;
     private javax.swing.ButtonGroup grAnswer;
     private javax.swing.ButtonGroup grpLevelPoint;
@@ -887,7 +1257,13 @@ public class MnExam extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -900,16 +1276,21 @@ public class MnExam extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
     private javax.swing.JSeparator jSeparator5;
+    private javax.swing.JSeparator jSeparator6;
+    private javax.swing.JSeparator jSeparator7;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JLabel lblId;
     private javax.swing.JLabel lblTitleInsQues;
     private javax.swing.JLabel lblTitleLevel;
     private javax.swing.JLabel lblTitleQuestion;
+    private javax.swing.JLabel lblTitleQuestion2;
+    private javax.swing.JLabel lblTitleẼam;
     private javax.swing.JRadioButton rdoA;
     private javax.swing.JRadioButton rdoB;
     private javax.swing.JRadioButton rdoC;
@@ -918,6 +1299,7 @@ public class MnExam extends javax.swing.JPanel {
     private javax.swing.JRadioButton rdoDiem2;
     private javax.swing.JRadioButton rdoDiem3;
     private javax.swing.JRadioButton rdoDiem4;
+    private javax.swing.JTable tblExam;
     private javax.swing.JTable tblLevel;
     private javax.swing.JTable tblQuestion;
     private javax.swing.JTextArea txaDescLevel;
@@ -926,12 +1308,15 @@ public class MnExam extends javax.swing.JPanel {
     private javax.swing.JTextField txtB;
     private javax.swing.JTextField txtC;
     private javax.swing.JTextField txtD;
+    private javax.swing.JTextField txtDescExam;
     private javax.swing.JTextField txtFindQuestion;
+    private javax.swing.JTextField txtIdExam;
     private javax.swing.JTextField txtIdLevel;
     private javax.swing.JTextField txtQuestion;
+    private javax.swing.JTextField txtSearchExam;
     // End of variables declaration//GEN-END:variables
 
-    private void loadHangCau() {
+    private void loadTblHangCau() {
         List<HangCau> listHC = new ArrayList<>();
         listHC = hcDao.getAll();
         DefaultTableModel model = new DefaultTableModel();
@@ -959,20 +1344,21 @@ public class MnExam extends javax.swing.JPanel {
 
     }
 
+    private void loadCBHangCau() {
+        List<HangCau> listHangCau = new ArrayList<>();
+        listHangCau = hcDao.getAll();
+        for (HangCau item : listHangCau) {
+            cboClass.addItem(item);
+        }
+    }
+
     private void loadCBMon() {
         List<Mon> listCBMon = new ArrayList<>();
         listCBMon = monDAO.getAll();
         for (Mon item : listCBMon) {
             cboSubject.addItem(item);
             cboFindSubject.addItem(item);
-        }
-    }
-
-    private void loadCBHangCau() {
-        List<HangCau> listHangCau = new ArrayList<>();
-        listHangCau = hcDao.getAll();
-        for (HangCau item : listHangCau) {
-            cboClass.addItem(item);
+            cboSubjectExam.addItem(item);
         }
     }
 
@@ -1007,5 +1393,38 @@ public class MnExam extends javax.swing.JPanel {
             model.addRow(rows);
         }
         tblQuestion.setModel(model);
+    }
+
+    private void loadTblExam() {
+        List<BoDe> bd = bdDAO.getAll();
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("ID");
+        model.addColumn("Mã Đề Thi");
+        model.addColumn("Tên Môn");
+        model.addColumn("Tác Giả");
+        model.addColumn("Ngày Tạo");
+        model.addColumn("Ngày Cập Nhật");
+        model.addColumn("Mô Tả");
+        model.addColumn("Trạng Thái");
+
+        for (BoDe item : bd) {
+            Vector rows = new Vector();
+            rows.add(item.getId());
+            rows.add(item.getNoi_dung());
+            // Tên môn
+            BoDeChiTiet bodeCT = bdDAO.getByIdChiTiet(item.getId(), 0);
+            CauHoi ch = cauhoiDAO.getById(bodeCT.getId_cauhoi());
+            Mon m = monDAO.getById(ch.getId_mon());
+            rows.add(m.getTen_mon());
+            // Tên giáo viên
+            GiaoVien gv = tdao.getById(item.getId_giangvien());
+            rows.add(gv.getHo_ten());
+            rows.add(item.getNgay_tao());
+            rows.add(item.getNgay_cap_nhat());
+            rows.add(item.getMo_ta());
+            rows.add(item.isTrang_thai() ? "Mở" : "Khóa");
+            model.addRow(rows);
+        }
+        tblExam.setModel(model);
     }
 }

@@ -5,11 +5,25 @@
  */
 package gui;
 
+import contrain.DatabaseConnections;
+import daoImp.BoDeImplDAO;
+import daoImp.CauHoiImplDAO;
+import daoImp.DapAnImplDAO;
+import entity.BoDeChiTiet;
+import entity.CauHoi;
+import entity.DapAn;
 import static java.lang.Thread.sleep;
+import java.sql.Connection;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
+import javax.swing.event.ListSelectionEvent;
 
 /**
  *
@@ -17,18 +31,32 @@ import javax.swing.JOptionPane;
  */
 public class JFStartExam extends javax.swing.JFrame {
 
+    Connection con;
+    CauHoiImplDAO chdao;
+    BoDeImplDAO bddao;
+    DapAnImplDAO dadao;
     String user;
     String pass;
+    int idExam;
 
     /**
      * Creates new form JFSearchPoint
      */
-    public JFStartExam(String username, String password) {
+    public JFStartExam(String username, String password, int id) {
         initComponents();
+        // Set default window
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
+        // Set var 
         user = username;
         pass = password;
+        idExam = id;
+        // Get Connection
+        con = DatabaseConnections.getConnect();
+        chdao = new CauHoiImplDAO(con);
+        bddao = new BoDeImplDAO(con);
+        dadao = new DapAnImplDAO(con);
+        // Set Timer
         new Thread() {
             int minute = 19;
             int second = 60;
@@ -37,7 +65,7 @@ public class JFStartExam extends javax.swing.JFrame {
             public void run() {
                 while (true) {
                     second = second - 1;
-                    System.out.println(second);
+//                    System.out.println(second);
                     lblMinute.setText(Integer.toString(minute));
                     lblSecond.setText(Integer.toString(second));
                     if (lblSecond.getText().equals("0")) {
@@ -58,10 +86,48 @@ public class JFStartExam extends javax.swing.JFrame {
                 insertResultExam();
             }
         }.start();
+        // Set data
+        getDataQuestion();
     }
 
     public void insertResultExam() {
         JOptionPane.showMessageDialog(rootPane, "Hết thời gian làm bài!");
+    }
+
+    public void getDataQuestion() {
+        List<BoDeChiTiet> bdct = bddao.getAllByIdExam(idExam);
+        List<CauHoi> ch = new ArrayList<>();
+        for (BoDeChiTiet boDeChiTiet : bdct) {
+            CauHoi c = chdao.getById(boDeChiTiet.getId_cauhoi());
+            ch.add(c);
+        }
+        DefaultListModel model = new DefaultListModel();
+        int a = 1;
+        for (int i = 0; i < ch.size(); i++) {
+            model.add(i, "Câu " + a++ + " :");
+        }
+        lstQuestion.setModel(model);
+        
+        // ------------------------------------------------------> Nghiên cứu phần này đi cu Thắng <-------------------------------------------------------------------------
+        // ------------------------------------------------------> Hiển thị thì ra r mà có vấn đề lúc chọn đáp án <----------------------------------------------------------
+        // ------------------------------------------------------> Với cả tìm xem cách để break line label nhá <--------------------------------------------------------------
+        // ------------------------------------------------------> Nếu mà câu hỏi dài thì nó tràn cmn ra ngoài luôn <--------------------------------------------------------------
+        for (int i = 0; i < ch.size(); i++) {
+            int j = i;
+            List<DapAn> da = dadao.getAllAnsert(ch.get(j).getId());
+            Collections.shuffle(da);
+            lstQuestion.getSelectionModel().addListSelectionListener((ListSelectionEvent e) -> {
+                if (lstQuestion.getSelectedIndex() == j) {
+                    lblQuestion.setText("Câu " + (j + 1) + " : " + ch.get(j).getNoi_dung());
+                    rdoA.setText(da.get(0).getNoi_dung());
+                    rdoB.setText(da.get(1).getNoi_dung());
+                    rdoC.setText(da.get(2).getNoi_dung());
+                    rdoD.setText(da.get(3).getNoi_dung());
+                }
+            });
+        }
+        // -------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
     }
 
     /**
@@ -129,6 +195,7 @@ public class JFStartExam extends javax.swing.JFrame {
         lblTotalTime.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         lblTotalTime.setText("20 phút");
 
+        lstQuestion.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         lstQuestion.setOpaque(false);
         jScrollPane2.setViewportView(lstQuestion);
 
@@ -173,6 +240,8 @@ public class JFStartExam extends javax.swing.JFrame {
 
         lblQuestion.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         lblQuestion.setText("Câu hỏi????");
+        lblQuestion.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        lblQuestion.setAutoscrolls(true);
 
         btnAns.add(rdoA);
         rdoA.setText("Ans 1");
@@ -222,7 +291,7 @@ public class JFStartExam extends javax.swing.JFrame {
                         .addGap(59, 59, 59))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblQuestion, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 796, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblQuestion, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel14, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
@@ -233,8 +302,8 @@ public class JFStartExam extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(44, 44, 44)
-                .addComponent(lblQuestion, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
+                .addComponent(lblQuestion, javax.swing.GroupLayout.DEFAULT_SIZE, 79, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(rdoA)
                 .addGap(57, 57, 57)
                 .addComponent(rdoB)
@@ -397,7 +466,6 @@ public class JFStartExam extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator3;

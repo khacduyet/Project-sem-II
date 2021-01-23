@@ -440,6 +440,13 @@ CREATE PROCEDURE deleteBoDeChiTiet
 AS
 	DELETE FROM tbl_BoDeChiTiet WHERE id_BoDe = @id_BoDe AND id_CauHoi = @id_CauHoi
 GO
+-- lay ra id vua insert vao csdl
+DROP PROCEDURE idFitInsertExam
+GO
+CREATE PROCEDURE idFitInsertExam
+AS
+	SELECT TOP(1) * from tbl_BoDe ORDER BY id DESC
+GO
 /*==============PROC CAU HOI================*/
 --get tat ca du lieu bang cau hoi
 DROP PROCEDURE getAllCauHoi
@@ -501,10 +508,13 @@ AS
 GO
 
 -- lay du lieu tbl_CauHoi theo mon
---CREATE PROC getAllBySubject
---as
---	SELECT id, m.mo
---go
+DROP PROC getAllBySubject
+go
+CREATE PROC getAllBySubject
+@id_mon int
+as
+	SELECT * from tbl_CauHoi where id_mon = @id_mon
+go
 /*==============PROC CAU HOI================*/
 /*==============PROC HANG CAU================*/
 ALTER TABLE tbl_HangCau
@@ -584,3 +594,4 @@ AS
 	UPDATE tbl_DapAn SET noi_dung = @noi_dung , dap_an = @dap_an WHERE id = @id
 GO
 /*==============PROC DAP AN================*/
+select * from tbl_BoDe
