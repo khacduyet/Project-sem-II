@@ -757,7 +757,7 @@ public class MainContent extends javax.swing.JFrame {
     }
 
     private void loadExam() {
-        MnExam mex = new MnExam();
+        MnExam mex = new MnExam(teacher);
         loadDisplay(mex);
     }
     
