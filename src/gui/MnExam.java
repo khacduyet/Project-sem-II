@@ -785,7 +785,6 @@ public class MnExam extends javax.swing.JPanel {
         ch.setGhi_chu(txaNote.getText());
         ch.setTrang_thai(chxStatus.isSelected());
 
-        
         if (checkEditQuestion) {
             cauhoiDAO.insert(ch);
             int idInsertFit = cauhoiDAO.getIdInsert().getId();
@@ -813,27 +812,27 @@ public class MnExam extends javax.swing.JPanel {
         } else {
             ch.setId(cauhoiId);
             cauhoiDAO.update(ch);
-            int idInsertFit = cauhoiDAO.getIdInsert().getId();
             String list[] = {txtA.getText(), txtB.getText(), txtC.getText(), txtD.getText()};
             List<DapAn> ans = daDAO.getAllAnsert(cauhoiId);
+            int i = 0;
+            int b = 1;
             for (DapAn an : ans) {
-                int b = 1;
-                for (String string : list) {
-                    DapAn da = daDAO.getByIdQuestion(an.getId());
-                    da.setId_cauhoi(idInsertFit);
-                    da.setNoi_dung(string);
-                    if (rdoA.isSelected() && b == 1) {
-                        da.setDap_an(true);
-                    } else if (rdoB.isSelected() && b == 2) {
-                        da.setDap_an(true);
-                    } else if (rdoC.isSelected() && b == 3) {
-                        da.setDap_an(true);
-                    } else if (rdoD.isSelected() && b == 4) {
-                        da.setDap_an(true);
-                    }
-                    daDAO.update(da);
-                    b++;
+                DapAn da = daDAO.getById(an.getId());
+                da.setId(an.getId());
+                da.setNoi_dung(list[i++]);
+                if (rdoA.isSelected() && b == 1) {
+                    da.setDap_an(true);
+                } else if (rdoB.isSelected() && b == 2) {
+                    da.setDap_an(true);
+                } else if (rdoC.isSelected() && b == 3) {
+                    da.setDap_an(true);
+                } else if (rdoD.isSelected() && b == 4) {
+                    da.setDap_an(true);
+                } else {
+                    da.setDap_an(false);
                 }
+                daDAO.update(da);
+                b++;
             }
             JOptionPane.showMessageDialog(this, "Cập nhật câu hỏi thành công!", "Thông báo!", JOptionPane.QUESTION_MESSAGE, new ImageIcon("src/img/tick.png"));
             loadFormQuestion();
