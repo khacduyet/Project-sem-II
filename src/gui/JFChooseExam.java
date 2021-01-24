@@ -29,11 +29,12 @@ public class JFChooseExam extends javax.swing.JFrame {
     BoDeImplDAO bddao;
     CauHoiImplDAO chdao;
     Connection con;
+    SinhVien sv;
 
     /**
      * Creates new form JFChooseExam
      */
-    public JFChooseExam(JFStudent jsFStudent) {
+    public JFChooseExam(JFStudent jsFStudent, SinhVien stud) {
         this.jsFStudent = jsFStudent;
         initComponents();
 
@@ -44,7 +45,7 @@ public class JFChooseExam extends javax.swing.JFrame {
         // Lấy dữ liệu từ MSQL
         con = DatabaseConnections.getConnect();
         bddao = new BoDeImplDAO(con);
-
+        sv = stud;
         // Load dữ liệu
         loadExam();
     }
@@ -163,7 +164,7 @@ public class JFChooseExam extends javax.swing.JFrame {
                 idExam = cboThreads.getItemAt(i).getId();
             }
         }
-        JFStartExam jse = new JFStartExam(user, pass, idExam);
+        JFStartExam jse = new JFStartExam(user, pass, idExam, sv);
         jse.setVisible(true);
         this.setVisible(false);
         jsFStudent.setVisible(false);
