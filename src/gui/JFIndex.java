@@ -40,7 +40,7 @@ public class JFIndex extends javax.swing.JFrame {
                 while (true) {
                     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss dd/MM/yyyy");
                     LocalDateTime now = LocalDateTime.now();
-                    lblDateTime.setText(dtf.format(now));
+                    lblDateTime.setText("Ngày: " + dtf.format(now));
                 }
             }
         }.start();

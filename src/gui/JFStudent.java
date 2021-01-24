@@ -16,9 +16,7 @@ import javax.swing.JOptionPane;
  */
 public class JFStudent extends javax.swing.JFrame {
 
-    private int id;
     private String ma_sv;
-    private int id_lop;
     private String ho_ten;
     SinhVien stud;
 
@@ -206,7 +204,7 @@ public class JFStudent extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnStartExActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStartExActionPerformed
-        JFChooseExam chooseEx = new JFChooseExam(this);
+        JFChooseExam chooseEx = new JFChooseExam(this, stud);
         chooseEx.setVisible(true);
 
     }//GEN-LAST:event_btnStartExActionPerformed
@@ -234,9 +232,7 @@ public class JFStudent extends javax.swing.JFrame {
     }//GEN-LAST:event_btnInfStActionPerformed
 
     private void getAccountFromLogin(SinhVien sv) {
-        id = sv.getId();
         ma_sv = sv.getMa_sv();
-        id_lop = sv.getId_lop();
         ho_ten = sv.getHo_ten();
         
         lblNameSt.setText(ho_ten);
