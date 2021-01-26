@@ -34,4 +34,6 @@ public interface BoDeDAO {
     public void updateStatusExam(BoDe bd);
     
     public List<BoDeChiTiet> getAllByIdExam(int id);
+    
+    public List<BoDe> getAllByStatus();
 }

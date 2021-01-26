@@ -113,7 +113,6 @@ public class MainContent extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Giáo Viên");
-        setPreferredSize(new java.awt.Dimension(1200, 833));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/System-icon.png"))); // NOI18N
 
