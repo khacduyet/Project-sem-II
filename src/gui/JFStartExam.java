@@ -165,15 +165,18 @@ public class JFStartExam extends javax.swing.JFrame {
             int widthDataPanel = jDataQuestion.getWidth();
             elementQuestion.setBounds(20, locationQuestonY, widthDataPanel - 50, 30);
             locationQuestonY += 40;
-//            txaQuestion.setText(ch.get(i).getNoi_dung());
+            loadTieuDeCauHoi(ch.get(0).getId());
+            showCheckboxAnswer(ch.get(0).getId());
+
             elementQuestion.addMouseListener(new MouseAdapter() {
+                @Override
                 public void mouseClicked(MouseEvent e) {
                     idCauHoi = Integer.parseInt(e.getComponent().getName());
-                    showCheckboxAnswer(Integer.parseInt(e.getComponent().getName()));
-                    loadTieuDeCauHoi(Integer.parseInt(e.getComponent().getName()));
+                    showCheckboxAnswer(idCauHoi);
+                    loadTieuDeCauHoi(idCauHoi);
+                    elementQuestion.setBackground(Color.GRAY);
                 }
             });
-
             jDataQuestion.add(elementQuestion);
         }
 
@@ -186,6 +189,7 @@ public class JFStartExam extends javax.swing.JFrame {
         ButtonGroup groupDapAn = new ButtonGroup();
         for (DapAn item : resultsDapAn) {
             rdA = new JRadioButton(item.getNoi_dung());
+            rdA.setBounds(100, 200, 100, 30);
             if (lstAns.get(idQuestion) != null && lstAns.get(idQuestion) == item.getId()) {
                 rdA.setSelected(true);
             }
@@ -195,7 +199,6 @@ public class JFStartExam extends javax.swing.JFrame {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     rdoAnsActionPerformed(e);
-//                    JOptionPane.showMessageDialog(rootPane, item.getId());
                     lstAns.put(idQuestion, item.getId());
                 }
             });
@@ -571,7 +574,7 @@ public class JFStartExam extends javax.swing.JFrame {
                 BoDeChiTiet bdct = bddao.getByIdChiTiet(0, key);
                 if (da.getNoi_dung().equals(dapan.getNoi_dung())) {
                     System.out.println("dung");
-                    
+
                     totalMark += bdct.getDiem();
                     System.out.println("diem cua cau nay la " + bdct.getDiem());
                 } else {
@@ -579,7 +582,7 @@ public class JFStartExam extends javax.swing.JFrame {
                 }
 
             }
-            System.out.println("tong diem bai thi la : "+totalMark);
+            System.out.println("tong diem bai thi la : " + totalMark);
         }
 
 
