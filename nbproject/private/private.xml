@@ -3,14 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Laptophaidang.com/Desktop/Project-sem-II/src/daoImp/DapAnImplDAO.java</file>
-            <file>file:/C:/Users/Laptophaidang.com/Desktop/Project-sem-II/src/gui/JFStartExam.java</file>
-            <file>file:/C:/Users/Laptophaidang.com/Desktop/Project-sem-II/src/entity/CauHoi.java</file>
-            <file>file:/C:/Users/Laptophaidang.com/Desktop/Project-sem-II/src/gui/MnExam.java</file>
-            <file>file:/C:/Users/Laptophaidang.com/Desktop/Project-sem-II/src/daoImp/BoDeImplDAO.java</file>
-            <file>file:/C:/Users/Laptophaidang.com/Desktop/Project-sem-II/src/dao/CauHoiDAO.java</file>
-            <file>file:/C:/Users/Laptophaidang.com/Desktop/Project-sem-II/src/daoImp/CauHoiImplDAO.java</file>
-            <file>file:/C:/Users/Laptophaidang.com/Desktop/Project-sem-II/src/dao/DapAnDAO.java</file>
+            <file>file:/C:/Users/duyet/OneDrive/Máy%20tính/Project-Sem-II/src/gui/JFStudent.java</file>
+            <file>file:/C:/Users/duyet/OneDrive/Máy%20tính/Project-Sem-II/src/gui/JFTotalMark.java</file>
+            <file>file:/C:/Users/duyet/OneDrive/Máy%20tính/Project-Sem-II/src/gui/JFStartExam.java</file>
+            <file>file:/C:/Users/duyet/OneDrive/Máy%20tính/Project-Sem-II/src/gui/JFLogin.java</file>
+            <file>file:/C:/Users/duyet/OneDrive/Máy%20tính/Project-Sem-II/src/gui/MnTeacher.java</file>
         </group>
     </open-files>
 </project-private>
