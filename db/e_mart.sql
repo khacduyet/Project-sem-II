@@ -373,6 +373,13 @@ CREATE PROCEDURE deleteBoDe
 AS 
 	DELETE FROM tbl_BoDe WHERE id = @id
 GO
+------ get all records by status ------
+DROP PROC getExamByStatus
+GO
+CREATE PROCEDURE getExamByStatus
+AS 
+	SELECT * FROM tbl_BoDe WHERE trang_thai = 1
+GO
 --======================ket qua ================
 -- select bang ket qua
 DROP PROCEDURE getAllKetQua
@@ -602,4 +609,32 @@ AS
 	UPDATE tbl_DapAn SET noi_dung = @noi_dung , dap_an = @dap_an WHERE id = @id
 GO
 /*==============PROC DAP AN================*/
-select * from tbl_BoDe
+/*==============PROC KHIEU NAI================*/
+
+DROP PROC getAllKhieuNai
+GO
+CREATE PROC getAllKhieuNai
+as
+	SELECT * FROM tbl_KhieuNai
+go
+
+DROP PROC getAllByIdKhieuNai
+GO
+CREATE PROC getAllByIdKhieuNai
+@id int
+as
+	SELECT * FROM tbl_KhieuNai where id = @id
+go
+
+DROP PROC InsKhieuNai
+GO
+CREATE PROC InsKhieuNai
+@id_SinhVien int,
+@tieu_de nvarchar(100),
+@noi_dung nvarchar(200),
+@ngay_tao date,
+@ngay_cap_nhat date
+as
+	INSERT INTO tbl_KhieuNai VALUES (@id_SinhVien,@tieu_de,@noi_dung,@ngay_tao,@ngay_cap_nhat)
+go
+/*==============PROC KHIEU NAI================*/

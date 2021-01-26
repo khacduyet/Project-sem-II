@@ -5,7 +5,15 @@
  */
 package gui;
 
+import contrain.DatabaseConnections;
+import daoImp.KhieuNaiImplDAO;
+import entity.KhieuNai;
 import entity.SinhVien;
+import java.sql.Connection;
+import java.sql.Timestamp;
+import java.util.Date;
+import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -14,6 +22,8 @@ import entity.SinhVien;
 public class JFSearchPoint extends javax.swing.JFrame {
 
     SinhVien stud;
+    Connection con;
+    KhieuNaiImplDAO kndao;
 
     /**
      * Creates new form JFSearchPoint
@@ -21,6 +31,10 @@ public class JFSearchPoint extends javax.swing.JFrame {
     public JFSearchPoint(SinhVien sv) {
         initComponents();
         setLocationRelativeTo(null);
+        // Connection Db
+        con = DatabaseConnections.getConnect();
+        kndao = new KhieuNaiImplDAO(con);
+        //
         lblNameStud.setText(sv.getHo_ten());
         lblMaSv.setText(sv.getMa_sv());
         stud = sv;
@@ -220,13 +234,34 @@ public class JFSearchPoint extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubmitActionPerformed
-        // TODO add your handling code here:
+        int i = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn khiếu nại?", "Thông báo!", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
+        if (i == 0) {
+            KhieuNai kn = new KhieuNai();
+            kn.setId_sinhvien(stud.getId());
+            kn.setTieu_de(txtTitle.getText());
+            kn.setNoi_dung(txtContent.getText());
+            // Get Date
+            Timestamp ts = new Timestamp(new Date().getTime());
+            java.sql.Date date = new java.sql.Date(ts.getTime());
+            kn.setNgay_tao(date);
+            kn.setNgay_cap_nhat(date);
+            // Ins 
+            if (!txtTitle.getText().isEmpty() && !txtContent.getText().isEmpty()) {
+                kndao.insert(kn);
+                loadFormReport();
+                JOptionPane.showMessageDialog(this, "Khiếu nại thành công!", "Thông báo!", JOptionPane.QUESTION_MESSAGE, new ImageIcon("src/img/tick.png"));
+            }
+        }
     }//GEN-LAST:event_btnSubmitActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    public void loadFormReport() {
+        txtTitle.setText("");
+        txtContent.setText("");
+    }
     /**
      * @param args the command line arguments
      */

@@ -27,6 +27,7 @@ public class JFStudent extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         getAccountFromLogin(sv);
+        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         stud = sv;
     }
     

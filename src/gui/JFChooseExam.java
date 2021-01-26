@@ -51,7 +51,7 @@ public class JFChooseExam extends javax.swing.JFrame {
     }
 
     public void loadExam() {
-        List<BoDe> bd = bddao.getAll();
+        List<BoDe> bd = bddao.getAllByStatus();
         bd.forEach((boDe) -> {
             cboThreads.addItem(boDe);
         });

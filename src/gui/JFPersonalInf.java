@@ -7,10 +7,16 @@ package gui;
 
 import contrain.DatabaseConnections;
 import daoImp.ClassImplDAO;
+import daoImp.KhieuNaiImplDAO;
+import entity.KhieuNai;
 import entity.LopHoc;
 import entity.SinhVien;
 import java.sql.Connection;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.Date;
+import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -19,7 +25,9 @@ import java.text.SimpleDateFormat;
 public class JFPersonalInf extends javax.swing.JFrame {
 
     ClassImplDAO cdao;
+    KhieuNaiImplDAO kndao;
     Connection con;
+    SinhVien stud;
 
     /**
      * Creates new form JFPersonalInf
@@ -29,7 +37,9 @@ public class JFPersonalInf extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         con = DatabaseConnections.getConnect();
         cdao = new ClassImplDAO(con);
+        kndao = new KhieuNaiImplDAO(con);
         loadPersonalInfo(sv);
+        stud = sv;
     }
 
     /**
@@ -351,7 +361,24 @@ public class JFPersonalInf extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void btnSubmitReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubmitReportActionPerformed
-        // TODO add your handling code here:
+        int i = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn khiếu nại?", "Thông báo!", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
+        if (i == 0) {
+            KhieuNai kn = new KhieuNai();
+            kn.setId_sinhvien(stud.getId());
+            kn.setTieu_de(txtTitleReport.getText());
+            kn.setNoi_dung(txtContentReport.getText());
+            // Get Date
+            Timestamp ts = new Timestamp(new Date().getTime());
+            java.sql.Date date = new java.sql.Date(ts.getTime());
+            kn.setNgay_tao(date);
+            kn.setNgay_cap_nhat(date);
+            // Ins 
+            if (!txtTitleReport.getText().isEmpty() && !txtContentReport.getText().isEmpty()) {
+                kndao.insert(kn);
+                loadFormReport();
+                JOptionPane.showMessageDialog(this, "Khiếu nại thành công!", "Thông báo!",JOptionPane.QUESTION_MESSAGE, new ImageIcon("src/img/tick.png"));
+            }
+        }
     }//GEN-LAST:event_btnSubmitReportActionPerformed
 
     private void loadPersonalInfo(SinhVien sv) {
@@ -368,6 +395,11 @@ public class JFPersonalInf extends javax.swing.JFrame {
         lblParentPhone.setText(sv.getDt_gia_dinh());
         lblEmail.setText(sv.getEmail());
         lblAddress.setText(sv.getDia_chi());
+    }
+    
+    public void loadFormReport(){
+        txtTitleReport.setText("");
+        txtContentReport.setText("");
     }
     /**
      * @param args the command line arguments

@@ -177,7 +177,7 @@ public class BoDeImplDAO implements BoDeDAO {
             PreparedStatement pst = con.prepareStatement("SELECT * FROM tbl_bodechitiet WHERE id_BoDe = ?");
             pst.setInt(1, id);
             ResultSet rs = pst.executeQuery();
-            while (rs.next()){
+            while (rs.next()) {
                 BoDeChiTiet b = new BoDeChiTiet(rs.getInt("id_BoDe"), rs.getInt("id_CauHoi"), rs.getFloat("diem"));
                 bd.add(b);
             }
@@ -185,5 +185,21 @@ public class BoDeImplDAO implements BoDeDAO {
             Logger.getLogger(BoDeImplDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return bd;
+    }
+
+    @Override
+    public List<BoDe> getAllByStatus() {
+        List<BoDe> results = new ArrayList<>();
+        try {
+            CallableStatement cs = con.prepareCall("{CALL getExamByStatus}");
+            ResultSet rs = cs.executeQuery();
+            while (rs.next()) {
+                BoDe bd = new BoDe(rs.getInt("id"), rs.getInt("id_GiangVien"), rs.getString("noi_dung"), rs.getDate("ngay_tao"), rs.getDate("ngay_cap_nhat"), rs.getString("mo_ta"), rs.getBoolean("trang_thai"));
+                results.add(bd);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(BoDeImplDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return results;
     }
 }

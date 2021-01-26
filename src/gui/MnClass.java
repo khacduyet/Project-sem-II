@@ -36,6 +36,9 @@ public class MnClass extends javax.swing.JPanel {
         con = DatabaseConnections.getConnect();
         cdao = new ClassImplDAO(con);
         loadDataLopHoc();
+        
+        // Size Table
+        tbl_Class.setRowHeight(30);
     }
 
     /**

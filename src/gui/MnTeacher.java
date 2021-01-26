@@ -49,11 +49,12 @@ public class MnTeacher extends javax.swing.JPanel {
         tblListTeacher.setAutoCreateRowSorter(true);
         dm = (DefaultTableModel) tblListTeacher.getModel();
     }
-    
-    public void filter(String str){
+
+    public void filter(String str) {
         TableRowSorter<DefaultTableModel> trs = new TableRowSorter<DefaultTableModel>(dm);
         trs.setRowFilter(RowFilter.regexFilter(str));
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -100,6 +101,13 @@ public class MnTeacher extends javax.swing.JPanel {
         btnSave = new javax.swing.JButton();
         btnReset = new javax.swing.JButton();
         jSeparator2 = new javax.swing.JSeparator();
+        ErrorName = new javax.swing.JLabel();
+        ErrorAddress = new javax.swing.JLabel();
+        ErrorPhone = new javax.swing.JLabel();
+        ErrorEmail = new javax.swing.JLabel();
+        ErrorDob = new javax.swing.JLabel();
+        ErrorPass = new javax.swing.JLabel();
+        ErrorUser = new javax.swing.JLabel();
 
         setPreferredSize(new java.awt.Dimension(1057, 742));
 
@@ -107,7 +115,7 @@ public class MnTeacher extends javax.swing.JPanel {
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(204, 0, 204));
-        jLabel3.setText("Danh Sách Thông Tin Giáo Viên");
+        jLabel3.setText("DANH SÁCH THÔNG TIN GIÁO VIÊN");
 
         txtSearchTeach.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -186,7 +194,7 @@ public class MnTeacher extends javax.swing.JPanel {
                                 .addGap(18, 18, 18)
                                 .addComponent(txtSearchTeach, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 753, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 609, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 715, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(MnAccountLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(MnAccountLayout.createSequentialGroup()
@@ -202,21 +210,20 @@ public class MnTeacher extends javax.swing.JPanel {
             .addGroup(MnAccountLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(MnAccountLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnChangStt))
-                .addGroup(MnAccountLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(MnAccountLayout.createSequentialGroup()
-                        .addGap(36, 36, 36)
+                        .addComponent(btnChangStt)
+                        .addGap(18, 18, 18)
+                        .addGroup(MnAccountLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnUpdateGV)
+                            .addComponent(btnDellGV)))
+                    .addGroup(MnAccountLayout.createSequentialGroup()
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(23, 23, 23)
                         .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(MnAccountLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtSearchTeach, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(MnAccountLayout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addGroup(MnAccountLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnUpdateGV)
-                            .addComponent(btnDellGV))))
+                            .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -228,7 +235,7 @@ public class MnTeacher extends javax.swing.JPanel {
 
         titleAddGV.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
         titleAddGV.setForeground(new java.awt.Color(204, 0, 204));
-        titleAddGV.setText("Thêm mới giáo viên");
+        titleAddGV.setText("THÊM MỚI GIÁO VIÊN");
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel2.setText("Mã giáo viên: ");
@@ -286,6 +293,20 @@ public class MnTeacher extends javax.swing.JPanel {
             }
         });
 
+        ErrorName.setForeground(new java.awt.Color(255, 0, 0));
+
+        ErrorAddress.setForeground(new java.awt.Color(255, 0, 0));
+
+        ErrorPhone.setForeground(new java.awt.Color(255, 0, 0));
+
+        ErrorEmail.setForeground(new java.awt.Color(255, 0, 0));
+
+        ErrorDob.setForeground(new java.awt.Color(255, 0, 0));
+
+        ErrorPass.setForeground(new java.awt.Color(255, 0, 0));
+
+        ErrorUser.setForeground(new java.awt.Color(255, 0, 0));
+
         javax.swing.GroupLayout addTitleGvLayout = new javax.swing.GroupLayout(addTitleGv);
         addTitleGv.setLayout(addTitleGvLayout);
         addTitleGvLayout.setHorizontalGroup(
@@ -314,46 +335,64 @@ public class MnTeacher extends javax.swing.JPanel {
                                                 .addComponent(rdoFemale))
                                             .addGroup(addTitleGvLayout.createSequentialGroup()
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 363, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                                .addGroup(addTitleGvLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                    .addComponent(ErrorName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                    .addComponent(txtName, javax.swing.GroupLayout.DEFAULT_SIZE, 363, Short.MAX_VALUE)))))
                                     .addComponent(jLabel6)
                                     .addGroup(addTitleGvLayout.createSequentialGroup()
                                         .addComponent(jLabel2)
                                         .addGap(18, 18, 18)
                                         .addComponent(lblIdTeacher, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                     .addGroup(addTitleGvLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, addTitleGvLayout.createSequentialGroup()
-                                            .addComponent(jLabel7)
-                                            .addGap(30, 30, 30)
-                                            .addComponent(txtPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 368, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGroup(addTitleGvLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(addTitleGvLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                             .addGroup(addTitleGvLayout.createSequentialGroup()
                                                 .addComponent(btnSave)
                                                 .addGap(67, 67, 67)
                                                 .addComponent(btnReset))
-                                            .addComponent(jdcDate, javax.swing.GroupLayout.PREFERRED_SIZE, 368, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                            .addComponent(jdcDate, javax.swing.GroupLayout.DEFAULT_SIZE, 368, Short.MAX_VALUE)
+                                            .addComponent(ErrorDob, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, addTitleGvLayout.createSequentialGroup()
+                                            .addComponent(jLabel7)
+                                            .addGap(30, 30, 30)
+                                            .addGroup(addTitleGvLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                .addComponent(ErrorPhone, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(txtPhone, javax.swing.GroupLayout.DEFAULT_SIZE, 368, Short.MAX_VALUE)))))
                                 .addGap(102, 102, 102)
                                 .addGroup(addTitleGvLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(addTitleGvLayout.createSequentialGroup()
-                                        .addGroup(addTitleGvLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(txtAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 311, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, addTitleGvLayout.createSequentialGroup()
-                                                .addGap(106, 106, 106)
-                                                .addGroup(addTitleGvLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                                    .addComponent(txtEmail, javax.swing.GroupLayout.DEFAULT_SIZE, 311, Short.MAX_VALUE)
-                                                    .addComponent(txtUsername))))
-                                        .addGap(0, 0, Short.MAX_VALUE))
                                     .addGroup(addTitleGvLayout.createSequentialGroup()
                                         .addGroup(addTitleGvLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(jLabel8)
                                             .addGroup(addTitleGvLayout.createSequentialGroup()
-                                                .addComponent(jLabel12)
-                                                .addGap(35, 35, 35)
-                                                .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 311, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addGroup(addTitleGvLayout.createSequentialGroup()
                                                 .addGap(2, 2, 2)
                                                 .addComponent(jLabel11))
-                                            .addComponent(jLabel9))
-                                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))))
+                                            .addGroup(addTitleGvLayout.createSequentialGroup()
+                                                .addComponent(jLabel12)
+                                                .addGap(35, 35, 35)
+                                                .addGroup(addTitleGvLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                    .addComponent(ErrorPass, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                    .addComponent(txtPassword, javax.swing.GroupLayout.DEFAULT_SIZE, 311, Short.MAX_VALUE))))
+                                        .addContainerGap(37, Short.MAX_VALUE))
+                                    .addGroup(addTitleGvLayout.createSequentialGroup()
+                                        .addGroup(addTitleGvLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addGroup(addTitleGvLayout.createSequentialGroup()
+                                                .addGap(106, 106, 106)
+                                                .addGroup(addTitleGvLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(ErrorUser, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addGroup(addTitleGvLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                        .addComponent(txtAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 311, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addGroup(addTitleGvLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                            .addComponent(txtUsername, javax.swing.GroupLayout.DEFAULT_SIZE, 311, Short.MAX_VALUE)
+                                                            .addComponent(ErrorAddress, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                                            .addGroup(addTitleGvLayout.createSequentialGroup()
+                                                .addGroup(addTitleGvLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(jLabel9)
+                                                    .addGroup(addTitleGvLayout.createSequentialGroup()
+                                                        .addGap(106, 106, 106)
+                                                        .addGroup(addTitleGvLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                            .addComponent(txtEmail)
+                                                            .addComponent(ErrorEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 311, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                                .addGap(1, 1, 1)))
+                                        .addGap(0, 37, Short.MAX_VALUE))))))))
         );
         addTitleGvLayout.setVerticalGroup(
             addTitleGvLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -369,30 +408,40 @@ public class MnTeacher extends javax.swing.JPanel {
                         .addGroup(addTitleGvLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel4))
-                        .addGap(18, 18, 18)
+                        .addGap(5, 5, 5)
+                        .addComponent(ErrorName)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(addTitleGvLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(rdoMale)
                             .addComponent(jLabel5)
-                            .addComponent(rdoFemale))
-                        .addGap(18, 18, 18)
-                        .addGroup(addTitleGvLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(addTitleGvLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(txtUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel11))
-                            .addGroup(addTitleGvLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabel7)
-                                .addComponent(txtPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(rdoFemale)))
                     .addGroup(addTitleGvLayout.createSequentialGroup()
                         .addGroup(addTitleGvLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel8)
                             .addComponent(txtAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel2)
                             .addComponent(lblIdTeacher, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
+                        .addGap(4, 4, 4)
+                        .addComponent(ErrorAddress)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(addTitleGvLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel9)
-                            .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(31, 31, 31)
+                            .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(ErrorEmail)))
+                .addGap(18, 18, 18)
+                .addGroup(addTitleGvLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(addTitleGvLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel11))
+                    .addGroup(addTitleGvLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel7)
+                        .addComponent(txtPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(ErrorPhone)
+                .addGap(4, 4, 4)
+                .addComponent(ErrorUser)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(addTitleGvLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(addTitleGvLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -401,11 +450,15 @@ public class MnTeacher extends javax.swing.JPanel {
                     .addGroup(addTitleGvLayout.createSequentialGroup()
                         .addGap(10, 10, 10)
                         .addComponent(jLabel6)))
-                .addGap(44, 44, 44)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(ErrorPass)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(ErrorDob, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addGroup(addTitleGvLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnReset)
                     .addComponent(btnSave))
-                .addContainerGap(308, Short.MAX_VALUE))
+                .addContainerGap(317, Short.MAX_VALUE))
         );
 
         QuanLyGv.addTab("Quản lý Giáo Viên", addTitleGv);
@@ -416,7 +469,7 @@ public class MnTeacher extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(QuanLyGv, javax.swing.GroupLayout.PREFERRED_SIZE, 1095, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 16, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -426,22 +479,55 @@ public class MnTeacher extends javax.swing.JPanel {
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         GiaoVien gv = new GiaoVien();
-
+        // ID
         gv.setMa_gv(lblIdTeacher.getText());
-        gv.setHo_ten(txtName.getText());
+
+        // Name
+        if (!txtName.getText().isEmpty()) {
+            gv.setHo_ten(txtName.getText());
+            ErrorName.setText("");
+        } else {
+            ErrorName.setText("Tên không được để trống!");
+        }
+
+        // Gender
         gv.setGioi_tinh(rdoMale.isSelected());
+
         // get data ngay sinh
         java.util.Date d = jdcDate.getDate();
         if (d == null) {
-            System.out.println("No date specified!");
+            ErrorDob.setText("Ngày sinh không hợp lệ!");
         } else {
             java.sql.Date sqldate = new java.sql.Date(d.getTime());
+            ErrorDob.setText("");
             gv.setNgay_sinh(sqldate);
             // Do something with sqldate
         }
-        gv.setDien_thoai(txtPhone.getText());
-        gv.setDia_chi(txtAddress.getText());
-        gv.setEmail(txtEmail.getText());
+
+        // Phone
+        if (!txtPhone.getText().isEmpty()) {
+            gv.setDien_thoai(txtPhone.getText());
+            ErrorPhone.setText("");
+        } else {
+            ErrorPhone.setText("SĐT không được để trống!");
+        }
+
+        // Address
+        if (!txtAddress.getText().isEmpty()) {
+            gv.setDia_chi(txtAddress.getText());
+            ErrorAddress.setText("");
+        } else {
+            ErrorAddress.setText("Địa chỉ không được để trống!");
+        }
+
+        // Email
+        if (!txtEmail.getText().isEmpty()) {
+            gv.setEmail(txtEmail.getText());
+            ErrorEmail.setText("");
+        } else {
+            ErrorEmail.setText("Email không được để trống!");
+        }
+
 //      ngay tao bang lay ngay thang nam tren he thong may tinh
         Timestamp ts = new Timestamp(new Date().getTime());
         java.sql.Date sqlDou = new java.sql.Date(ts.getTime());
@@ -450,25 +536,42 @@ public class MnTeacher extends javax.swing.JPanel {
         gv.setNgay_cap_nhat(sqlDou);
         // dia chi giao vien
 
-        gv.setUsername(txtUsername.getText());
-        gv.setPassword(txtPassword.getText());
-
-        if (checkSave) {
-            gv.setNgay_tao(sqlDou);
-            gv.setTrang_thai(true);
-            // Thêm mới
-            teacherdao.insert(gv);
-            JOptionPane.showMessageDialog(this, "Thêm mới thành công!", "Thông báo!", JOptionPane.HEIGHT, new ImageIcon("src/img/tick.png"));
+        // Username
+        if (!txtUsername.getText().isEmpty()) {
+            gv.setUsername(txtUsername.getText());
+            ErrorUser.setText("");
         } else {
-            // Cập nhật
-            gv.setId(idUpd);
-            GiaoVien teach = teacherdao.getById(idUpd);
-            gv.setNgay_tao(teach.getNgay_tao());
-            gv.setTrang_thai(teach.isTrang_thai());
-            teacherdao.update(gv);
-            JOptionPane.showMessageDialog(this, "Cập nhật thành công!", "Thông báo!", JOptionPane.HEIGHT, new ImageIcon("src/img/tick.png"));
-            ResetForm();
-            QuanLyGv.setSelectedIndex(0);
+            ErrorUser.setText("Tên tài khoản không được để trống!");
+        }
+
+        // Password
+        if (!txtPassword.getText().isEmpty()) {
+            gv.setPassword(txtPassword.getText());
+            ErrorPass.setText("");
+        } else {
+            ErrorPass.setText("Mật khẩu không được để trống!");
+        }
+
+        // Kiểm tra nếu điền đủ trường thì thực thi
+        if (!txtName.getText().isEmpty() && d != null && !txtPhone.getText().isEmpty() && !txtAddress.getText().isEmpty()
+                && !txtEmail.getText().isEmpty() && !txtUsername.getText().isEmpty() && !txtPassword.getText().isEmpty()) {
+            if (checkSave) {
+                gv.setNgay_tao(sqlDou);
+                gv.setTrang_thai(true);
+                // Thêm mới
+                teacherdao.insert(gv);
+                JOptionPane.showMessageDialog(this, "Thêm mới thành công!", "Thông báo!", JOptionPane.HEIGHT, new ImageIcon("src/img/tick.png"));
+            } else {
+                // Cập nhật
+                gv.setId(idUpd);
+                GiaoVien teach = teacherdao.getById(idUpd);
+                gv.setNgay_tao(teach.getNgay_tao());
+                gv.setTrang_thai(teach.isTrang_thai());
+                teacherdao.update(gv);
+                JOptionPane.showMessageDialog(this, "Cập nhật thành công!", "Thông báo!", JOptionPane.HEIGHT, new ImageIcon("src/img/tick.png"));
+                LoadResetForm();
+                QuanLyGv.setSelectedIndex(0);
+            }
         }
         loadDataTeacher();
     }//GEN-LAST:event_btnSaveActionPerformed
@@ -503,6 +606,7 @@ public class MnTeacher extends javax.swing.JPanel {
         checkSave = false;
         int selectUpd = JOptionPane.showConfirmDialog(this, "Bạn có chắc muốn sửa!", "Thông Báo!", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, new ImageIcon("src/img/exit-48px.png"));
         if (selectUpd == 0) {
+            LoadResetForm();
             QuanLyGv.setSelectedIndex(1);
             int rowSelect = tblListTeacher.getSelectedRow();
             int getValue = (int) tblListTeacher.getValueAt(rowSelect, 0);
@@ -530,7 +634,8 @@ public class MnTeacher extends javax.swing.JPanel {
     }//GEN-LAST:event_btnDellGVActionPerformed
 
     private void btnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed
-        ResetForm();
+        titleAddGV.setText("THÊM GIÁO VIÊN");
+        LoadResetForm();
     }//GEN-LAST:event_btnResetActionPerformed
 
     private void txtSearchTeachKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchTeachKeyReleased
@@ -538,8 +643,7 @@ public class MnTeacher extends javax.swing.JPanel {
         filter(str);
     }//GEN-LAST:event_txtSearchTeachKeyReleased
 
-    private void ResetForm() {
-        titleAddGV.setText("THÊM GIÁO VIÊN");
+    private void LoadResetForm() {
         getId();
         txtName.setText("");
         rdoMale.setSelected(true);
@@ -548,6 +652,14 @@ public class MnTeacher extends javax.swing.JPanel {
         txtPassword.setText("");
         txtPhone.setText("");
         txtUsername.setText("");
+        // Error
+        ErrorAddress.setText("");
+        ErrorDob.setText("");
+        ErrorEmail.setText("");
+        ErrorName.setText("");
+        ErrorPass.setText("");
+        ErrorPhone.setText("");
+        ErrorUser.setText("");
         jdcDate.setCalendar(null);
     }
 
@@ -579,6 +691,13 @@ public class MnTeacher extends javax.swing.JPanel {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel ErrorAddress;
+    private javax.swing.JLabel ErrorDob;
+    private javax.swing.JLabel ErrorEmail;
+    private javax.swing.JLabel ErrorName;
+    private javax.swing.JLabel ErrorPass;
+    private javax.swing.JLabel ErrorPhone;
+    private javax.swing.JLabel ErrorUser;
     private javax.swing.ButtonGroup GioiTinhGroup;
     private javax.swing.JPanel MnAccount;
     private javax.swing.JTabbedPane QuanLyGv;
