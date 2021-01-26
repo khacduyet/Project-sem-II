@@ -15,6 +15,8 @@ import java.util.List;
 public interface CauHoiDAO {
 
     public List<CauHoi> getAll();
+    
+    public List<CauHoi> getAllByIdMon();
 
     public CauHoi getById(int key);
 

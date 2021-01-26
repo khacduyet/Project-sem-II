@@ -14,19 +14,37 @@ import entity.BoDeChiTiet;
 import entity.CauHoi;
 import entity.DapAn;
 import entity.SinhVien;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Font;
+import java.awt.Point;
+import java.awt.PopupMenu;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import static java.lang.Thread.sleep;
 import java.sql.Connection;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ButtonGroup;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.SwingConstants;
 import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 /**
  *
@@ -42,15 +60,32 @@ public class JFStartExam extends javax.swing.JFrame {
     String pass;
     int idExam;
     SinhVien stud;
+    int idCauHoi;
+    int getSelectIndex = 0;
+    private List<ButtonGroup> listBtnGroup = new ArrayList<ButtonGroup>();
+    HashMap<Integer, Integer> lstAns = new HashMap<Integer, Integer>();
+    JRadioButton rdA;
+    // danh sach cau hoi
+    List<CauHoi> ch;
+    // tong diem bai thi
+    float totalMark;
+
+    private void rdoAnsActionPerformed(java.awt.event.ActionEvent evt) {
+        // TODO add your handling code here:
+    }
 
     /**
      * Creates new form JFSearchPoint
      */
     public JFStartExam(String username, String password, int id, SinhVien sv) {
+
         initComponents();
+        // bat su kien click vao cac rido dap an
+
         // Set default window
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
+        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         // Set var 
         stud = sv;
         user = username;
@@ -99,6 +134,8 @@ public class JFStartExam extends javax.swing.JFrame {
         lblDate.setText(d.format(now));
         // Set data
         getDataQuestion();
+        getCountDapAn();
+//        lstQuestion.setSelectedIndex(0);
     }
 
     public void insertResultExam() {
@@ -107,48 +144,63 @@ public class JFStartExam extends javax.swing.JFrame {
 
     public void getDataQuestion() {
         List<BoDeChiTiet> bdct = bddao.getAllByIdExam(idExam);
+
         BoDe bd = bddao.getById(idExam);
         lblTitle.setText("BÀI THI " + bd.getNoi_dung());
         lblThread.setText(bd.getNoi_dung());
-        List<CauHoi> ch = new ArrayList<>();
+        ch = new ArrayList<>();
         for (BoDeChiTiet boDeChiTiet : bdct) {
             CauHoi c = chdao.getById(boDeChiTiet.getId_cauhoi());
             ch.add(c);
         }
-        DefaultListModel model = new DefaultListModel();
-        int a = 1;
+        int locationQuestonY = 10;
         for (int i = 0; i < ch.size(); i++) {
-            model.add(i, "Câu " + a++ + " :");
-        }
-        int numberQues = ch.size();
-        lblTotalQ.setText(String.valueOf(numberQues));
-        lstQuestion.setModel(model);
+            JButton elementQuestion = new JButton();
+            elementQuestion.setHorizontalAlignment(SwingConstants.LEFT);
+            elementQuestion.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
-        // ------------------------------------------------------> Nghiên cứu phần này đi cu Thắng <-------------------------------------------------------------------------
-        // ------------------------------------------------------> Hiển thị thì ra r mà có vấn đề lúc chọn đáp án <----------------------------------------------------------
-        // ------------------------------------------------------> Với cả tìm xem cách để break line label nhá <--------------------------------------------------------------
-        // ------------------------------------------------------> Nếu mà câu hỏi dài thì nó tràn cmn ra ngoài luôn <--------------------------------------------------------------
-        for (int i = 0; i < ch.size(); i++) {
-            int j = i;
-            List<DapAn> da = dadao.getAllAnsert(ch.get(j).getId());
-            Collections.shuffle(da);
-//            lblQuestion.setText("Câu " + "1" + " : " + ch.get(0).getNoi_dung());
-//            rdoA.setText(da.get(0).getNoi_dung());
-//            rdoB.setText(da.get(1).getNoi_dung());
-//            rdoC.setText(da.get(2).getNoi_dung());
-//            rdoD.setText(da.get(3).getNoi_dung());
-            lstQuestion.getSelectionModel().addListSelectionListener((ListSelectionEvent e) -> {
-                if (lstQuestion.getSelectedIndex() == j) {
-                    lblQuestion.setText("Câu " + (j + 1) + " : " + ch.get(j).getNoi_dung());
-                    rdoA.setText(da.get(0).getNoi_dung());
-                    rdoB.setText(da.get(1).getNoi_dung());
-                    rdoC.setText(da.get(2).getNoi_dung());
-                    rdoD.setText(da.get(3).getNoi_dung());
+            elementQuestion.setName("" + ch.get(i).getId());
+            elementQuestion.setText("Câu " + (i + 1) + " : ");
+            elementQuestion.setFont(new Font("Serif", Font.PLAIN, 16));
+            int widthDataPanel = jDataQuestion.getWidth();
+            elementQuestion.setBounds(20, locationQuestonY, widthDataPanel - 50, 30);
+            locationQuestonY += 40;
+//            txaQuestion.setText(ch.get(i).getNoi_dung());
+            elementQuestion.addMouseListener(new MouseAdapter() {
+                public void mouseClicked(MouseEvent e) {
+                    idCauHoi = Integer.parseInt(e.getComponent().getName());
+                    showCheckboxAnswer(Integer.parseInt(e.getComponent().getName()));
+                    loadTieuDeCauHoi(Integer.parseInt(e.getComponent().getName()));
+                }
+            });
+
+            jDataQuestion.add(elementQuestion);
+        }
+
+    }
+
+    private void showCheckboxAnswer(int idQuestion) {
+        pnlDapAn.removeAll();
+        JPanel buttonPanel = new JPanel();
+        List<DapAn> resultsDapAn = dadao.getAllDanAnByIdQuestion(idQuestion);
+        ButtonGroup groupDapAn = new ButtonGroup();
+        for (DapAn item : resultsDapAn) {
+            rdA = new JRadioButton(item.getNoi_dung());
+            if (lstAns.get(idQuestion) != null && lstAns.get(idQuestion) == item.getId()) {
+                rdA.setSelected(true);
+            }
+            groupDapAn.add(rdA);
+            buttonPanel.add(rdA);
+            rdA.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    rdoAnsActionPerformed(e);
+//                    JOptionPane.showMessageDialog(rootPane, item.getId());
+                    lstAns.put(idQuestion, item.getId());
                 }
             });
         }
-        // -------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
+        pnlDapAn.add(buttonPanel);
     }
 
     /**
@@ -170,7 +222,7 @@ public class JFStartExam extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         lblTotalTime = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        lstQuestion = new javax.swing.JList<>();
+        jDataQuestion = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         btnSubmit = new javax.swing.JButton();
         lblDate = new javax.swing.JLabel();
@@ -190,11 +242,8 @@ public class JFStartExam extends javax.swing.JFrame {
         jPanel4 = new javax.swing.JPanel();
         pnlMainQues = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        lblQuestion = new javax.swing.JTextArea();
-        rdoA = new javax.swing.JRadioButton();
-        rdoB = new javax.swing.JRadioButton();
-        rdoC = new javax.swing.JRadioButton();
-        rdoD = new javax.swing.JRadioButton();
+        txaQuestion = new javax.swing.JTextArea();
+        pnlDapAn = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -221,10 +270,20 @@ public class JFStartExam extends javax.swing.JFrame {
         lblTotalTime.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         lblTotalTime.setText("20 phút");
 
-        lstQuestion.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        lstQuestion.setOpaque(false);
-        lstQuestion.setSelectedIndex(1);
-        jScrollPane2.setViewportView(lstQuestion);
+        jDataQuestion.setAutoscrolls(true);
+
+        javax.swing.GroupLayout jDataQuestionLayout = new javax.swing.GroupLayout(jDataQuestion);
+        jDataQuestion.setLayout(jDataQuestionLayout);
+        jDataQuestionLayout.setHorizontalGroup(
+            jDataQuestionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 359, Short.MAX_VALUE)
+        );
+        jDataQuestionLayout.setVerticalGroup(
+            jDataQuestionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 422, Short.MAX_VALUE)
+        );
+
+        jScrollPane2.setViewportView(jDataQuestion);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -241,7 +300,7 @@ public class JFStartExam extends javax.swing.JFrame {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblTotalQ, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(lblTotalTime, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 56, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(22, 22, 22)
                         .addComponent(jScrollPane2)))
@@ -259,7 +318,7 @@ public class JFStartExam extends javax.swing.JFrame {
                     .addComponent(jLabel7)
                     .addComponent(lblTotalQ))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 543, Short.MAX_VALUE)
+                .addComponent(jScrollPane2)
                 .addContainerGap())
         );
 
@@ -364,7 +423,7 @@ public class JFStartExam extends javax.swing.JFrame {
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(13, Short.MAX_VALUE)
                 .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
@@ -399,35 +458,17 @@ public class JFStartExam extends javax.swing.JFrame {
 
         pnlMainQues.setBackground(new java.awt.Color(204, 204, 255));
 
-        lblQuestion.setEditable(false);
-        lblQuestion.setColumns(20);
-        lblQuestion.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
-        lblQuestion.setLineWrap(true);
-        lblQuestion.setRows(5);
-        lblQuestion.setWrapStyleWord(true);
-        lblQuestion.setAutoscrolls(false);
-        lblQuestion.setOpaque(false);
-        jScrollPane1.setViewportView(lblQuestion);
+        txaQuestion.setEditable(false);
+        txaQuestion.setColumns(20);
+        txaQuestion.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
+        txaQuestion.setLineWrap(true);
+        txaQuestion.setRows(5);
+        txaQuestion.setWrapStyleWord(true);
+        txaQuestion.setAutoscrolls(false);
+        txaQuestion.setOpaque(false);
+        jScrollPane1.setViewportView(txaQuestion);
 
-        btnAns.add(rdoA);
-        rdoA.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
-        rdoA.setText("Ans 1");
-        rdoA.setOpaque(false);
-
-        btnAns.add(rdoB);
-        rdoB.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
-        rdoB.setText("Ans 2");
-        rdoB.setOpaque(false);
-
-        btnAns.add(rdoC);
-        rdoC.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
-        rdoC.setText("Ans 3");
-        rdoC.setOpaque(false);
-
-        btnAns.add(rdoD);
-        rdoD.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
-        rdoD.setText("Ans 4");
-        rdoD.setOpaque(false);
+        pnlDapAn.setLayout(new javax.swing.BoxLayout(pnlDapAn, javax.swing.BoxLayout.LINE_AXIS));
 
         javax.swing.GroupLayout pnlMainQuesLayout = new javax.swing.GroupLayout(pnlMainQues);
         pnlMainQues.setLayout(pnlMainQuesLayout);
@@ -435,31 +476,19 @@ public class JFStartExam extends javax.swing.JFrame {
             pnlMainQuesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlMainQuesLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 815, Short.MAX_VALUE)
-                .addContainerGap())
-            .addGroup(pnlMainQuesLayout.createSequentialGroup()
-                .addGap(87, 87, 87)
                 .addGroup(pnlMainQuesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(rdoD)
-                    .addComponent(rdoC)
-                    .addComponent(rdoB)
-                    .addComponent(rdoA))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 821, Short.MAX_VALUE)
+                    .addComponent(pnlDapAn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         pnlMainQuesLayout.setVerticalGroup(
             pnlMainQuesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlMainQuesLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(47, 47, 47)
-                .addComponent(rdoA)
-                .addGap(48, 48, 48)
-                .addComponent(rdoB)
-                .addGap(45, 45, 45)
-                .addComponent(rdoC)
-                .addGap(36, 36, 36)
-                .addComponent(rdoD)
-                .addContainerGap(40, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(pnlDapAn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         jPanel4.add(pnlMainQues, "card2");
@@ -473,7 +502,7 @@ public class JFStartExam extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 112, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
@@ -494,13 +523,15 @@ public class JFStartExam extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 455, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap())
         );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -524,9 +555,34 @@ public class JFStartExam extends javax.swing.JFrame {
         if (i == 0) {
             this.dispose();
             JOptionPane.showMessageDialog(this, "Bạn đã nộp bài thành công!");
-//            JFStudent jst = new JFStudent(sv);
-//            jst.setVisible(true);
+            // dem so cau hoi da lam trong bo de
+            System.out.println("Tong so cau hoi da lam trong bo de la : " + lstAns.size());
+            System.out.println("Tong so cau hoi con lai trong bo de la : " + (ch.size() - lstAns.size()));
+            // kiem tra so cau hoi tra loi dung
+
+            for (Map.Entry<Integer, Integer> entry : lstAns.entrySet()) {
+
+                // key : id cau hoi
+                Integer key = entry.getKey();
+                DapAn dapan = dadao.getByIdQuestion(key);
+                // value : id cau tra loi
+                Integer value = entry.getValue();
+                DapAn da = dadao.getById(value);
+                BoDeChiTiet bdct = bddao.getByIdChiTiet(0, key);
+                if (da.getNoi_dung().equals(dapan.getNoi_dung())) {
+                    System.out.println("dung");
+                    
+                    totalMark += bdct.getDiem();
+                    System.out.println("diem cua cau nay la " + bdct.getDiem());
+                } else {
+                    System.out.println("sai");
+                }
+
+            }
+            System.out.println("tong diem bai thi la : "+totalMark);
         }
+
+
     }//GEN-LAST:event_btnSubmitActionPerformed
 
     /**
@@ -536,6 +592,7 @@ public class JFStartExam extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup btnAns;
     private javax.swing.JButton btnSubmit;
+    private javax.swing.JPanel jDataQuestion;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel13;
@@ -556,18 +613,25 @@ public class JFStartExam extends javax.swing.JFrame {
     private javax.swing.JLabel lblIdSt;
     private javax.swing.JLabel lblMinute;
     private javax.swing.JLabel lblNameSt;
-    private javax.swing.JTextArea lblQuestion;
     private javax.swing.JLabel lblSecond;
     private javax.swing.JLabel lblThread;
     private javax.swing.JLabel lblTitle;
     private javax.swing.JLabel lblTotalQ;
     private javax.swing.JLabel lblTotalTime;
     private javax.swing.JLabel lbldots;
-    private javax.swing.JList<String> lstQuestion;
+    private javax.swing.JPanel pnlDapAn;
     private javax.swing.JPanel pnlMainQues;
-    private javax.swing.JRadioButton rdoA;
-    private javax.swing.JRadioButton rdoB;
-    private javax.swing.JRadioButton rdoC;
-    private javax.swing.JRadioButton rdoD;
+    private javax.swing.JTextArea txaQuestion;
     // End of variables declaration//GEN-END:variables
+
+    private void loadTieuDeCauHoi(int idCauHoi) {
+        CauHoi ch = chdao.getById(idCauHoi);
+        txaQuestion.setText(ch.getNoi_dung());
+    }
+
+    private void getCountDapAn() {
+        CauHoi cauhoi = new CauHoi();
+        System.out.println("Tong so cau hoi trong bo de la : " + ch.size());
+    }
+
 }

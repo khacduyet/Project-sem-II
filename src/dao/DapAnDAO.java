@@ -22,4 +22,5 @@ public interface DapAnDAO {
     
     public DapAn getByIdQuestion(int id);
     public List<DapAn> getAllAnsert(int id);
+    public List<DapAn> getAllDanAnByIdQuestion(int id);
 }

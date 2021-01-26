@@ -103,6 +103,11 @@ public class CauHoi {
     public void setTrang_thai(boolean trang_thai) {
         this.trang_thai = trang_thai;
     }
+
+    @Override
+    public String toString() {
+        return this.noi_dung = noi_dung;
+    }
     
     
 }

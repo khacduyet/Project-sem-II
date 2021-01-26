@@ -515,6 +515,14 @@ CREATE PROC getAllBySubject
 as
 	SELECT * from tbl_CauHoi where id_mon = @id_mon
 go
+-- lay cau hoi theo mon
+DROP PROC getAllCauHoiByIdMon
+go
+CREATE PROC getAllCauHoiByIdMon
+@id_mon int
+as
+	SELECT * from tbl_CauHoi where id_mon = @id_mon
+go
 /*==============PROC CAU HOI================*/
 /*==============PROC HANG CAU================*/
 ALTER TABLE tbl_HangCau
