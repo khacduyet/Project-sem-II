@@ -135,4 +135,21 @@ public class DapAnImplDAO implements DapAnDAO {
         }
         return results;
     }
+
+    @Override
+    public List<DapAn> getAllDanAnByIdQuestion(int id) {
+        List<DapAn> resultsDapAn = new ArrayList<>();
+        try {
+            PreparedStatement pst = con.prepareStatement("SELECT * FROM tbl_DapAn WHERE id_cauhoi = ?");
+            pst.setInt(1, id);
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                DapAn da = new DapAn(rs.getInt("id"), rs.getInt("id_cauhoi"), rs.getString("noi_dung"), rs.getBoolean("dap_an"));
+                resultsDapAn.add(da);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DapAnImplDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return resultsDapAn;
+    }
 }

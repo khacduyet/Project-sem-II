@@ -145,4 +145,21 @@ public class CauHoiImplDAO implements CauHoiDAO {
         }
         return results;
     }
+
+    @Override
+    public List<CauHoi> getAllByIdMon() {
+        List<CauHoi> results = new ArrayList<>();
+        try {
+            CallableStatement cs = con.prepareCall("{CALL getAllCauHoiByIdMon}");
+            ResultSet rs = cs.executeQuery();
+            while (rs.next()) {
+                CauHoi ch = new CauHoi(rs.getInt("id"), rs.getInt("id_mon"), rs.getInt("id_hang"),
+                        rs.getString("noi_dung"), rs.getDate("ngay_tao"), rs.getDate("ngay_cap_nhat"), rs.getString("ghi_chu"), rs.getBoolean("trang_thai"));
+                results.add(ch);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(CauHoiImplDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return results;
+    }
 }
