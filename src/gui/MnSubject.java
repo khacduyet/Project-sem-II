@@ -63,6 +63,7 @@ public class MnSubject extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        btnGroupClass = new javax.swing.ButtonGroup();
         QLMonHoc = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         lblSubject = new javax.swing.JLabel();
@@ -181,7 +182,7 @@ public class MnSubject extends javax.swing.JPanel {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(265, 265, 265)
                         .addComponent(jLabel5)
-                        .addGap(0, 366, Short.MAX_VALUE))
+                        .addGap(0, 368, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -260,8 +261,8 @@ public class MnSubject extends javax.swing.JPanel {
                     .addComponent(jLabel6)
                     .addComponent(txtSearchSub, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 392, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(328, Short.MAX_VALUE))
         );
 
         QLMonHoc.addTab("Môn học", jPanel1);
@@ -288,9 +289,11 @@ public class MnSubject extends javax.swing.JPanel {
         jLabel10.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel10.setText("Trạng thái:");
 
+        btnGroupClass.add(rdoAction);
         rdoAction.setSelected(true);
         rdoAction.setText("Hoạt động");
 
+        btnGroupClass.add(rdoStop);
         rdoStop.setText("Ngừng hoạt động");
 
         tbl_Class.setModel(new javax.swing.table.DefaultTableModel(
@@ -419,8 +422,8 @@ public class MnSubject extends javax.swing.JPanel {
                     .addComponent(rdoStop)
                     .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 348, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(146, Short.MAX_VALUE))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(352, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -550,7 +553,7 @@ public class MnSubject extends javax.swing.JPanel {
         } else {
             rdoStop.setSelected(true);
         }
-        checkEdit = true;
+        checkEditClass = true;
     }//GEN-LAST:event_tbl_ClassMouseClicked
 
     private void btnSaveClassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveClassActionPerformed
@@ -593,7 +596,7 @@ public class MnSubject extends javax.swing.JPanel {
     }//GEN-LAST:event_btnDeleteClassActionPerformed
 
     private void btnNewClassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewClassActionPerformed
-        checkEdit = false;
+        checkEditClass = false;
         txtCourse.setText("");
         txtNameClass.setText("");
         cboYear.setSelectedIndex(0);
@@ -616,6 +619,7 @@ public class MnSubject extends javax.swing.JPanel {
     private javax.swing.JTabbedPane QLMonHoc;
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnDeleteClass;
+    private javax.swing.ButtonGroup btnGroupClass;
     private javax.swing.JButton btnNew;
     private javax.swing.JButton btnNewClass;
     private javax.swing.JButton btnSave;
