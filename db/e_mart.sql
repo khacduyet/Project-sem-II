@@ -262,7 +262,6 @@ go
 DROP PROCEDURE insertGv
 GO
 CREATE PROCEDURE insertGv
- @id int,
  @ma_gv varchar(10),
  @ho_ten nvarchar(100),
  @gioi_tinh bit,
@@ -409,6 +408,15 @@ CREATE PROCEDURE updateKetQua
 @tong_diem float
 AS
 	UPDATE tbl_KetQua SET tong_diem = @tong_diem WHERE id_SinhVien = @id_SinhVien AND id_BoDe = @id_BoDe
+GO
+-- get Info Exam Fit 
+DROP PROCEDURE getByIdStudAndIdExam
+GO
+CREATE PROCEDURE getByIdStudAndIdExam
+@id_SinhVien int,
+@id_BoDe int
+AS
+	SELECT * FROM tbl_KetQua WHERE id_SinhVien = @id_SinhVien AND id_BoDe = @id_BoDe
 GO
 /*====================Proc bo de chi tiet=====================*/
 -- lay du lieu bo de chi tiet

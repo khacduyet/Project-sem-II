@@ -381,8 +381,8 @@ public class MnExam extends javax.swing.JPanel {
                     .addComponent(jLabel22)
                     .addComponent(txtSearchExam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 381, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(47, 47, 47))
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(175, 175, 175))
         );
 
         jTabbedPane1.addTab("Quản lý đề thi", MnExam);
@@ -952,6 +952,9 @@ public class MnExam extends javax.swing.JPanel {
             hc.setId(hangCauId);
             hcDao.update(hc);
             JOptionPane.showMessageDialog(this, "Cập nhật thành công!");
+            txtIdLevel.setText("");
+            txaDescLevel.setText("");
+            rdoDiem1.setSelected(true);
         }
         loadTblHangCau();
         loadCBHangCau();
@@ -1203,7 +1206,6 @@ public class MnExam extends javax.swing.JPanel {
                     daDAO.update(da);
                     b++;
                 }
-
                 JOptionPane.showMessageDialog(this, "Cập nhật câu hỏi thành công!", "Thông báo!", JOptionPane.QUESTION_MESSAGE, new ImageIcon("src/img/tick.png"));
                 loadFormQuestion();
                 loadTblQuestion();
