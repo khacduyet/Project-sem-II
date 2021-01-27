@@ -261,8 +261,8 @@ public class MnSubject extends javax.swing.JPanel {
                     .addComponent(jLabel6)
                     .addComponent(txtSearchSub, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(328, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(203, Short.MAX_VALUE))
         );
 
         QLMonHoc.addTab("Môn học", jPanel1);
@@ -385,7 +385,7 @@ public class MnSubject extends javax.swing.JPanel {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(153, 153, 153)
                         .addComponent(lblTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 450, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(385, Short.MAX_VALUE))
+                .addContainerGap(387, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -422,8 +422,8 @@ public class MnSubject extends javax.swing.JPanel {
                     .addComponent(rdoStop)
                     .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(352, Short.MAX_VALUE))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(257, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -490,11 +490,13 @@ public class MnSubject extends javax.swing.JPanel {
             if (checkEdit) {
                 monDao.insert(mon);
                 JOptionPane.showMessageDialog(this, "Thêm mới thành công!");
+                checkStatus = true;
             } else {
                 mon.setId(monId);
                 monDao.update(mon);
                 JOptionPane.showMessageDialog(this, "Cập nhật thành công!");
                 loadSubject();
+                checkStatus = true;
             }
             ResetForm();
         }
@@ -536,8 +538,8 @@ public class MnSubject extends javax.swing.JPanel {
                 loadSubject();
             }
             checkStatus = true;
-            ResetForm();
         }
+        ResetForm();
     }//GEN-LAST:event_btnNewActionPerformed
 
     private void tbl_ClassMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_ClassMouseClicked

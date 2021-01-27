@@ -9,42 +9,42 @@ import contrain.DatabaseConnections;
 import daoImp.BoDeImplDAO;
 import daoImp.CauHoiImplDAO;
 import daoImp.DapAnImplDAO;
+import daoImp.KetQuaImplDAO;
 import entity.BoDe;
 import entity.BoDeChiTiet;
 import entity.CauHoi;
 import entity.DapAn;
+import entity.KetQua;
 import entity.SinhVien;
 import java.awt.Color;
 import java.awt.Cursor;
+import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Point;
-import java.awt.PopupMenu;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import static java.lang.Thread.sleep;
 import java.sql.Connection;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ButtonGroup;
-import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 
 /**
  *
@@ -56,6 +56,7 @@ public class JFStartExam extends javax.swing.JFrame {
     CauHoiImplDAO chdao;
     BoDeImplDAO bddao;
     DapAnImplDAO dadao;
+    KetQuaImplDAO kqdao;
     String user;
     String pass;
     int idExam;
@@ -96,6 +97,7 @@ public class JFStartExam extends javax.swing.JFrame {
         chdao = new CauHoiImplDAO(con);
         bddao = new BoDeImplDAO(con);
         dadao = new DapAnImplDAO(con);
+        kqdao = new KetQuaImplDAO(con);
         // Set Timer
         lblNameSt.setText(sv.getHo_ten());
         lblIdSt.setText(sv.getMa_sv());
@@ -179,17 +181,17 @@ public class JFStartExam extends javax.swing.JFrame {
             });
             jDataQuestion.add(elementQuestion);
         }
-
     }
 
     private void showCheckboxAnswer(int idQuestion) {
         pnlDapAn.removeAll();
         JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new javax.swing.BoxLayout(buttonPanel, javax.swing.BoxLayout.Y_AXIS));
         List<DapAn> resultsDapAn = dadao.getAllDanAnByIdQuestion(idQuestion);
         ButtonGroup groupDapAn = new ButtonGroup();
         for (DapAn item : resultsDapAn) {
             rdA = new JRadioButton(item.getNoi_dung());
-            rdA.setBounds(100, 200, 100, 30);
+            rdA.setMargin(new Insets(30, 50, 20, 500));
             if (lstAns.get(idQuestion) != null && lstAns.get(idQuestion) == item.getId()) {
                 rdA.setSelected(true);
             }
@@ -226,6 +228,7 @@ public class JFStartExam extends javax.swing.JFrame {
         lblTotalTime = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jDataQuestion = new javax.swing.JPanel();
+        jScrollBar1 = new javax.swing.JScrollBar();
         jPanel3 = new javax.swing.JPanel();
         btnSubmit = new javax.swing.JButton();
         lblDate = new javax.swing.JLabel();
@@ -275,15 +278,19 @@ public class JFStartExam extends javax.swing.JFrame {
 
         jDataQuestion.setAutoscrolls(true);
 
+        jScrollBar1.setAutoscrolls(true);
+
         javax.swing.GroupLayout jDataQuestionLayout = new javax.swing.GroupLayout(jDataQuestion);
         jDataQuestion.setLayout(jDataQuestionLayout);
         jDataQuestionLayout.setHorizontalGroup(
             jDataQuestionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 359, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDataQuestionLayout.createSequentialGroup()
+                .addGap(0, 344, Short.MAX_VALUE)
+                .addComponent(jScrollBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jDataQuestionLayout.setVerticalGroup(
             jDataQuestionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 422, Short.MAX_VALUE)
+            .addComponent(jScrollBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 422, Short.MAX_VALUE)
         );
 
         jScrollPane2.setViewportView(jDataQuestion);
@@ -426,7 +433,7 @@ public class JFStartExam extends javax.swing.JFrame {
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap(13, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
@@ -490,7 +497,7 @@ public class JFStartExam extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(pnlDapAn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(pnlDapAn, javax.swing.GroupLayout.DEFAULT_SIZE, 306, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -505,7 +512,7 @@ public class JFStartExam extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 112, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 96, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
@@ -562,9 +569,9 @@ public class JFStartExam extends javax.swing.JFrame {
             System.out.println("Tong so cau hoi da lam trong bo de la : " + lstAns.size());
             System.out.println("Tong so cau hoi con lai trong bo de la : " + (ch.size() - lstAns.size()));
             // kiem tra so cau hoi tra loi dung
-
+            int totalAnsed = lstAns.size();
+            int totalAnsCorr = 0;
             for (Map.Entry<Integer, Integer> entry : lstAns.entrySet()) {
-
                 // key : id cau hoi
                 Integer key = entry.getKey();
                 DapAn dapan = dadao.getByIdQuestion(key);
@@ -574,14 +581,22 @@ public class JFStartExam extends javax.swing.JFrame {
                 BoDeChiTiet bdct = bddao.getByIdChiTiet(0, key);
                 if (da.getNoi_dung().equals(dapan.getNoi_dung())) {
                     System.out.println("dung");
-
+                    totalAnsCorr++;
                     totalMark += bdct.getDiem();
                     System.out.println("diem cua cau nay la " + bdct.getDiem());
                 } else {
                     System.out.println("sai");
                 }
-
             }
+            KetQua kq = new KetQua();
+            kq.setId_sv(stud.getId());
+            kq.setId_bode(idExam);
+            Timestamp ts = new Timestamp(new Date().getTime());
+            java.sql.Date dateSql = new java.sql.Date(ts.getTime());
+            kq.setNgay_thi(dateSql);
+            kq.setTong_diem(totalMark);
+            kqdao.insert(kq);
+            new JFTotalMark(stud, idExam, totalAnsed, totalAnsCorr).setVisible(true);
             System.out.println("tong diem bai thi la : " + totalMark);
         }
 
@@ -607,6 +622,7 @@ public class JFStartExam extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JScrollBar jScrollBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;

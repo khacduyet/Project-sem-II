@@ -569,9 +569,9 @@ public class MnTeacher extends javax.swing.JPanel {
                 gv.setTrang_thai(teach.isTrang_thai());
                 teacherdao.update(gv);
                 JOptionPane.showMessageDialog(this, "Cập nhật thành công!", "Thông báo!", JOptionPane.HEIGHT, new ImageIcon("src/img/tick.png"));
-                LoadResetForm();
                 QuanLyGv.setSelectedIndex(0);
             }
+            LoadResetForm();
         }
         loadDataTeacher();
     }//GEN-LAST:event_btnSaveActionPerformed

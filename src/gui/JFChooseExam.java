@@ -9,10 +9,13 @@ import DAOimpl.MonImplDAO;
 import contrain.DatabaseConnections;
 import daoImp.BoDeImplDAO;
 import daoImp.CauHoiImplDAO;
+import daoImp.KetQuaImplDAO;
 import entity.BoDe;
+import entity.KetQua;
 import entity.SinhVien;
 import java.sql.Connection;
 import java.util.List;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 /**
@@ -26,6 +29,7 @@ public class JFChooseExam extends javax.swing.JFrame {
     String pass;
     int idExam;
     MonImplDAO mdao;
+    KetQuaImplDAO kqdao;
     BoDeImplDAO bddao;
     CauHoiImplDAO chdao;
     Connection con;
@@ -46,6 +50,7 @@ public class JFChooseExam extends javax.swing.JFrame {
         con = DatabaseConnections.getConnect();
         bddao = new BoDeImplDAO(con);
         sv = stud;
+        kqdao = new KetQuaImplDAO(con);
         // Load dữ liệu
         loadExam();
     }
@@ -164,10 +169,15 @@ public class JFChooseExam extends javax.swing.JFrame {
                 idExam = cboThreads.getItemAt(i).getId();
             }
         }
-        JFStartExam jse = new JFStartExam(user, pass, idExam, sv);
-        jse.setVisible(true);
-        this.setVisible(false);
-        jsFStudent.setVisible(false);
+        KetQua kq = kqdao.getByIdStudAndExam(sv.getId(), idExam);
+        if (kq == null) {
+            JFStartExam jse = new JFStartExam(user, pass, idExam, sv);
+            jse.setVisible(true);
+            this.setVisible(false);
+            jsFStudent.setVisible(false);
+        } else {
+            JOptionPane.showMessageDialog(this, "Bạn đã thi bài thi này!", "Thông báo!", JOptionPane.QUESTION_MESSAGE, new ImageIcon("src/img/exit-48px.png"));
+        }
     }//GEN-LAST:event_btnStartActionPerformed
 
     /**

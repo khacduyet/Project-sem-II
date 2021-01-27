@@ -5,7 +5,24 @@
  */
 package gui;
 
+import DAOimpl.MonImplDAO;
+import contrain.DatabaseConnections;
+import daoImp.BoDeImplDAO;
+import daoImp.CauHoiImplDAO;
+import daoImp.ClassImplDAO;
+import daoImp.KetQuaImplDAO;
+import daoImp.StudentImplDAO;
+import entity.BoDe;
+import entity.BoDeChiTiet;
+import entity.CauHoi;
+import entity.KetQua;
+import entity.LopHoc;
+import entity.Mon;
+import entity.SinhVien;
 import java.awt.Window;
+import java.sql.Connection;
+import java.text.SimpleDateFormat;
+import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
@@ -15,11 +32,86 @@ import javax.swing.JOptionPane;
  */
 public class JFTotalMark extends javax.swing.JFrame {
 
+    Connection con;
+    KetQuaImplDAO kqdao;
+    BoDeImplDAO bddao;
+    StudentImplDAO stdao;
+    MonImplDAO mdao;
+    ClassImplDAO cdao;
+    CauHoiImplDAO chdao;
+
+    // Entity
+    SinhVien sv;
+    int idExam;
+    int totalAns;
+    int totalCorrect;
+
     /**
      * Creates new form JFTotalMark
      */
-    public JFTotalMark() {
+    public JFTotalMark(SinhVien stud, int idExam, int totalAns, int totalCorrect) {
         initComponents();
+        // Set default Jframe
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+
+        // Get Database
+        con = DatabaseConnections.getConnect();
+        kqdao = new KetQuaImplDAO(con);
+        bddao = new BoDeImplDAO(con);
+        stdao = new StudentImplDAO(con);
+        mdao = new MonImplDAO(con);
+        cdao = new ClassImplDAO(con);
+        chdao = new CauHoiImplDAO(con);
+
+        // Set value  
+        sv = stud;
+        this.idExam = idExam;
+        this.totalAns = totalAns;
+        this.totalCorrect = totalCorrect;
+        //
+        loadInfoExam();
+    }
+
+    public void loadInfoExam() {
+        KetQua kq = kqdao.getByIdStudAndExam(sv.getId(), idExam);
+        // Môn học
+        BoDeChiTiet bdct = bddao.getByIdChiTiet(kq.getId_bode(), 0);
+        CauHoi ch = chdao.getById(bdct.getId_cauhoi());
+        Mon m = mdao.getById(ch.getId_mon());
+        lblSubject.setText(m.getTen_mon());
+        // Title
+        lblTitleExam.setText("KẾT QUẢ BÀI THI MÔN " + m.getTen_mon());
+        lblIdStud.setText(sv.getMa_sv());
+        lblNameStud.setText(sv.getHo_ten());
+        // Tên lớp
+        LopHoc lh = cdao.getById(sv.getId_lop());
+        lblClass.setText(lh.getTen_lop());
+        
+        // Thời gian làm bài
+        
+        // Số câu đã trả lời
+        List<BoDeChiTiet> bodechitiet = bddao.getAllByIdExam(idExam);
+        lblAnswered.setText(totalAns + "/" + bodechitiet.size());
+
+        // Số câu đúng
+        lblAnsCorrect.setText(totalCorrect + "/" + bodechitiet.size());
+
+        // Mã đề
+        BoDe bd = bddao.getById(idExam);
+        lblIdExam.setText(bd.getNoi_dung());
+
+        // Ngày thi
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        lblDayTest.setText(sdf.format(kq.getNgay_thi()));
+
+        // Tổng điểm
+        
+        // Số câu hỏi
+        lblTotalQues.setText("" + bodechitiet.size());
+
+        // Kết quả
+        lblMarkStud.setText(String.valueOf(kq.getTong_diem()));
     }
 
     /**
@@ -33,34 +125,34 @@ public class JFTotalMark extends javax.swing.JFrame {
         java.awt.GridBagConstraints gridBagConstraints;
 
         jPanel1 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
+        lblTitleExam = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        lblIdStud = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
+        lblNameStud = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
+        lblClass = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
+        lblDayTest = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
+        lblTimeOut = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
-        jLabel15 = new javax.swing.JLabel();
+        lblTotalMark = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
-        jLabel17 = new javax.swing.JLabel();
+        lblAnsCorrect = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
-        jLabel19 = new javax.swing.JLabel();
+        lblIdExam = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
-        jLabel21 = new javax.swing.JLabel();
-        jLabel23 = new javax.swing.JLabel();
+        lblTotalQues = new javax.swing.JLabel();
+        lblMarkStud = new javax.swing.JLabel();
         jLabel24 = new javax.swing.JLabel();
-        jLabel25 = new javax.swing.JLabel();
+        lblSubject = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
         jLabel26 = new javax.swing.JLabel();
-        jLabel27 = new javax.swing.JLabel();
+        lblAnswered = new javax.swing.JLabel();
         jLabel28 = new javax.swing.JLabel();
         btnExit = new javax.swing.JButton();
         jSeparator3 = new javax.swing.JSeparator();
@@ -69,37 +161,39 @@ public class JFTotalMark extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
+        setResizable(false);
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
         jPanel1.setOpaque(false);
+        jPanel1.setPreferredSize(new java.awt.Dimension(1000, 674));
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(204, 0, 204));
-        jLabel3.setText("KẾT QUẢ BÀI THI ?");
+        lblTitleExam.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
+        lblTitleExam.setForeground(new java.awt.Color(204, 0, 204));
+        lblTitleExam.setText("KẾT QUẢ BÀI THI ?");
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel1.setText("ID:");
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel2.setText("B8793");
+        lblIdStud.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblIdStud.setText("B8793");
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel4.setText("Họ tên:");
 
-        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel5.setText("Nguyễn Hữu Thắng");
+        lblNameStud.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblNameStud.setText("Nguyễn Hữu Thắng");
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel6.setText("Lớp:");
 
-        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel7.setText("C1909i2");
+        lblClass.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblClass.setText("C1909i2");
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel8.setText("Ngày thi:");
 
-        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel9.setText("30/02/2021");
+        lblDayTest.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblDayTest.setText("30/02/2021");
 
         jLabel10.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel10.setText("Tổng thời gian:");
@@ -110,48 +204,48 @@ public class JFTotalMark extends javax.swing.JFrame {
         jLabel12.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel12.setText("Thời gian làm bài:");
 
-        jLabel13.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel13.setText("3 Phút");
+        lblTimeOut.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblTimeOut.setText("3 Phút");
 
         jLabel14.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel14.setText("Số câu hỏi:");
 
-        jLabel15.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel15.setText("10/10");
+        lblTotalMark.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblTotalMark.setText("10/10");
 
         jLabel16.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel16.setText("Số câu đã trả lời:");
 
-        jLabel17.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel17.setText("1/10");
+        lblAnsCorrect.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblAnsCorrect.setText("1/10");
 
         jLabel18.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel18.setText("Mã đề: ");
 
-        jLabel19.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel19.setText("Exam01");
+        lblIdExam.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblIdExam.setText("Exam01");
 
         jLabel20.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel20.setText("Tổng điểm:");
 
-        jLabel21.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel21.setText("10");
+        lblTotalQues.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblTotalQues.setText("10");
 
-        jLabel23.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        jLabel23.setForeground(new java.awt.Color(204, 0, 204));
-        jLabel23.setText("1.0");
+        lblMarkStud.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        lblMarkStud.setForeground(new java.awt.Color(204, 0, 204));
+        lblMarkStud.setText("1.0");
 
         jLabel24.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel24.setText("Môn:");
 
-        jLabel25.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel25.setText("HTML");
+        lblSubject.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblSubject.setText("HTML");
 
         jLabel26.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel26.setText("Số câu đúng:");
 
-        jLabel27.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel27.setText("1/10");
+        lblAnswered.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblAnswered.setText("1/10");
 
         jLabel28.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel28.setForeground(new java.awt.Color(204, 0, 204));
@@ -159,33 +253,24 @@ public class JFTotalMark extends javax.swing.JFrame {
 
         btnExit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Users-Exit-icon.png"))); // NOI18N
         btnExit.setToolTipText("Đăng xuất");
+        btnExit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExitActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(btnExit)
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel28)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel23)
-                        .addGap(413, 413, 413))))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(510, 510, 510)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel27, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblAnswered, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(314, 314, 314)
-                        .addComponent(jLabel3))
+                            .addComponent(lblAnsCorrect, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(53, 53, 53)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -198,10 +283,10 @@ public class JFTotalMark extends javax.swing.JFrame {
                         .addGap(30, 30, 30)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE)
-                                .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel25, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(lblNameStud, javax.swing.GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE)
+                                .addComponent(lblClass, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(lblSubject, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(lblIdStud, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(50, 50, 50)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel26, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -209,13 +294,16 @@ public class JFTotalMark extends javax.swing.JFrame {
                             .addComponent(jLabel12, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel16, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(30, 30, 30)
-                        .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(lblTimeOut, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(314, 314, 314)
+                        .addComponent(lblTitleExam)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(lblDayTest, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addGroup(jPanel1Layout.createSequentialGroup()
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -223,12 +311,12 @@ public class JFTotalMark extends javax.swing.JFrame {
                                 .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jLabel19, javax.swing.GroupLayout.DEFAULT_SIZE, 162, Short.MAX_VALUE)
-                                .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .addComponent(lblIdExam, javax.swing.GroupLayout.DEFAULT_SIZE, 162, Short.MAX_VALUE)
+                                .addComponent(lblTotalMark, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addGroup(jPanel1Layout.createSequentialGroup()
                             .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGap(18, 18, 18)
-                            .addComponent(jLabel21, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(lblTotalQues, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addGap(56, 56, 56))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(53, 53, 53)
@@ -236,6 +324,14 @@ public class JFTotalMark extends javax.swing.JFrame {
                     .addComponent(jSeparator3)
                     .addComponent(jSeparator4))
                 .addContainerGap())
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(416, 416, 416)
+                .addComponent(jLabel28)
+                .addGap(18, 18, 18)
+                .addComponent(lblMarkStud)
+                .addGap(216, 216, 216)
+                .addComponent(btnExit, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel1Layout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
@@ -250,53 +346,53 @@ public class JFTotalMark extends javax.swing.JFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(35, 35, 35)
-                .addComponent(jLabel3)
+                .addContainerGap()
+                .addComponent(lblTitleExam, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(8, 8, 8)
                 .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(33, 33, 33)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel19)
+                    .addComponent(lblIdExam)
                     .addComponent(jLabel18)
                     .addComponent(jLabel1)
-                    .addComponent(jLabel2)
+                    .addComponent(lblIdStud)
                     .addComponent(jLabel10)
                     .addComponent(jLabel11))
                 .addGap(18, 54, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(jLabel5)
+                    .addComponent(lblNameStud)
                     .addComponent(jLabel12)
-                    .addComponent(jLabel13)
+                    .addComponent(lblTimeOut)
                     .addComponent(jLabel8)
-                    .addComponent(jLabel9))
+                    .addComponent(lblDayTest))
                 .addGap(45, 45, 45)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel6)
-                        .addComponent(jLabel7)
+                        .addComponent(lblClass)
                         .addComponent(jLabel16)
-                        .addComponent(jLabel27))
+                        .addComponent(lblAnswered))
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel20)
-                        .addComponent(jLabel15)))
+                        .addComponent(lblTotalMark)))
                 .addGap(51, 51, 51)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel24)
-                    .addComponent(jLabel25)
+                    .addComponent(lblSubject)
                     .addComponent(jLabel26)
-                    .addComponent(jLabel17)
+                    .addComponent(lblAnsCorrect)
                     .addComponent(jLabel14)
-                    .addComponent(jLabel21))
+                    .addComponent(lblTotalQues))
                 .addGap(77, 77, 77)
                 .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(62, 62, 62)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel28)
-                    .addComponent(jLabel23))
-                .addGap(47, 47, 47)
-                .addComponent(btnExit)
-                .addGap(36, 36, 36))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel28)
+                        .addComponent(lblMarkStud))
+                    .addComponent(btnExit))
+                .addGap(112, 112, 112))
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel1Layout.createSequentialGroup()
                     .addGap(0, 332, Short.MAX_VALUE)
@@ -325,6 +421,16 @@ public class JFTotalMark extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
+        Integer i = JOptionPane.showConfirmDialog(this, "Bạn có chắc muốn thoát!", "Thông báo!", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, new ImageIcon("src/img/exit-48px.png"));
+        if (i == 0) {
+            for (Window win : Window.getWindows()) {
+                win.dispose();
+            }
+            new JFIndex(ERROR).setVisible(true);
+        }
+    }//GEN-LAST:event_btnExitActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -335,34 +441,34 @@ public class JFTotalMark extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
-    private javax.swing.JLabel jLabel19;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
-    private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
-    private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
-    private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
-    private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel28;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
+    private javax.swing.JLabel lblAnsCorrect;
+    private javax.swing.JLabel lblAnswered;
+    private javax.swing.JLabel lblClass;
+    private javax.swing.JLabel lblDayTest;
+    private javax.swing.JLabel lblIdExam;
+    private javax.swing.JLabel lblIdStud;
+    private javax.swing.JLabel lblMarkStud;
+    private javax.swing.JLabel lblNameStud;
+    private javax.swing.JLabel lblSubject;
+    private javax.swing.JLabel lblTimeOut;
+    private javax.swing.JLabel lblTitleExam;
+    private javax.swing.JLabel lblTotalMark;
+    private javax.swing.JLabel lblTotalQues;
     // End of variables declaration//GEN-END:variables
 }

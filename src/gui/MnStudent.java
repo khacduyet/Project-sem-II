@@ -1055,9 +1055,9 @@ public final class MnStudent extends javax.swing.JPanel {
                 stud.setTrang_thai(sv.isTrang_thai());
                 sdao.update(stud);
                 JOptionPane.showMessageDialog(this, "Cập nhật thành công!", "Thông báo!", JOptionPane.HEIGHT, new ImageIcon("src/img/tick.png"));
-                loadFormReset();
                 QLSinhVien.setSelectedIndex(0);
             }
+            loadFormReset();
         }
 
         loadDataTableStudent();
