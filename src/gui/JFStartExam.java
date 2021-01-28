@@ -278,7 +278,10 @@ public class JFStartExam extends javax.swing.JFrame {
         lblTotalTime.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         lblTotalTime.setText("20 phút");
 
+        jSPQuestions.setPreferredSize(new java.awt.Dimension(363, 1000));
+
         jDataQuestion.setAutoscrolls(true);
+        jDataQuestion.setPreferredSize(new java.awt.Dimension(361, 1000));
 
         javax.swing.GroupLayout jDataQuestionLayout = new javax.swing.GroupLayout(jDataQuestion);
         jDataQuestion.setLayout(jDataQuestionLayout);
@@ -288,7 +291,7 @@ public class JFStartExam extends javax.swing.JFrame {
         );
         jDataQuestionLayout.setVerticalGroup(
             jDataQuestionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 422, Short.MAX_VALUE)
+            .addGap(0, 1000, Short.MAX_VALUE)
         );
 
         jSPQuestions.setViewportView(jDataQuestion);
@@ -311,7 +314,7 @@ public class JFStartExam extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(22, 22, 22)
-                        .addComponent(jSPQuestions)))
+                        .addComponent(jSPQuestions, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -326,8 +329,8 @@ public class JFStartExam extends javax.swing.JFrame {
                     .addComponent(jLabel7)
                     .addComponent(lblTotalQ))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jSPQuestions)
-                .addContainerGap())
+                .addComponent(jSPQuestions, javax.swing.GroupLayout.PREFERRED_SIZE, 563, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(30, Short.MAX_VALUE))
         );
 
         jPanel3.setBackground(new java.awt.Color(204, 204, 255));
@@ -510,7 +513,7 @@ public class JFStartExam extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 96, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 110, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
