@@ -25,6 +25,8 @@ import entity.DapAn;
 import entity.GiaoVien;
 import entity.HangCau;
 import entity.Mon;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -126,11 +128,11 @@ public class MnExam extends javax.swing.JPanel {
         jSeparator5 = new javax.swing.JSeparator();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblQuestion = new javax.swing.JTable();
-        jLabel1 = new javax.swing.JLabel();
-        txtFindQuestion = new javax.swing.JTextField();
         btnUpdQuestion = new javax.swing.JButton();
         jLabel17 = new javax.swing.JLabel();
         cboFindSubject = new javax.swing.JComboBox<>();
+        btnSeachQuesion = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
         InsQuestion = new javax.swing.JPanel();
         jSeparator1 = new javax.swing.JSeparator();
         jLabel2 = new javax.swing.JLabel();
@@ -405,8 +407,6 @@ public class MnExam extends javax.swing.JPanel {
         tblQuestion.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
         jScrollPane1.setViewportView(tblQuestion);
 
-        jLabel1.setText("Tìm kiếm:");
-
         btnUpdQuestion.setBackground(new java.awt.Color(204, 0, 204));
         btnUpdQuestion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/update.png"))); // NOI18N
         btnUpdQuestion.setText("Sửa");
@@ -420,6 +420,20 @@ public class MnExam extends javax.swing.JPanel {
         jLabel17.setText("Môn:");
 
         cboFindSubject.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+
+        btnSeachQuesion.setText("Tìm kiếm");
+        btnSeachQuesion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSeachQuesionActionPerformed(evt);
+            }
+        });
+
+        jButton1.setText("Tất cả");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -439,16 +453,16 @@ public class MnExam extends javax.swing.JPanel {
                                 .addComponent(lblTitleQuestion))
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel5Layout.createSequentialGroup()
                                 .addContainerGap()
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtFindQuestion, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(71, 71, 71)
                                 .addComponent(jLabel17)
-                                .addGap(18, 18, 18)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(cboFindSubject, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(112, 112, 112)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnSeachQuesion)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButton1)
+                                .addGap(364, 364, 364)
                                 .addComponent(btnUpdQuestion)))
-                        .addGap(0, 177, Short.MAX_VALUE)))
+                        .addGap(0, 209, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
@@ -460,14 +474,14 @@ public class MnExam extends javax.swing.JPanel {
                 .addComponent(jSeparator5, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(19, 19, 19)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(txtFindQuestion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnUpdQuestion)
                     .addComponent(jLabel17)
-                    .addComponent(cboFindSubject, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cboFindSubject, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSeachQuesion)
+                    .addComponent(jButton1))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 398, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(139, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(303, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Quản lý câu hỏi", jPanel5);
@@ -960,6 +974,9 @@ public class MnExam extends javax.swing.JPanel {
         loadCBHangCau();
 //        }
 
+        // tìm kiếm câu hỏi trong quản lý câu hỏi
+        seachQuestion();
+
     }//GEN-LAST:event_btnSaveLevelActionPerformed
 
     private void tblLevelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblLevelMouseClicked
@@ -1212,6 +1229,8 @@ public class MnExam extends javax.swing.JPanel {
                 jTabbedPane1.setSelectedIndex(2);
             }
         }
+        loadTblQuestion();
+        loadTblQuestionByIdMon();
 
     }//GEN-LAST:event_btnSaveQuestionActionPerformed
 
@@ -1413,6 +1432,17 @@ public class MnExam extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnUpdStatusExamActionPerformed
 
+    private void btnSeachQuesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeachQuesionActionPerformed
+        // tim kiem mon
+        loadTblQuestionByIdMon();
+
+    }//GEN-LAST:event_btnSeachQuesionActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // hien thi thong tin tat ca cau hoi
+        loadTblQuestion();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     private void loadFormExam() {
         txtIdExam.setText("");
         txtDescExam.setText("");
@@ -1442,6 +1472,7 @@ public class MnExam extends javax.swing.JPanel {
     private javax.swing.JButton btnSaveExam;
     private javax.swing.JButton btnSaveLevel;
     private javax.swing.JButton btnSaveQuestion;
+    private javax.swing.JButton btnSeachQuesion;
     private javax.swing.JButton btnUpdQuestion;
     private javax.swing.JButton btnUpdStatusExam;
     private javax.swing.JComboBox<HangCau> cboClass;
@@ -1452,7 +1483,7 @@ public class MnExam extends javax.swing.JPanel {
     private javax.swing.JCheckBox chxStatus;
     private javax.swing.ButtonGroup grAnswer;
     private javax.swing.ButtonGroup grpLevelPoint;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -1513,7 +1544,6 @@ public class MnExam extends javax.swing.JPanel {
     private javax.swing.JTextField txtC;
     private javax.swing.JTextField txtD;
     private javax.swing.JTextField txtDescExam;
-    private javax.swing.JTextField txtFindQuestion;
     private javax.swing.JTextField txtIdExam;
     private javax.swing.JTextField txtIdLevel;
     private javax.swing.JTextField txtQuestion;
@@ -1599,6 +1629,44 @@ public class MnExam extends javax.swing.JPanel {
         tblQuestion.setModel(model);
     }
 
+    // load du lieu bang cau hoi theo id mon
+    private void loadTblQuestionByIdMon() {
+        CauHoi ch = new CauHoi();
+        Mon mon = new Mon();
+        int idMonSeach = cboFindSubject.getItemAt(cboFindSubject.getSelectedIndex()).getId();
+        System.out.println("id mon can tim kiem : " + idMonSeach);
+        // hien thi thong tin theo id mon
+        List<CauHoi> resultsByIdMon = cauhoiDAO.getAllByIdMon(idMonSeach);
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("ID");
+        model.addColumn("Tên Môn");
+        model.addColumn("Hạng Câu");
+        model.addColumn("Nội Dung");
+        model.addColumn("Đáp Án");
+        model.addColumn("Ngày Tạo");
+        model.addColumn("Ngày Cập Nhật");
+        model.addColumn("Ghi Chú");
+        model.addColumn("Trạng Thái");
+
+        for (CauHoi item : resultsByIdMon) {
+            Vector rows = new Vector();
+            rows.add(item.getId());
+            Mon m = monDAO.getById(item.getId_mon());
+            rows.add(m.getTen_mon());
+            HangCau hc = hcDao.getById(item.getId_hang());
+            rows.add(hc.getMo_ta());
+            rows.add(item.getNoi_dung());
+            DapAn da = daDAO.getByIdQuestion(item.getId());
+            rows.add(da.getNoi_dung());
+            rows.add(item.getNgay_tao());
+            rows.add(item.getNgay_cap_nhat());
+            rows.add(item.getGhi_chu());
+            rows.add(item.isTrang_thai() ? "Mở" : "Khóa");
+            model.addRow(rows);
+        }
+        tblQuestion.setModel(model);
+    }
+
     private void loadTblExam() {
         List<BoDe> bd = bdDAO.getAll();
         DefaultTableModel model = new DefaultTableModel();
@@ -1630,5 +1698,17 @@ public class MnExam extends javax.swing.JPanel {
             model.addRow(rows);
         }
         tblExam.setModel(model);
+    }
+
+    private void seachQuestion() {
+        // tim kiem cau hoi bang combobox
+        cboFindSubject.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Mon mon = new Mon();
+                int idMonSeach = cboFindSubject.getItemAt(cboFindSubject.getSelectedIndex()).getId();
+                System.out.println("id mon can tim kiem : " + idMonSeach);
+            }
+        });
     }
 }

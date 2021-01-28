@@ -16,7 +16,7 @@ public interface CauHoiDAO {
 
     public List<CauHoi> getAll();
     
-    public List<CauHoi> getAllByIdMon();
+    public List<CauHoi> getAllByIdMon(int id_mon);
 
     public CauHoi getById(int key);
 

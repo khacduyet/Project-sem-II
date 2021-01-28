@@ -147,10 +147,11 @@ public class CauHoiImplDAO implements CauHoiDAO {
     }
 
     @Override
-    public List<CauHoi> getAllByIdMon() {
+    public List<CauHoi> getAllByIdMon(int id_mon) {
         List<CauHoi> results = new ArrayList<>();
         try {
-            CallableStatement cs = con.prepareCall("{CALL getAllCauHoiByIdMon}");
+            CallableStatement cs = con.prepareCall("{CALL getAllCauHoiByIdMon(?)}");
+            cs.setInt(1, id_mon);
             ResultSet rs = cs.executeQuery();
             while (rs.next()) {
                 CauHoi ch = new CauHoi(rs.getInt("id"), rs.getInt("id_mon"), rs.getInt("id_hang"),

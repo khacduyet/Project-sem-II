@@ -16,6 +16,7 @@ import entity.CauHoi;
 import entity.DapAn;
 import entity.KetQua;
 import entity.SinhVien;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
@@ -189,6 +190,7 @@ public class JFStartExam extends javax.swing.JFrame {
         buttonPanel.setLayout(new javax.swing.BoxLayout(buttonPanel, javax.swing.BoxLayout.Y_AXIS));
         List<DapAn> resultsDapAn = dadao.getAllDanAnByIdQuestion(idQuestion);
         ButtonGroup groupDapAn = new ButtonGroup();
+        
         for (DapAn item : resultsDapAn) {
             rdA = new JRadioButton(item.getNoi_dung());
             rdA.setMargin(new Insets(30, 50, 20, 500));
@@ -206,6 +208,7 @@ public class JFStartExam extends javax.swing.JFrame {
             });
         }
         pnlDapAn.add(buttonPanel);
+        
     }
 
     /**
@@ -226,9 +229,8 @@ public class JFStartExam extends javax.swing.JFrame {
         lblTotalQ = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         lblTotalTime = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
+        jSPQuestions = new javax.swing.JScrollPane();
         jDataQuestion = new javax.swing.JPanel();
-        jScrollBar1 = new javax.swing.JScrollBar();
         jPanel3 = new javax.swing.JPanel();
         btnSubmit = new javax.swing.JButton();
         lblDate = new javax.swing.JLabel();
@@ -278,22 +280,18 @@ public class JFStartExam extends javax.swing.JFrame {
 
         jDataQuestion.setAutoscrolls(true);
 
-        jScrollBar1.setAutoscrolls(true);
-
         javax.swing.GroupLayout jDataQuestionLayout = new javax.swing.GroupLayout(jDataQuestion);
         jDataQuestion.setLayout(jDataQuestionLayout);
         jDataQuestionLayout.setHorizontalGroup(
             jDataQuestionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDataQuestionLayout.createSequentialGroup()
-                .addGap(0, 344, Short.MAX_VALUE)
-                .addComponent(jScrollBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGap(0, 361, Short.MAX_VALUE)
         );
         jDataQuestionLayout.setVerticalGroup(
             jDataQuestionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 422, Short.MAX_VALUE)
+            .addGap(0, 422, Short.MAX_VALUE)
         );
 
-        jScrollPane2.setViewportView(jDataQuestion);
+        jSPQuestions.setViewportView(jDataQuestion);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -313,7 +311,7 @@ public class JFStartExam extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(22, 22, 22)
-                        .addComponent(jScrollPane2)))
+                        .addComponent(jSPQuestions)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -328,7 +326,7 @@ public class JFStartExam extends javax.swing.JFrame {
                     .addComponent(jLabel7)
                     .addComponent(lblTotalQ))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane2)
+                .addComponent(jSPQuestions)
                 .addContainerGap())
         );
 
@@ -622,9 +620,8 @@ public class JFStartExam extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JScrollBar jScrollBar1;
+    private javax.swing.JScrollPane jSPQuestions;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JLabel lblDate;
