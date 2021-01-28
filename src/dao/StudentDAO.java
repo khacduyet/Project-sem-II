@@ -23,4 +23,5 @@ public interface StudentDAO {
     public SinhVien getAccountSinhVien(String username, String password);
     public SinhVien getIdIns();
     public void updateStatus(SinhVien sv);
+    public List<SinhVien> getAllSeacher(String name);
 }

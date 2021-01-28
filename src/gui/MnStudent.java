@@ -138,6 +138,60 @@ public final class MnStudent extends javax.swing.JPanel {
         tblStudents.setModel(dtm);
     }
 
+    public void loadDataTableStudentSeach() {
+        String nameSeach = txtSearchStudent.getText();
+        List<SinhVien> dataStud = sdao.getAllSeacher(nameSeach);
+
+        DefaultTableModel dtm = new DefaultTableModel();
+        // Set tên cột
+        Vector cols = new Vector();
+        cols.add("ID");
+        cols.add("Mã Sinh Viên");
+        cols.add("Mã Lớp");
+        cols.add("Lớp");
+        cols.add("Họ Tên");
+        cols.add("Giới Tính");
+        cols.add("Ngày Sinh");
+        cols.add("Ngày Nhập Học");
+        cols.add("Ngày Cập Nhật");
+        cols.add("Di Động");
+        cols.add("ĐT Gia Đình");
+        cols.add("Email");
+        cols.add("Địa Chỉ");
+        cols.add("Username");
+        cols.add("Password");
+        cols.add("Ghi Chú");
+        cols.add("Trạng Thái");
+        dtm.setColumnIdentifiers(cols);
+
+        dataStud.stream().map((sv) -> {
+            Vector rows = new Vector();
+            rows.add(sv.getId());
+            rows.add(sv.getMa_sv());
+            rows.add(sv.getId_lop());
+            LopHoc dataClass = cdao.getById(sv.getId_lop());
+            rows.add(dataClass.getTen_lop());
+            rows.add(sv.getHo_ten());
+            rows.add(sv.isGioi_Tinh() ? "Nam" : "Nữ");
+            rows.add(sv.getNgay_sinh());
+            rows.add(sv.getNgay_nhap_hoc());
+            rows.add(sv.getNgay_cap_nhat());
+            rows.add(sv.getDi_dong());
+            rows.add(sv.getDt_gia_dinh());
+            rows.add(sv.getEmail());
+            rows.add(sv.getDia_chi());
+            rows.add(sv.getUsername());
+            rows.add(sv.getPassword());
+            rows.add(sv.getGhi_chu());
+            rows.add(sv.isTrang_thai() ? "Mở" : "Khóa");
+            return rows;
+        }).forEachOrdered((rows) -> {
+            dtm.addRow(rows);
+        });
+
+        tblStudents.setModel(dtm);
+    }
+
     public void loadDataTableReport() {
         List<KhieuNai> kn = kndao.getAll();
         DefaultTableModel dtm = new DefaultTableModel();
@@ -202,7 +256,9 @@ public final class MnStudent extends javax.swing.JPanel {
         jSeparator1 = new javax.swing.JSeparator();
         btnChangeStatus = new javax.swing.JButton();
         jLabel19 = new javax.swing.JLabel();
-        txtSearch = new javax.swing.JTextField();
+        txtSearchStudent = new javax.swing.JTextField();
+        btnSeachStudent = new javax.swing.JButton();
+        btnGetAllStudent = new javax.swing.JButton();
         AddStudent = new javax.swing.JPanel();
         lblTitleIns = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -421,9 +477,23 @@ public final class MnStudent extends javax.swing.JPanel {
 
         jLabel19.setText("Tìm kiếm:");
 
-        txtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtSearchStudent.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtSearchKeyReleased(evt);
+                txtSearchStudentKeyReleased(evt);
+            }
+        });
+
+        btnSeachStudent.setText("Tìm kiếm");
+        btnSeachStudent.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSeachStudentActionPerformed(evt);
+            }
+        });
+
+        btnGetAllStudent.setText("Tất cả");
+        btnGetAllStudent.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGetAllStudentActionPerformed(evt);
             }
         });
 
@@ -455,7 +525,12 @@ public final class MnStudent extends javax.swing.JPanel {
                     .addGroup(listStudentLayout.createSequentialGroup()
                         .addComponent(jLabel19)
                         .addGap(18, 18, 18)
-                        .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(txtSearchStudent, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnSeachStudent)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnGetAllStudent)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         listStudentLayout.setVerticalGroup(
@@ -475,7 +550,10 @@ public final class MnStudent extends javax.swing.JPanel {
                         .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(listStudentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtSearch, javax.swing.GroupLayout.DEFAULT_SIZE, 27, Short.MAX_VALUE)
+                    .addGroup(listStudentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtSearchStudent, javax.swing.GroupLayout.DEFAULT_SIZE, 27, Short.MAX_VALUE)
+                        .addComponent(btnSeachStudent)
+                        .addComponent(btnGetAllStudent))
                     .addComponent(jLabel19, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(16, 16, 16)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 379, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1114,9 +1192,9 @@ public final class MnStudent extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnChangeStatusActionPerformed
 
-    private void txtSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyReleased
+    private void txtSearchStudentKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchStudentKeyReleased
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtSearchKeyReleased
+    }//GEN-LAST:event_txtSearchStudentKeyReleased
 
     private void btnReadReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReadReportActionPerformed
         int rowSelect = tblReport.getSelectedRow();
@@ -1134,6 +1212,16 @@ public final class MnStudent extends javax.swing.JPanel {
         lblSrpDate.setText(date.toString());
         txaContent.setText(k.getNoi_dung());
     }//GEN-LAST:event_btnReadReportActionPerformed
+
+    private void btnSeachStudentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeachStudentActionPerformed
+        // tim kiem thongo tin sinh vien
+        loadDataTableStudentSeach();
+    }//GEN-LAST:event_btnSeachStudentActionPerformed
+
+    private void btnGetAllStudentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGetAllStudentActionPerformed
+        // show tat ca thong tin sinh vien
+        loadDataTableStudent();
+    }//GEN-LAST:event_btnGetAllStudentActionPerformed
 
     public void setFormStudUpd(int id) {
         lblTitleIns.setText("SỬA SINH VIÊN");
@@ -1218,9 +1306,11 @@ public final class MnStudent extends javax.swing.JPanel {
     private javax.swing.JTabbedPane QLSinhVien;
     private javax.swing.JButton btnChangeStatus;
     private javax.swing.JButton btnDel;
+    private javax.swing.JButton btnGetAllStudent;
     private javax.swing.JButton btnIns;
     private javax.swing.JButton btnReadReport;
     private javax.swing.JButton btnReset;
+    private javax.swing.JButton btnSeachStudent;
     private javax.swing.JButton btnSearch;
     private javax.swing.JButton btnUpd;
     private javax.swing.JComboBox<LopHoc> cboClass;
@@ -1287,7 +1377,7 @@ public final class MnStudent extends javax.swing.JPanel {
     private javax.swing.JTextField txtNameStud;
     private javax.swing.JTextField txtPassword;
     private javax.swing.JTextField txtPhone;
-    private javax.swing.JTextField txtSearch;
+    private javax.swing.JTextField txtSearchStudent;
     private javax.swing.JTextField txtUsername;
     // End of variables declaration//GEN-END:variables
 }
