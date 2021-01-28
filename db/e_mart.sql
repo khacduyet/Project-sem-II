@@ -5,10 +5,6 @@ GO
 drop database E_SMART
 GO
 --thong tin bang sinh vien--
-select * from tbl_SinhVien
-select * from tbl_LopHoc
-SELECT TOP 1 * FROM tbl_SinhVien ORDER BY id DESC
-
 CREATE TABLE tbl_SinhVien
 (
 	id int primary key identity,
@@ -36,7 +32,6 @@ insert into tbl_SinhVien values
 ('SV002',1,N'Hop',1,'1999-01-01','2020-10-10','2021-1-13','0123456789','0123456789','hop@gmail.com','Thanh Hoa',null,'hop','12345','khong co gi',1)
 
 go
-
 -- thong tin lop hoc--
 CREATE TABLE tbl_LopHoc
 (
@@ -44,12 +39,13 @@ CREATE TABLE tbl_LopHoc
 	ten_lop varchar(10) not null unique,
 	khoa_hoc varchar(100) not null,
 	nien_khoa int not null , -- nam hoc
+	trang_thai bit
 )
 GO
 -- insert du lieu tbl_LopHoc
-insert into tbl_LopHoc values ('C1909i1','CNTT',2020)
-insert into tbl_LopHoc values ('C1909i2','CNTT',2020)
-insert into tbl_LopHoc values ('C2009i','CNTT',2021)
+insert into tbl_LopHoc values ('C1909i1','CNTT',2020,1)
+insert into tbl_LopHoc values ('C1909i2','CNTT',2020,1)
+insert into tbl_LopHoc values ('C2009i','CNTT',2021,1)
 go
 
 --thong tin bang khieu nai--
@@ -171,6 +167,8 @@ CREATE TABLE tbl_mon
 	trang_thai bit default(1) -- mac dinh 1 la mon hoc dang duoc dung de thi
 )
 GO
+INSERT INTO tbl_mon VALUES ('PHP',N'Lập trình web',N'Lập trình web PHP','2021-01-28','2021-01-28',1)
+GO
 -- bang hang cau(muc do kho de cua cau hoi trong bo de)
 CREATE TABLE tbl_HangCau
 (
@@ -179,8 +177,14 @@ CREATE TABLE tbl_HangCau
 	mo_ta nvarchar(100) not null,
 	muc_diem float not null,
 	ngay_tao date not null,
-	ngay_cap_nhat date not null
+	ngay_cap_nhat date not null,
+	status bit
 )
+GO
+INSERT INTO tbl_HangCau VALUES ('D','Dễ',0.5,'2021-01-28','2021-01-28',1)
+INSERT INTO tbl_HangCau VALUES ('TB','Trung Bình',1.0,'2021-01-28','2021-01-28',1)
+INSERT INTO tbl_HangCau VALUES ('K','Khá',1.5,'2021-01-28','2021-01-28',1)
+INSERT INTO tbl_HangCau VALUES ('G','Giỏi',2.0,'2021-01-28','2021-01-28',1)
 GO
 -- bang bo de chi tiet
 CREATE TABLE tbl_BoDeChiTiet
@@ -540,9 +544,6 @@ as
 go
 /*==============PROC CAU HOI================*/
 /*==============PROC HANG CAU================*/
-ALTER TABLE tbl_HangCau
-ADD status bit;
-go
 -- insert data bang hạng câu
 DROP PROCEDURE insertHangCau
 GO
