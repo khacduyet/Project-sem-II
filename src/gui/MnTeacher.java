@@ -77,6 +77,8 @@ public class MnTeacher extends javax.swing.JPanel {
         btnUpdateGV = new javax.swing.JButton();
         btnDellGV = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
+        btnSeachTeacher = new javax.swing.JButton();
+        btnGetAllTeacher = new javax.swing.JButton();
         addTitleGv = new javax.swing.JPanel();
         titleAddGV = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -176,12 +178,26 @@ public class MnTeacher extends javax.swing.JPanel {
             }
         });
 
+        btnSeachTeacher.setText("Tìm kiếm");
+        btnSeachTeacher.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSeachTeacherActionPerformed(evt);
+            }
+        });
+
+        btnGetAllTeacher.setText("Tất cả");
+        btnGetAllTeacher.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGetAllTeacherActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout MnAccountLayout = new javax.swing.GroupLayout(MnAccount);
         MnAccount.setLayout(MnAccountLayout);
         MnAccountLayout.setHorizontalGroup(
             MnAccountLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(MnAccountLayout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 10, Short.MAX_VALUE)
                 .addGap(1080, 1080, 1080))
             .addGroup(MnAccountLayout.createSequentialGroup()
                 .addContainerGap()
@@ -192,7 +208,11 @@ public class MnTeacher extends javax.swing.JPanel {
                             .addGroup(MnAccountLayout.createSequentialGroup()
                                 .addComponent(jLabel13)
                                 .addGap(18, 18, 18)
-                                .addComponent(txtSearchTeach, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(txtSearchTeach, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnSeachTeacher)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnGetAllTeacher))
                             .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 753, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 715, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -223,7 +243,9 @@ public class MnTeacher extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(MnAccountLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtSearchTeach, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
+                            .addComponent(btnSeachTeacher, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnGetAllTeacher, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -469,7 +491,7 @@ public class MnTeacher extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(QuanLyGv, javax.swing.GroupLayout.PREFERRED_SIZE, 1095, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 16, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -643,6 +665,17 @@ public class MnTeacher extends javax.swing.JPanel {
         filter(str);
     }//GEN-LAST:event_txtSearchTeachKeyReleased
 
+    private void btnSeachTeacherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeachTeacherActionPerformed
+        // tim kiem giao vien
+        loadDataTeacherSeach();
+
+    }//GEN-LAST:event_btnSeachTeacherActionPerformed
+
+    private void btnGetAllTeacherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGetAllTeacherActionPerformed
+        // tai lai tat ca 
+        loadDataTeacher();
+    }//GEN-LAST:event_btnGetAllTeacherActionPerformed
+
     private void LoadResetForm() {
         getId();
         txtName.setText("");
@@ -704,8 +737,10 @@ public class MnTeacher extends javax.swing.JPanel {
     private javax.swing.JPanel addTitleGv;
     private javax.swing.JButton btnChangStt;
     private javax.swing.JButton btnDellGV;
+    private javax.swing.JButton btnGetAllTeacher;
     private javax.swing.JButton btnReset;
     private javax.swing.JButton btnSave;
+    private javax.swing.JButton btnSeachTeacher;
     private javax.swing.JButton btnUpdateGV;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -765,6 +800,47 @@ public void getId() {
         // hien thi thong tin len bang
         List<GiaoVien> listGV = teacherdao.getAll();
         for (GiaoVien item : listGV) {
+            Vector rows = new Vector();
+            rows.add(item.getId());
+            rows.add(item.getMa_gv());
+            rows.add(item.getHo_ten());
+            rows.add(item.isGioi_tinh() ? "Nam" : "Nữ");
+            rows.add(item.getNgay_sinh());
+            rows.add(item.getDien_thoai());
+            rows.add(item.getDia_chi());
+            rows.add(item.getEmail());
+            rows.add(item.getNgay_tao());
+            rows.add(item.getNgay_cap_nhat());
+            rows.add(item.getUsername());
+            rows.add(item.getPassword());
+            rows.add(item.isTrang_thai() ? "Mở" : "Khóa");
+            model.addRow(rows);
+        }
+
+        tblListTeacher.setModel(model);
+    }
+
+    private void loadDataTeacherSeach() {
+        // hien thi thong tin giao vien len bang
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("ID");
+        model.addColumn("Mã GV");
+        model.addColumn("Tên GV");
+        model.addColumn("Giới Tính");
+        model.addColumn("Ngày Sinh");
+        model.addColumn("Điện Thoại");
+        model.addColumn("Địa Chỉ");
+        model.addColumn("Email");
+        model.addColumn("Ngày Tạo");
+        model.addColumn("Ngày Cập Nhật");
+        model.addColumn("Username");
+        model.addColumn("Password");
+        model.addColumn("Trạng Thái");
+
+        // hien thi thong tin len bang
+        String nameSeach = txtSearchTeach.getText();
+        List<GiaoVien> listSeach = teacherdao.seachTeacherByName(nameSeach);
+        for (GiaoVien item : listSeach) {
             Vector rows = new Vector();
             rows.add(item.getId());
             rows.add(item.getMa_gv());

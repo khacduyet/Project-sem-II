@@ -175,4 +175,24 @@ public class TeacherImplDAO implements TeacherDAO {
             Logger.getLogger(TeacherImplDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    @Override
+    public List<GiaoVien> seachTeacherByName(String hoten) {
+        List<GiaoVien> resultsGV = new ArrayList<>();
+        try {
+            // tim kiem giao vien theo ten
+            CallableStatement cs = con.prepareCall("{CALL seachTeacher(?)}");
+            cs.setString(1, hoten);
+            ResultSet rs = cs.executeQuery();
+            while (rs.next()) {
+                GiaoVien gv = new GiaoVien(rs.getInt("id"), rs.getString("ma_gv"), rs.getString("ho_ten"), rs.getBoolean("gioi_tinh"),
+                        rs.getDate("ngay_sinh"), rs.getString("dien_thoai"), rs.getString("dia_chi"), rs.getString("email"), rs.getDate("ngay_tao"),
+                        rs.getDate("ngay_cap_nhat"), rs.getBoolean("trang_thai"), rs.getString("username"), rs.getString("password"));
+                resultsGV.add(gv);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(TeacherImplDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return resultsGV;
+    }
 }

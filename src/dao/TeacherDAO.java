@@ -25,4 +25,5 @@ public interface TeacherDAO {
     // them ma giao vien
     public GiaoVien getIdIns();
     public void upadateStatus(GiaoVien gv);
+    public List<GiaoVien> seachTeacherByName(String hoten);
 }

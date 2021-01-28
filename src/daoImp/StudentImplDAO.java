@@ -6,6 +6,7 @@
 package daoImp;
 
 import dao.StudentDAO;
+import entity.GiaoVien;
 import entity.SinhVien;
 import java.sql.Connection;
 import java.sql.Date;
@@ -188,6 +189,27 @@ public class StudentImplDAO implements StudentDAO {
         } catch (SQLException ex) {
             Logger.getLogger(StudentImplDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    @Override
+    public List<SinhVien> getAllSeacher(String name) {
+        List<SinhVien> resultsSinhVien = new ArrayList<>();
+        try {
+            PreparedStatement pst = con.prepareStatement("SELECT * FROM tbl_SinhVien WHERE ho_ten LIKE '%'+?+'%'");
+            pst.setString(1, name);
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                SinhVien sv = new SinhVien(rs.getInt("id"), rs.getString("ma_sv"), rs.getInt("id_lop"), rs.getString("ho_ten"),
+                        rs.getBoolean("gioi_tinh"), rs.getDate("ngay_sinh"), rs.getDate("ngay_nhap_hoc"), rs.getDate("ngay_cap_nhat"), rs.getString("di_dong"),
+                        rs.getString("dt_gia_dinh"), rs.getString("email"), rs.getString("dia_chi"), rs.getString("avatar"), rs.getString("username"),
+                        rs.getString("password"), rs.getString("ghi_chu"), rs.getBoolean("trang_thai"));
+                resultsSinhVien.add(sv);
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(StudentImplDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return resultsSinhVien;
     }
 
 }
