@@ -5,15 +5,27 @@
  */
 package gui;
 
+import DAOimpl.MonImplDAO;
 import contrain.DatabaseConnections;
+import daoImp.BoDeImplDAO;
+import daoImp.CauHoiImplDAO;
+import daoImp.KetQuaImplDAO;
 import daoImp.KhieuNaiImplDAO;
+import entity.BoDe;
+import entity.BoDeChiTiet;
+import entity.CauHoi;
+import entity.KetQua;
 import entity.KhieuNai;
+import entity.Mon;
 import entity.SinhVien;
 import java.sql.Connection;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
+import java.util.Vector;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -22,6 +34,10 @@ import javax.swing.JOptionPane;
 public class JFSearchPoint extends javax.swing.JFrame {
 
     SinhVien stud;
+    BoDeImplDAO bddao;
+    CauHoiImplDAO chdao;
+    KetQuaImplDAO kqdao;
+    MonImplDAO mdao;
     Connection con;
     KhieuNaiImplDAO kndao;
 
@@ -34,10 +50,18 @@ public class JFSearchPoint extends javax.swing.JFrame {
         // Connection Db
         con = DatabaseConnections.getConnect();
         kndao = new KhieuNaiImplDAO(con);
+        kqdao = new KetQuaImplDAO(con);
+        bddao = new BoDeImplDAO(con);
+        mdao = new MonImplDAO(con);
+        chdao = new CauHoiImplDAO(con);
         //
         lblNameStud.setText(sv.getHo_ten());
         lblMaSv.setText(sv.getMa_sv());
         stud = sv;
+        // Load table
+        loadTblPoint();
+        tblPoint.setEnabled(false);
+        tblPoint.setRowHeight(30);
     }
 
     /**
@@ -66,7 +90,7 @@ public class JFSearchPoint extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         txtTitle = new javax.swing.JTextField();
         btnSubmit = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        Exit = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -121,10 +145,10 @@ public class JFSearchPoint extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Users-Exit-icon.png"))); // NOI18N
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        Exit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Users-Exit-icon.png"))); // NOI18N
+        Exit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                ExitActionPerformed(evt);
             }
         });
 
@@ -177,7 +201,7 @@ public class JFSearchPoint extends javax.swing.JFrame {
                                             .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 541, Short.MAX_VALUE)
                                             .addComponent(txtTitle))))))))
                 .addGap(55, 55, 55)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(Exit, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -213,7 +237,7 @@ public class JFSearchPoint extends javax.swing.JFrame {
                 .addGap(31, 31, 31))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1)
+                .addComponent(Exit)
                 .addContainerGap())
         );
 
@@ -254,21 +278,51 @@ public class JFSearchPoint extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnSubmitActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void ExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExitActionPerformed
         this.dispose();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_ExitActionPerformed
 
     public void loadFormReport() {
         txtTitle.setText("");
         txtContent.setText("");
+    }
+
+    public void loadTblPoint() {
+        List<KetQua> kq = kqdao.getByIdStud(stud.getId());
+        DefaultTableModel dtm = new DefaultTableModel();
+
+        Vector cols = new Vector();
+        cols.add("STT");
+        cols.add("Bộ đề");
+        cols.add("Môn");
+        cols.add("Ngày thi");
+        cols.add("Điểm");
+        dtm.setColumnIdentifiers(cols);
+        int i = 1;
+        for (KetQua ketQua : kq) {
+            Vector rows = new Vector();
+            rows.add(i);
+            BoDe bd = bddao.getById(ketQua.getId_bode());
+            rows.add(bd.getNoi_dung());
+
+            BoDeChiTiet bdct = bddao.getByIdChiTiet(ketQua.getId_bode(), 0);
+            CauHoi ch = chdao.getById(bdct.getId_cauhoi());
+            Mon m = mdao.getById(ch.getId_mon());
+            rows.add(m.getTen_mon());
+            rows.add(ketQua.getNgay_thi());
+            rows.add(ketQua.getTong_diem());
+            dtm.addRow(rows);
+            i++;
+        }
+        tblPoint.setModel(dtm);
     }
     /**
      * @param args the command line arguments
      */
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton Exit;
     private javax.swing.JButton btnSubmit;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

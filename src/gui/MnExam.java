@@ -58,6 +58,7 @@ public class MnExam extends javax.swing.JPanel {
     private boolean checkEditLevel = true;
     private boolean checkEditQuestion = true;
     GiaoVien teach;
+    boolean click = false;
 
     /**
      * Creates new form MnExam
@@ -405,6 +406,11 @@ public class MnExam extends javax.swing.JPanel {
             }
         ));
         tblQuestion.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
+        tblQuestion.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblQuestionMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblQuestion);
 
         btnUpdQuestion.setBackground(new java.awt.Color(204, 0, 204));
@@ -473,16 +479,15 @@ public class MnExam extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator5, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(19, 19, 19)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel17, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btnUpdQuestion)
-                        .addComponent(cboFindSubject, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnSeachQuesion)
-                        .addComponent(jButton1)))
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnUpdQuestion)
+                    .addComponent(cboFindSubject, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSeachQuesion)
+                    .addComponent(jButton1)
+                    .addComponent(jLabel17))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(303, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 447, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(85, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Quản lý câu hỏi", jPanel5);
@@ -1003,60 +1008,64 @@ public class MnExam extends javax.swing.JPanel {
 
     // QUESTION FUNCTION HANDLE
     private void btnUpdQuestionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdQuestionActionPerformed
-        lblTitleInsQues.setText("SỬA CÂU HỎI");
-        checkEditQuestion = false;
-        int selectUpd = JOptionPane.showConfirmDialog(this, "Bạn có chắc muốn sửa!", "Thông Báo!", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, new ImageIcon("src/img/exit-48px.png"));
-        if (selectUpd == 0) {
-            loadFormQuestion();
-            jTabbedPane1.setSelectedIndex(2);
-            int rowSelect = tblQuestion.getSelectedRow();
-            cauhoiId = (int) tblQuestion.getValueAt(rowSelect, 0);
-            CauHoi ch = cauhoiDAO.getById(cauhoiId);
-            txtQuestion.setText(ch.getNoi_dung());
-            Mon m = monDAO.getById(ch.getId_mon());
-            for (int i = 0; i < cboSubject.getItemCount(); i++) {
-                if (cboSubject.getItemAt(i).getTen_mon().equals(m.getTen_mon())) {
-                    cboSubject.setSelectedIndex(i);
+        if (click == true) {
+            lblTitleInsQues.setText("SỬA CÂU HỎI");
+            checkEditQuestion = false;
+            int selectUpd = JOptionPane.showConfirmDialog(this, "Bạn có chắc muốn sửa!", "Thông Báo!", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, new ImageIcon("src/img/exit-48px.png"));
+            if (selectUpd == 0) {
+                loadFormQuestion();
+                jTabbedPane1.setSelectedIndex(2);
+                int rowSelect = tblQuestion.getSelectedRow();
+                cauhoiId = (int) tblQuestion.getValueAt(rowSelect, 0);
+                CauHoi ch = cauhoiDAO.getById(cauhoiId);
+                txtQuestion.setText(ch.getNoi_dung());
+                Mon m = monDAO.getById(ch.getId_mon());
+                for (int i = 0; i < cboSubject.getItemCount(); i++) {
+                    if (cboSubject.getItemAt(i).getTen_mon().equals(m.getTen_mon())) {
+                        cboSubject.setSelectedIndex(i);
+                    }
+                }
+                HangCau hc = hcDao.getById(ch.getId_hang());
+                for (int i = 0; i < cboClass.getItemCount(); i++) {
+                    if (cboClass.getItemAt(i).getMa_hang().equals(hc.getMa_hang())) {
+                        cboClass.setSelectedIndex(i);
+                    }
+                }
+                if (ch.isTrang_thai()) {
+                    chxStatus.setSelected(true);
+                }
+                txaNote.setText(ch.getGhi_chu());
+                // DANH SÁCH ĐÁP ÁN
+                List<DapAn> da = daDAO.getAllAnsert(ch.getId());
+                int i = 1;
+                for (Iterator<DapAn> it = da.iterator(); it.hasNext();) {
+                    DapAn dapAn = it.next();
+                    if (i == 1) {
+                        txtA.setText(dapAn.getNoi_dung());
+                    } else if (i == 2) {
+                        txtB.setText(dapAn.getNoi_dung());
+                    } else if (i == 3) {
+                        txtC.setText(dapAn.getNoi_dung());
+                    } else if (i == 4) {
+                        txtD.setText(dapAn.getNoi_dung());
+                    }
+                    i++;
+                }
+                DapAn dapan = daDAO.getByIdQuestion(cauhoiId);
+                if (dapan.getNoi_dung().equals(txtA.getText())) {
+                    rdoA.setSelected(true);
+                } else if (dapan.getNoi_dung().equals(txtB.getText())) {
+                    rdoB.setSelected(true);
+                } else if (dapan.getNoi_dung().equals(txtC.getText())) {
+                    rdoC.setSelected(true);
+                } else if (dapan.getNoi_dung().equals(txtD.getText())) {
+                    rdoD.setSelected(true);
                 }
             }
-            HangCau hc = hcDao.getById(ch.getId_hang());
-            for (int i = 0; i < cboClass.getItemCount(); i++) {
-                if (cboClass.getItemAt(i).getMa_hang().equals(hc.getMa_hang())) {
-                    cboClass.setSelectedIndex(i);
-                }
-            }
-            if (ch.isTrang_thai()) {
-                chxStatus.setSelected(true);
-            }
-            txaNote.setText(ch.getGhi_chu());
-            // DANH SÁCH ĐÁP ÁN
-            List<DapAn> da = daDAO.getAllAnsert(ch.getId());
-            int i = 1;
-            for (Iterator<DapAn> it = da.iterator(); it.hasNext();) {
-                DapAn dapAn = it.next();
-                if (i == 1) {
-                    txtA.setText(dapAn.getNoi_dung());
-                } else if (i == 2) {
-                    txtB.setText(dapAn.getNoi_dung());
-                } else if (i == 3) {
-                    txtC.setText(dapAn.getNoi_dung());
-                } else if (i == 4) {
-                    txtD.setText(dapAn.getNoi_dung());
-                }
-                i++;
-            }
-            DapAn dapan = daDAO.getByIdQuestion(cauhoiId);
-            if (dapan.getNoi_dung().equals(txtA.getText())) {
-                rdoA.setSelected(true);
-            } else if (dapan.getNoi_dung().equals(txtB.getText())) {
-                rdoB.setSelected(true);
-            } else if (dapan.getNoi_dung().equals(txtC.getText())) {
-                rdoC.setSelected(true);
-            } else if (dapan.getNoi_dung().equals(txtD.getText())) {
-                rdoD.setSelected(true);
-            }
+            click = false;
+        } else {
+            JOptionPane.showMessageDialog(this, "Chưa chọn câu hỏi nào để cập nhật!", "Thông Báo", JOptionPane.INFORMATION_MESSAGE);
         }
-
     }//GEN-LAST:event_btnUpdQuestionActionPerformed
 
     private void btnSaveQuestionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveQuestionActionPerformed
@@ -1225,6 +1234,8 @@ public class MnExam extends javax.swing.JPanel {
                     b++;
                 }
                 JOptionPane.showMessageDialog(this, "Cập nhật câu hỏi thành công!", "Thông báo!", JOptionPane.QUESTION_MESSAGE, new ImageIcon("src/img/tick.png"));
+                checkEditQuestion = true;
+                lblTitleInsQues.setText("THÊM CÂU HỎI");
                 loadFormQuestion();
                 loadTblQuestion();
                 jTabbedPane1.setSelectedIndex(2);
@@ -1243,7 +1254,7 @@ public class MnExam extends javax.swing.JPanel {
     private void loadFormQuestion() {
         cboSubject.setSelectedIndex(0);
         cboClass.setSelectedIndex(0);
-        chxStatus.setSelected(false);
+        chxStatus.setSelected(true);
         txaNote.setText("");
         txtQuestion.setText("");
         txtA.setText("");
@@ -1260,145 +1271,155 @@ public class MnExam extends javax.swing.JPanel {
 
     // EXAM FUNCTION HANDLE
     private void btnSaveExamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveExamActionPerformed
-        BoDe bd = new BoDe();
-        bd.setId_giangvien(teach.getId());
-        if (!txtIdExam.getText().isEmpty()) {
-            bd.setNoi_dung(txtIdExam.getText());
-            ErrorIdExam.setText("");
-        } else {
-            ErrorIdExam.setText("Mã bộ đề không được để trống!");
-        }
-        Timestamp ts = new Timestamp(new Date().getTime());
-        java.sql.Date dateSql = new java.sql.Date(ts.getTime());
-        bd.setNgay_tao(dateSql);
-        bd.setNgay_cap_nhat(dateSql);
-        if (!txtDescExam.getText().isEmpty()) {
-            bd.setMo_ta(txtDescExam.getText());
-            ErrorDescExam.setText("");
-        } else {
-            ErrorDescExam.setText("Mô tả không được để trống!");
-        }
-
-        bd.setTrang_thai(true);
-
-        // Kiểm tra bộ đề
-        List<CauHoi> ques = cauhoiDAO.getAllBySubject(idQuesExam);
-        List<CauHoi> ld = new ArrayList<>();
-        List<CauHoi> ltb = new ArrayList<>();
-        List<CauHoi> lk = new ArrayList<>();
-        List<CauHoi> lg = new ArrayList<>();
-        ques.forEach((que) -> {
-            switch (que.getId_hang()) {
-                case 1:
-                    ld.add(que);
-                    break;
-                case 2:
-                    ltb.add(que);
-                    break;
-                case 3:
-                    lk.add(que);
-                    break;
-                case 4:
-                    lg.add(que);
-                    break;
-                default:
-                    break;
-            }
-        });
-        if (!txtIdExam.getText().isEmpty() && !txtDescExam.getText().isEmpty()) {
-            if (cboTotalPoint.getSelectedIndex() == 0 && ld.size() >= 4 && ltb.size() >= 3 && lk.size() >= 2 && lg.size() >= 1) {
-                bdDAO.insert(bd);
-            } else if (cboTotalPoint.getSelectedIndex() == 1 && ld.size() >= 8 && ltb.size() >= 6 && lk.size() >= 4 && lg.size() >= 2) {
-                bdDAO.insert(bd);
-            }
-
-            // Tạo bộ đề chi tiết
-            BoDeChiTiet bdct = new BoDeChiTiet();
-            int ifie = bdDAO.idFitInsExam().getId();
-
-            // Lấy dữ liệu câu hỏi
-            idFitInsExam();
-
-            // Xử lí bộ đề theo điểm
-            if (cboTotalPoint.getSelectedIndex() == 0 && ld.size() >= 4 && ltb.size() >= 3 && lk.size() >= 2 && lg.size() >= 1) {
-                // Xử lí câu hỏi
-                bdct.setId_bode(ifie);
-                Collections.shuffle(ld);
-                Collections.shuffle(ltb);
-                Collections.shuffle(lk);
-                Collections.shuffle(lg);
-                for (int i = 0; i < 4; i++) {
-                    bdct.setId_cauhoi(ld.get(i).getId());
-                    CauHoi ch = cauhoiDAO.getById(ld.get(i).getId());
-                    HangCau hc = hcDao.getById(ch.getId_hang());
-                    bdct.setDiem(hc.getMuc_diem());
-                    bdDAO.insBoDeChiTiet(bdct);
-                }
-                for (int i = 0; i < 3; i++) {
-                    bdct.setId_cauhoi(ltb.get(i).getId());
-                    CauHoi ch = cauhoiDAO.getById(ltb.get(i).getId());
-                    HangCau hc = hcDao.getById(ch.getId_hang());
-                    bdct.setDiem(hc.getMuc_diem());
-                    bdDAO.insBoDeChiTiet(bdct);
-                }
-                for (int i = 0; i < 2; i++) {
-                    bdct.setId_cauhoi(lk.get(i).getId());
-                    CauHoi ch = cauhoiDAO.getById(lk.get(i).getId());
-                    HangCau hc = hcDao.getById(ch.getId_hang());
-                    bdct.setDiem(hc.getMuc_diem());
-                    bdDAO.insBoDeChiTiet(bdct);
-                }
-                for (int i = 0; i < 1; i++) {
-                    bdct.setId_cauhoi(lg.get(i).getId());
-                    CauHoi ch = cauhoiDAO.getById(lg.get(i).getId());
-                    HangCau hc = hcDao.getById(ch.getId_hang());
-                    bdct.setDiem(hc.getMuc_diem());
-                    bdDAO.insBoDeChiTiet(bdct);
-                }
-                JOptionPane.showMessageDialog(this, "Thêm bộ đề thành công!", "Thông báo!", JOptionPane.INFORMATION_MESSAGE);
-            } else if (cboTotalPoint.getSelectedIndex() == 1 && ld.size() >= 8 && ltb.size() >= 6 && lk.size() >= 4 && lg.size() >= 2) {
-                // Xử lí câu hỏi
-                bdct.setId_bode(ifie);
-                Collections.shuffle(ld);
-                Collections.shuffle(ltb);
-                Collections.shuffle(lk);
-                Collections.shuffle(lg);
-                for (int i = 0; i < 8; i++) {
-                    bdct.setId_cauhoi(ld.get(i).getId());
-                    CauHoi ch = cauhoiDAO.getById(ld.get(i).getId());
-                    HangCau hc = hcDao.getById(ch.getId_hang());
-                    bdct.setDiem(hc.getMuc_diem());
-                    bdDAO.insBoDeChiTiet(bdct);
-                }
-                for (int i = 0; i < 6; i++) {
-                    bdct.setId_cauhoi(ltb.get(i).getId());
-                    CauHoi ch = cauhoiDAO.getById(ltb.get(i).getId());
-                    HangCau hc = hcDao.getById(ch.getId_hang());
-                    bdct.setDiem(hc.getMuc_diem());
-                    bdDAO.insBoDeChiTiet(bdct);
-                }
-                for (int i = 0; i < 4; i++) {
-                    bdct.setId_cauhoi(lk.get(i).getId());
-                    CauHoi ch = cauhoiDAO.getById(lk.get(i).getId());
-                    HangCau hc = hcDao.getById(ch.getId_hang());
-                    bdct.setDiem(hc.getMuc_diem());
-                    bdDAO.insBoDeChiTiet(bdct);
-                }
-                for (int i = 0; i < 2; i++) {
-                    bdct.setId_cauhoi(lg.get(i).getId());
-                    CauHoi ch = cauhoiDAO.getById(lg.get(i).getId());
-                    HangCau hc = hcDao.getById(ch.getId_hang());
-                    bdct.setDiem(hc.getMuc_diem());
-                    bdDAO.insBoDeChiTiet(bdct);
-                }
-                JOptionPane.showMessageDialog(this, "Thêm bộ đề thành công!", "Thông báo!", JOptionPane.INFORMATION_MESSAGE);
+        List<CauHoi> chkCauHoi = cauhoiDAO.getAll();
+        if (chkCauHoi.size() > 0) {
+            BoDe bd = new BoDe();
+            bd.setId_giangvien(teach.getId());
+            if (!txtIdExam.getText().isEmpty()) {
+                bd.setNoi_dung(txtIdExam.getText());
+                ErrorIdExam.setText("");
             } else {
-                JOptionPane.showMessageDialog(this, "Không đủ câu hỏi để tạo bộ đề!", "Thông báo!", JOptionPane.WARNING_MESSAGE);
+                ErrorIdExam.setText("Mã bộ đề không được để trống!");
             }
-            // Load tbl_BoDe
-            loadFormExam();
+            Timestamp ts = new Timestamp(new Date().getTime());
+            java.sql.Date dateSql = new java.sql.Date(ts.getTime());
+            bd.setNgay_tao(dateSql);
+            bd.setNgay_cap_nhat(dateSql);
+            if (!txtDescExam.getText().isEmpty()) {
+                bd.setMo_ta(txtDescExam.getText());
+                ErrorDescExam.setText("");
+            } else {
+                ErrorDescExam.setText("Mô tả không được để trống!");
+            }
+
+            bd.setTrang_thai(true);
+            idFitInsExam();
+            // Kiểm tra bộ đề
+            List<CauHoi> ques = cauhoiDAO.getAllBySubject(idQuesExam);
+            List<CauHoi> ld = new ArrayList<>();
+            List<CauHoi> ltb = new ArrayList<>();
+            List<CauHoi> lk = new ArrayList<>();
+            List<CauHoi> lg = new ArrayList<>();
+            ques.forEach((que) -> {
+                switch (que.getId_hang()) {
+                    case 1:
+                        ld.add(que);
+                        break;
+                    case 2:
+                        ltb.add(que);
+                        break;
+                    case 3:
+                        lk.add(que);
+                        break;
+                    case 4:
+                        lg.add(que);
+                        break;
+                    default:
+                        break;
+                }
+            });
+
+            if (!txtIdExam.getText().isEmpty() && !txtDescExam.getText().isEmpty()) {
+                if (cboTotalPoint.getSelectedIndex() == 0 && ld.size() >= 4 && ltb.size() >= 3 && lk.size() >= 2 && lg.size() >= 1) {
+                    bdDAO.insert(bd);
+                    // Tạo bộ đề chi tiết
+                    BoDeChiTiet bdct = new BoDeChiTiet();
+                    int ifie = bdDAO.idFitInsExam().getId();
+
+                    // Lấy dữ liệu câu hỏi
+                    idFitInsExam();
+
+                    // Run
+                    // Xử lí câu hỏi
+                    bdct.setId_bode(ifie);
+                    Collections.shuffle(ld);
+                    Collections.shuffle(ltb);
+                    Collections.shuffle(lk);
+                    Collections.shuffle(lg);
+                    for (int i = 0; i < 4; i++) {
+                        bdct.setId_cauhoi(ld.get(i).getId());
+                        CauHoi ch = cauhoiDAO.getById(ld.get(i).getId());
+                        HangCau hc = hcDao.getById(ch.getId_hang());
+                        bdct.setDiem(hc.getMuc_diem());
+                        bdDAO.insBoDeChiTiet(bdct);
+                    }
+                    for (int i = 0; i < 3; i++) {
+                        bdct.setId_cauhoi(ltb.get(i).getId());
+                        CauHoi ch = cauhoiDAO.getById(ltb.get(i).getId());
+                        HangCau hc = hcDao.getById(ch.getId_hang());
+                        bdct.setDiem(hc.getMuc_diem());
+                        bdDAO.insBoDeChiTiet(bdct);
+                    }
+                    for (int i = 0; i < 2; i++) {
+                        bdct.setId_cauhoi(lk.get(i).getId());
+                        CauHoi ch = cauhoiDAO.getById(lk.get(i).getId());
+                        HangCau hc = hcDao.getById(ch.getId_hang());
+                        bdct.setDiem(hc.getMuc_diem());
+                        bdDAO.insBoDeChiTiet(bdct);
+                    }
+                    for (int i = 0; i < 1; i++) {
+                        bdct.setId_cauhoi(lg.get(i).getId());
+                        CauHoi ch = cauhoiDAO.getById(lg.get(i).getId());
+                        HangCau hc = hcDao.getById(ch.getId_hang());
+                        bdct.setDiem(hc.getMuc_diem());
+                        bdDAO.insBoDeChiTiet(bdct);
+                    }
+                    JOptionPane.showMessageDialog(this, "Thêm bộ đề thành công!", "Thông báo!", JOptionPane.INFORMATION_MESSAGE);
+                } else if (cboTotalPoint.getSelectedIndex() == 1 && ld.size() >= 8 && ltb.size() >= 6 && lk.size() >= 4 && lg.size() >= 2) {
+                    bdDAO.insert(bd);
+                    // Tạo bộ đề chi tiết
+                    BoDeChiTiet bdct = new BoDeChiTiet();
+                    int ifie = bdDAO.idFitInsExam().getId();
+
+                    // Lấy dữ liệu câu hỏi
+                    idFitInsExam();
+
+                    // Run
+                    // Xử lí câu hỏi
+                    bdct.setId_bode(ifie);
+                    Collections.shuffle(ld);
+                    Collections.shuffle(ltb);
+                    Collections.shuffle(lk);
+                    Collections.shuffle(lg);
+                    for (int i = 0; i < 8; i++) {
+                        bdct.setId_cauhoi(ld.get(i).getId());
+                        CauHoi ch = cauhoiDAO.getById(ld.get(i).getId());
+                        HangCau hc = hcDao.getById(ch.getId_hang());
+                        bdct.setDiem(hc.getMuc_diem());
+                        bdDAO.insBoDeChiTiet(bdct);
+                    }
+                    for (int i = 0; i < 6; i++) {
+                        bdct.setId_cauhoi(ltb.get(i).getId());
+                        CauHoi ch = cauhoiDAO.getById(ltb.get(i).getId());
+                        HangCau hc = hcDao.getById(ch.getId_hang());
+                        bdct.setDiem(hc.getMuc_diem());
+                        bdDAO.insBoDeChiTiet(bdct);
+                    }
+                    for (int i = 0; i < 4; i++) {
+                        bdct.setId_cauhoi(lk.get(i).getId());
+                        CauHoi ch = cauhoiDAO.getById(lk.get(i).getId());
+                        HangCau hc = hcDao.getById(ch.getId_hang());
+                        bdct.setDiem(hc.getMuc_diem());
+                        bdDAO.insBoDeChiTiet(bdct);
+                    }
+                    for (int i = 0; i < 2; i++) {
+                        bdct.setId_cauhoi(lg.get(i).getId());
+                        CauHoi ch = cauhoiDAO.getById(lg.get(i).getId());
+                        HangCau hc = hcDao.getById(ch.getId_hang());
+                        bdct.setDiem(hc.getMuc_diem());
+                        bdDAO.insBoDeChiTiet(bdct);
+                    }
+                    JOptionPane.showMessageDialog(this, "Thêm bộ đề thành công!", "Thông báo!", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(this, "Không đủ câu hỏi để tạo bộ đề!", "Thông báo!", JOptionPane.WARNING_MESSAGE);
+                }
+                // Load tbl_BoDe
+                loadFormExam();
+            }
+            loadTblExam();
+        } else {
+            JOptionPane.showMessageDialog(this, "Chưa có câu hỏi để tạo!");
         }
-        loadTblExam();
     }//GEN-LAST:event_btnSaveExamActionPerformed
 
     public void idFitInsExam() {
@@ -1443,6 +1464,10 @@ public class MnExam extends javax.swing.JPanel {
         // hien thi thong tin tat ca cau hoi
         loadTblQuestion();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void tblQuestionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblQuestionMouseClicked
+        click = true;
+    }//GEN-LAST:event_tblQuestionMouseClicked
 
     private void loadFormExam() {
         txtIdExam.setText("");

@@ -76,4 +76,21 @@ public class KetQuaImplDAO implements KetQuaDAO {
         }
     }
 
+    @Override
+    public List<KetQua> getByIdStud(int idStud) {
+        List<KetQua> kq = new ArrayList<>();
+        try {
+            CallableStatement cs = con.prepareCall("{call getByIdStud(?)}");
+            cs.setInt(1, idStud);
+            ResultSet rs = cs.executeQuery();
+            while (rs.next()) {
+                KetQua k = new KetQua(rs.getInt("id_SinhVien"), rs.getInt("id_BoDe"), rs.getDate("ngay_thi"), rs.getFloat("tong_diem"));
+                kq.add(k);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(KetQuaImplDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return kq;
+    }
+
 }
