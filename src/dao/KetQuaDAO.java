@@ -16,4 +16,6 @@ public interface KetQuaDAO {
     public List<KetQua> getAll();
     public KetQua getByIdStudAndExam(int idSv, int idExam);
     public void insert(KetQua kq);
+    
+    public List<KetQua> getByIdStud(int idStud);
 }

@@ -212,4 +212,23 @@ public class StudentImplDAO implements StudentDAO {
         return resultsSinhVien;
     }
 
+    @Override
+    public SinhVien getByMaSv(String ma_sv) {
+        SinhVien sv = null;
+        try {
+            PreparedStatement pst = con.prepareStatement("SELECT * FROM tbl_SinhVien where ma_sv = ?");
+            pst.setString(1, ma_sv);
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                sv = new SinhVien(rs.getInt("id"), rs.getString("ma_sv"), rs.getInt("id_lop"), rs.getString("ho_ten"),
+                        rs.getBoolean("gioi_tinh"), rs.getDate("ngay_sinh"), rs.getDate("ngay_nhap_hoc"), rs.getDate("ngay_cap_nhat"), rs.getString("di_dong"),
+                        rs.getString("dt_gia_dinh"), rs.getString("email"), rs.getString("dia_chi"), rs.getString("avatar"), rs.getString("username"),
+                        rs.getString("password"), rs.getString("ghi_chu"), rs.getBoolean("trang_thai"));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(StudentImplDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return sv;
+    }
+
 }

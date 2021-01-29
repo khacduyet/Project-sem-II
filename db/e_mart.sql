@@ -322,6 +322,13 @@ CREATE PROCEDURE updateStatusGV
 AS
 	UPDATE tbl_GiaoVien SET trang_thai = @trang_thai Where id = @id
 GO
+DROP PROC seachTeacher
+GO
+CREATE PROC seachTeacher
+@name nvarchar(100)
+AS
+	SELECT * FROM tbl_GiaoVien WHERE ho_ten LIKE '%'+ @name+'%'
+GO
 /*==============PROC GIAO VIEN================*/
 
 --======= proc bo de ==========
@@ -421,6 +428,14 @@ CREATE PROCEDURE getByIdStudAndIdExam
 @id_BoDe int
 AS
 	SELECT * FROM tbl_KetQua WHERE id_SinhVien = @id_SinhVien AND id_BoDe = @id_BoDe
+GO
+-- get Info Exam By Id 
+DROP PROCEDURE getByIdStud
+GO
+CREATE PROCEDURE getByIdStud
+@id_SinhVien int
+AS
+	SELECT * FROM tbl_KetQua WHERE id_SinhVien = @id_SinhVien
 GO
 /*====================Proc bo de chi tiet=====================*/
 -- lay du lieu bo de chi tiet
