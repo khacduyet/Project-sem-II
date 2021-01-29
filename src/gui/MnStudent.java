@@ -6,9 +6,13 @@
 package gui;
 
 import contrain.DatabaseConnections;
+import daoImp.BoDeImplDAO;
 import daoImp.ClassImplDAO;
+import daoImp.KetQuaImplDAO;
 import daoImp.KhieuNaiImplDAO;
 import daoImp.StudentImplDAO;
+import entity.BoDe;
+import entity.KetQua;
 import entity.KhieuNai;
 import entity.LopHoc;
 import entity.SinhVien;
@@ -35,6 +39,8 @@ public final class MnStudent extends javax.swing.JPanel {
     StudentImplDAO sdao;
     KhieuNaiImplDAO kndao;
     StudentImplDAO stdao;
+    KetQuaImplDAO ketquaDAO;
+    BoDeImplDAO bodeDAO;
     Connection con;
     boolean checkSave = true;
     int idUpd;
@@ -50,6 +56,8 @@ public final class MnStudent extends javax.swing.JPanel {
         sdao = new StudentImplDAO(con);
         kndao = new KhieuNaiImplDAO(con);
         stdao = new StudentImplDAO(con);
+        ketquaDAO = new KetQuaImplDAO(con);
+        bodeDAO = new BoDeImplDAO(con);
         // Danh sách sinh viên
         loadDataTableStudent();
         loadDataTableReport();
@@ -63,6 +71,8 @@ public final class MnStudent extends javax.swing.JPanel {
         tblReport.setRowHeight(30);
         tblStudents.setAutoCreateRowSorter(true);
         dm = (DefaultTableModel) tblStudents.getModel();
+        // load diem sinh vien theo bo de da thi
+        loadDataDiem();
     }
 
     public void Filter(String str) {
@@ -1380,4 +1390,29 @@ public final class MnStudent extends javax.swing.JPanel {
     private javax.swing.JTextField txtSearchStudent;
     private javax.swing.JTextField txtUsername;
     // End of variables declaration//GEN-END:variables
+
+    private void loadDataDiem() {
+        List<KetQua> kqResault = ketquaDAO.getAll();
+        
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("Mã SV");
+        model.addColumn("Tên Sinh Viên");
+        model.addColumn("Mã Bộ Đề");
+        model.addColumn("Ngày Thi");
+        model.addColumn("Tổng Điểm");
+        
+        KetQua kq = new KetQua();
+        Vector rows = new Vector();
+        for (KetQua item : kqResault) {
+            SinhVien sv = stdao.getById(item.getId_sv());
+            rows.add(sv.getMa_sv());
+            rows.add(sv.getHo_ten());
+            BoDe bd = bodeDAO.getById(item.getId_bode());
+            rows.add(bd.getNoi_dung());
+            rows.add(item.getNgay_thi());
+            rows.add(item.getTong_diem());
+            model.addRow(rows);
+        }
+        tblPoint.setModel(model);
+    }
 }
